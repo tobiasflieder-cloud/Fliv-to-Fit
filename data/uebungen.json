@@ -1,6 +1,6 @@
 {
   "app": "FlivFit",
-  "stand": "2026-11-24T17:59:55.000Z",
+  "stand": "2026-11-24T18:45:46.000Z",
   "uebungen": [
     {
       "id": "russian-twist",
@@ -370,6 +370,166 @@
       "einseitig": false,
       "bilder": [],
       "geaendert": 1795543195620
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "kategorien": [
+        "Bauch"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "An die Stange hängen, Schultern aktiv nach unten. Beine kontrolliert nach vorne oben heben, gestreckt oder mit angezogenen Knien, und langsam wieder absenken. Nicht schwingen.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "plank-band-ziehen",
+      "name": "Plank Band ziehen",
+      "kategorien": [
+        "Bauch",
+        "Rücken"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Im Unterarm- oder hohen Stütz ein vorne befestigtes Band mit einer Hand zu dir ziehen und kontrolliert zurückführen. Hüfte bleibt ruhig und gerade.",
+      "einseitig": true,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "tip-toe",
+      "name": "Tip Toe",
+      "kategorien": [
+        "Beine"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Aufrecht stehen, eventuell an der Wand festhalten. Langsam auf die Zehenspitzen hochdrücken, oben kurz halten und kontrolliert absenken. Geht auch auf einer Stufe für mehr Bewegungsweg.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "bizeps-band",
+      "name": "Bizeps Band",
+      "kategorien": [
+        "Arme"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Mit beiden Füßen auf das Band stellen, Enden in den Händen, Handflächen nach vorne. Ellbogen am Körper lassen und die Hände zu den Schultern beugen, langsam zurück.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "band-schwert",
+      "name": "Band Schwert",
+      "kategorien": [
+        "Schulter"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Band unten auf der gegenüberliegenden Seite fixieren. Wie beim Schwertziehen das Band diagonal von der Hüfte nach außen oben ziehen, Arm am Ende gestreckt, kontrolliert zurück.",
+      "einseitig": true,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "crab-walk",
+      "name": "Crab Walk",
+      "kategorien": [
+        "Schulter",
+        "Rücken"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Im Krebsgang: hinsetzen, Hände hinter dem Körper aufstützen, Finger nach vorne, Po vom Boden abheben. So auf Händen und Füßen vorwärts und rückwärts laufen, Hüfte oben halten.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "ringe-beine-ranziehen",
+      "name": "Ringe Beine ranziehen",
+      "kategorien": [
+        "Bauch"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Füße in die Ringschlaufen, Hände im hohen Stütz auf dem Boden. Knie Richtung Brust ziehen und wieder strecken. Rücken bleibt stabil, Bauch fest.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "ringe-arme-vor",
+      "name": "Ringe Arme vor",
+      "kategorien": [
+        "Bauch",
+        "Schulter"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Ringe in Hüfthöhe greifen, Körper gerade und schräg nach vorne lehnen. Arme gestreckt nach vorne oben führen, sodass der Körper weiter absinkt, und mit Bauchspannung zurückziehen. Je steiler, desto leichter.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "liegestuetz-ringe",
+      "name": "Liegestütz Ringe",
+      "kategorien": [
+        "Arme"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Liegestütz mit den Händen in den Ringen. Ringe eng am Körper führen und stabil halten, Körper bleibt eine Linie. Oben die Arme ganz strecken.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "rudern-band-raus",
+      "name": "Rudern Band raus",
+      "kategorien": [
+        "Rücken",
+        "Schulter"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Face Pull: Band auf Kopfhöhe befestigen, Enden greifen. Zum Gesicht ziehen und die Hände dabei nach außen auseinanderführen, Ellbogen hoch, Schulterblätter zusammen. Langsam zurück.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
+    },
+    {
+      "id": "v-fly",
+      "name": "V Fly",
+      "kategorien": [
+        "Schulter",
+        "Rücken"
+      ],
+      "profile": [
+        "Flivi"
+      ],
+      "beschreibung": "Vorgebeugt mit geradem Rücken stehen, Gewichte hängen nach unten. Arme nicht zur Seite, sondern schräg nach hinten oben ziehen, sodass sie ein V bilden. Schulterblätter zusammen, kontrolliert absenken.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795545946095
     }
-  ]
+  ],
+  "plaene": []
 }

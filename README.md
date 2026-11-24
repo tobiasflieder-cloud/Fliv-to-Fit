@@ -8,8 +8,8 @@ Kleine Kraft-Workout-App fürs Handy: eigener Übungspool mit Bildern, Training 
 3. Settings → Pages → Branch `main`, Ordner `/ (root)` → Save.
 4. Die Seite am Handy öffnen und „Zum Startbildschirm hinzufügen“ bzw. „App installieren“ wählen.
 
-## Neue Übungen auf beide Handys bringen
-1. In der App Übungen anlegen oder bearbeiten.
+## Neue Übungen & Pläne auf beide Handys bringen
+1. In der App Übungen oder Pläne anlegen bzw. bearbeiten.
 2. Übungen → „Export“ (oder Einstellungen → „Für GitHub exportieren“) → ZIP speichern.
 3. ZIP entpacken und den Ordner `data` im Repo hochladen (alte Dateien ersetzen).
 4. Beim nächsten Öffnen mit Internet laden beide Handys den neuen Stand.
@@ -17,4 +17,4 @@ Kleine Kraft-Workout-App fürs Handy: eigener Übungspool mit Bildern, Training 
 ## Neue App-Version
 Dateien ersetzen und in `sw.js` die Versionsnummer (`VERSION`) hochzählen. Den Ordner `data` nicht mit einem älteren Stand überschreiben.
 
-Lokale Daten (Verlauf, Einstellungen, noch nicht exportierte Übungen) liegen nur auf dem jeweiligen Handy.
+Lokale Daten (Verlauf, Einstellungen, eingetragene Wiederholungen, noch nicht exportierte Übungen und Pläne) liegen nur auf dem jeweiligen Handy.
