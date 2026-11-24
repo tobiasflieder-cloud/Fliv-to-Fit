@@ -1,0 +1,52 @@
+# FlivFit – Hinweise für Claude Code
+
+Kleine Kraft-Workout-PWA fürs Handy, für zwei Personen (Profile **Fliv** 🌸 und **Flivi** 🌿).
+Gehostet über **GitHub Pages** (Branch `main`, Ordner `/`). Kein Build-Schritt, keine Abhängigkeiten.
+
+## Arbeitsweise
+- Planung und Absprache passieren im claude.ai-Chat. Hierher kommen nur fertige Bauaufträge.
+- Nur das umsetzen, was im Auftrag steht. Bei Unklarheiten nachfragen statt raten.
+- Sprache der App und der Code-Kommentare: Deutsch.
+- Nach jeder Änderung: Versionsnummer erhöhen (siehe unten) und kurz zusammenfassen, was sich geändert hat.
+
+## Dateien
+| Datei | Inhalt |
+|---|---|
+| `index.html` | Die komplette App: CSS, HTML und JavaScript in einer Datei |
+| `sw.js` | Service Worker (Offline-Cache, Updates) |
+| `manifest.webmanifest` | PWA-Manifest |
+| `data/uebungen.json` | Gemeinsamer Übungspool und Pläne (Stand auf GitHub) |
+| `data/bilder/` | Übungsbilder (`<übungs-id>-<n>.jpg`) |
+| `fonts/`, `icons/` | Nunito-Schrift, App-Icons |
+
+## Versionierung (wichtig)
+Bei jeder Änderung beide Stellen anpassen, sonst laden die Handys das Update nicht:
+- `index.html`: `const APP_VERSION = 'x.y.z'`
+- `sw.js`: `const VERSION = 'flivfit-x.y.z'`
+
+## Daten & Speicher
+- **Übungen** (`data/uebungen.json` → `uebungen[]`):
+  `{id, name, kategorien[], profile[], werte:{Fliv:{modus:'zeit'|'wdh', wert}, Flivi:{…}}, beschreibung, einseitig, bilder[], geaendert}`
+  - `wert: null` bei Zeit = Standarddauer aus den Einstellungen.
+  - Ältere Felder (`kategorie`, `dauer`) werden in `norm()` automatisch umgewandelt.
+- **Pläne** (`plaene[]`): `{id, name, profil, runden, pause, items:[{id, modus?, wert?}], geaendert}`.
+- **Lokale Änderungen** am Handy: Übungen in IndexedDB (`flivfit` / `uebungen`, Bilder als Blob), Pläne in `localStorage` `flivfit.plaene.lokal`.
+  Beim Start wird zusammengeführt (`bauePool()`): Wer das neuere `geaendert` hat, gewinnt. Ist der GitHub-Stand neuer oder gleich, wird die lokale Kopie gelöscht.
+  → **Beim Ändern bestehender Übungen in `uebungen.json` das `geaendert` nur dann erhöhen, wenn die Änderung lokale Bearbeitungen am Handy überschreiben soll.** Neue Übungen bekommen den aktuellen Zeitstempel (ms).
+- **Pro Profil in `localStorage`**: `flivfit.einstellungen.<Profil>`, `flivfit.verlauf.<Profil>`, `flivfit.leistung.<Profil>` (eingetragene Wdh./Sekunden), `flivfit.frei.<Profil>` (laufendes freies Training). Aktives Profil: `flivfit.profil`.
+- Export (`exportieren()`) erzeugt eine ZIP mit `data/uebungen.json` + `data/bilder/`, die Tobi ins Repo hochlädt.
+
+## Kategorien
+Arme, Beine, Bauch, Rücken, Po, Schulter, Ganzkörper (Haupt) sowie Aufwärmen und Abwärmen (werden im Zufallstraining automatisch an Anfang/Ende gesetzt). Eine Übung kann mehrere Kategorien haben.
+
+## Trainingsarten
+- **Zufall**: Zeit + Kategorien wählen → `erstellePlan()` füllt die Zeit reihum aus den Kategorien (Wiederholungen erlaubt, nie zweimal direkt hintereinander). Wdh.-Übungen werden mit 3 s pro Wiederholung geschätzt.
+- **Plan**: fester Zirkel mit Runden und eigener Pause, optional eigene Werte pro Übung.
+- **Frei**: ohne Timer, Wiederholungen/Sekunden pro Durchgang eintragen, Pausen-Uhr.
+- Timer-Ablauf in `bauePhasen()` (Phasen: bereit, uebung, wechsel, pause). Countdown-Töne in den letzten 5 s (`countdownTon`), Wdh.-Phasen ohne Countdown mit „Fertig – eintragen“.
+
+## Design
+Warm, pastellig, rund. Farben als CSS-Variablen in `:root` (`--bg`, `--peach`, `--accent` …), Schrift Nunito. Nur fürs Handy (Hochformat) gedacht; Safe-Areas beachten.
+
+## Testen
+Lokal z. B. mit `python3 -m http.server` im Repo-Ordner und im Browser mit Handy-Ansicht (ca. 390 × 800) öffnen.
