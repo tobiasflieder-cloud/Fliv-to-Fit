@@ -43,13 +43,13 @@ Arme, Beine, Bauch, Rücken, Po, Schulter, Hüfte, Beckenboden, Ganzkörper (9 H
 
 ## Trainingsarten
 - **Zufall**: Zeit + Kategorien + Geräte („Womit?“) wählen → `erstellePlan()` füllt die Zeit reihum aus den Kategorien (Wiederholungen erlaubt, nie zweimal direkt hintereinander). Wdh.-Übungen werden mit 3 s pro Wiederholung geschätzt.
+- **Plan**: fester Zirkel mit Runden und eigener Pause, optional eigene Werte pro Übung.
+- **Frei**: ohne Timer, Wiederholungen/Sekunden pro Durchgang eintragen, Pausen-Uhr.
+- Timer-Ablauf in `bauePhasen()` (Phasen: bereit, uebung, wechsel, pause). Countdown-Töne in den letzten 5 s (`countdownTon`), Wdh.-Phasen ohne Countdown mit „Fertig – eintragen“.
 
 ## Gerätefilter
 - **Zufall „Womit?“** (Mehrfachauswahl, `geraetErlaubt()`): keine Auswahl = alle Übungen. Sonst ist eine Übung erlaubt, wenn mindestens eines ihrer Geräte gewählt ist; Übungen ohne Gerät nur, wenn „Ohne Gerät“ (`'ohne'`) gewählt ist. Gilt auch für Auf-/Abwärmen (bleibt nichts übrig, fällt der Block weg). Kein Treffer → Toast „Keine Übungen für diese Auswahl“.
 - **Übungsliste und Übungsauswahl** (Einfachauswahl, `geraetFilter()`): „Alle“, „Ohne Gerät“ oder ein Gerät.
-- **Plan**: fester Zirkel mit Runden und eigener Pause, optional eigene Werte pro Übung.
-- **Frei**: ohne Timer, Wiederholungen/Sekunden pro Durchgang eintragen, Pausen-Uhr.
-- Timer-Ablauf in `bauePhasen()` (Phasen: bereit, uebung, wechsel, pause). Countdown-Töne in den letzten 5 s (`countdownTon`), Wdh.-Phasen ohne Countdown mit „Fertig – eintragen“.
 
 ## Design
 Warm, pastellig, rund. Farben als CSS-Variablen in `:root` (`--bg`, `--peach`, `--accent` …), Schrift Nunito. Nur fürs Handy (Hochformat) gedacht; Safe-Areas beachten.
