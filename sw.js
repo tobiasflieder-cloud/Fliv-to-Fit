@@ -1,6 +1,6 @@
 // FlivFit Service Worker
 // Bei jeder neuen Version die Versionsnummer hochzählen, damit Handys das Update laden.
-const VERSION = 'flivfit-1.3.0';
+const VERSION = 'flivfit-1.3.1';
 
 const SHELL = [
   './',
@@ -17,7 +17,7 @@ const SHELL = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -29,6 +29,8 @@ self.addEventListener('activate', (e) => {
 });
 
 // App-Seite und Übungsliste: erst Netz (damit Updates ankommen), sonst Cache.
+// Beim Netz-Abruf den Browser-Cache umgehen ('no-cache'), sonst liefert er bis zu 10 Min. alte Dateien von GitHub Pages.
+// Navigations-Anfragen lassen sich nicht mit Optionen kopieren, daher dort nur die URL abrufen.
 // Alles andere (Bilder, Schriften, Icons): erst Cache, sonst Netz.
 self.addEventListener('fetch', (e) => {
   const req = e.request;
@@ -40,7 +42,7 @@ self.addEventListener('fetch', (e) => {
 
   if (netzZuerst) {
     e.respondWith(
-      fetch(req)
+      fetch(req.mode === 'navigate' ? req.url : req, { cache: 'no-cache' })
         .then((res) => {
           const kopie = res.clone();
           caches.open(VERSION).then((c) => c.put(req, kopie));

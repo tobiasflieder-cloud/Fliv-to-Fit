@@ -372,7 +372,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 
 <script>
 'use strict';
-const APP_VERSION = '1.3.0';
+const APP_VERSION = '1.3.1';
 const $ = s => document.querySelector(s);
 
 /* ---------- Icons ---------- */
@@ -1697,7 +1697,14 @@ initTrainingSteuerung();
 })();
 
 if('serviceWorker' in navigator && location.protocol !== 'file:'){
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    // Beim Zurückholen aus dem Hintergrund nach einem Update suchen (höchstens alle 60 s)
+    let zuletzt = Date.now();
+    document.addEventListener('visibilitychange', () => {
+      if(document.visibilityState !== 'visible' || Date.now() - zuletzt < 60000) return;
+      zuletzt = Date.now(); reg.update().catch(() => {});
+    });
+  }).catch(() => {});
   let neuGeladen = false;
   const hatteController = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
