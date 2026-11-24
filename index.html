@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#FBF4EC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FlivFit">
+<title>FlivFit</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:Nunito;font-weight:400;font-display:swap;src:url(fonts/nunito-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Nunito;font-weight:600;font-display:swap;src:url(fonts/nunito-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Nunito;font-weight:700;font-display:swap;src:url(fonts/nunito-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:Nunito;font-weight:800;font-display:swap;src:url(fonts/nunito-latin-800-normal.woff2) format('woff2')}
+
+:root{
+  --bg:#FBF4EC; --card:#FFFCF8; --ink:#4A3B36; --muted:#9C8981; --line:#F0E3D7;
+  --peach:#F7CDB6; --accent:#E3896A; --accent-d:#C9704F; --sage:#C5D8BF; --sage-d:#6F946A;
+  --butter:#F6E3A9; --rose:#F3C6CF; --lav:#DCD0EC; --sky:#CBDFEC;
+  --r:22px; --shadow:0 6px 20px rgba(160,110,80,.10), 0 1px 3px rgba(160,110,80,.08);
+  --st:env(safe-area-inset-top,0px); --sb:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,ui-rounded,system-ui,sans-serif;font-size:16px;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+input,textarea,select{font:inherit;color:inherit}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.01em}
+.screen{display:none;min-height:100dvh;padding:calc(var(--st) + 18px) 18px calc(var(--sb) + 110px)}
+.screen.aktiv{display:block}
+.muted{color:var(--muted)}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.card h3{font-size:1.02rem;margin-bottom:12px}
+.kopf{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.kopf h1{font-size:1.6rem;flex:1}
+.kopf .sub{font-size:.95rem;color:var(--muted);font-weight:600;margin-top:2px}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);box-shadow:var(--shadow);flex:none}
+.icon-btn svg{width:22px;height:22px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 20px;border-radius:18px;font-weight:800;font-size:1.05rem;background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(227,137,106,.35);transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn.zweit{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.btn.gefahr{background:#fff0ec;color:#C2553A;box-shadow:none}
+.btn.klein{padding:10px 14px;font-size:.92rem;width:auto;border-radius:14px}
+.btn svg{width:20px;height:20px}
+.reihe{display:flex;gap:10px}
+.reihe>*{flex:1}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 16px;border-radius:999px;background:#F6EDE4;font-weight:700;font-size:.95rem;transition:all .15s;border:2px solid transparent}
+.chip.an{background:var(--peach);border-color:var(--accent);color:var(--accent-d)}
+.zeit-chips{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.zeit-chips .chip{padding:12px 0;text-align:center;border-radius:16px;font-size:1.1rem}
+.zeit-chips .chip small{display:block;font-size:.7rem;font-weight:600;opacity:.7;margin-top:-2px}
+.mix{display:flex;align-items:center;gap:14px;width:100%;padding:14px;border-radius:18px;background:#F6EDE4;border:2px solid transparent;text-align:left;margin-bottom:12px;transition:all .15s}
+.mix.an{background:linear-gradient(120deg,var(--peach),var(--butter));border-color:var(--accent)}
+.mix .em{font-size:1.6rem;width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.6);display:grid;place-items:center}
+.mix b{display:block;font-size:1rem}
+.mix span{font-size:.85rem;color:var(--muted);font-weight:600}
+.kat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kat{padding:12px 6px;border-radius:16px;background:#F6EDE4;font-weight:700;font-size:.9rem;text-align:center;border:2px solid transparent;transition:all .15s;position:relative}
+.kat .em{display:block;font-size:1.5rem;margin-bottom:2px}
+.kat.an{border-color:var(--accent);background:var(--kf)}
+.kat .anz{position:absolute;top:6px;right:8px;font-size:.7rem;color:var(--muted)}
+.kat.leer{opacity:.45}
+.woche-mini{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:linear-gradient(120deg,#EAF1E6,#F5EDDC);margin-bottom:16px;font-weight:700}
+.woche-mini .em{font-size:1.4rem}
+.woche-mini small{display:block;font-weight:600;color:var(--muted);font-size:.82rem}
+
+/* Bottom-Nav */
+.nav{position:fixed;left:12px;right:12px;bottom:calc(var(--sb) + 12px);background:rgba(255,252,248,.95);backdrop-filter:blur(10px);border-radius:24px;box-shadow:0 8px 30px rgba(160,110,80,.18);display:none;padding:8px;z-index:20}
+body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=verlauf] .nav{display:flex}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;border-radius:18px;font-size:.75rem;font-weight:700;color:var(--muted)}
+.nav button svg{width:24px;height:24px}
+.nav button.an{background:var(--peach);color:var(--accent-d)}
+
+/* Übungsliste */
+.ex-liste{display:flex;flex-direction:column;gap:10px}
+.ex{display:flex;align-items:center;gap:12px;padding:10px;border-radius:18px;background:var(--card);box-shadow:var(--shadow);text-align:left;width:100%}
+.thumb{width:58px;height:58px;border-radius:14px;flex:none;object-fit:cover;display:grid;place-items:center;font-size:1.6rem;background:#eee}
+.ex .info{flex:1;min-width:0}
+.ex .info b{display:block;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ex .info span{font-size:.82rem;color:var(--muted);font-weight:600}
+.badge{display:inline-block;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--butter);color:#8A6A1E;margin-left:4px;vertical-align:middle}
+.grp-titel{display:flex;align-items:center;gap:8px;font-weight:800;margin:18px 4px 8px;font-size:.95rem}
+.grp-titel .punkt{width:12px;height:12px;border-radius:50%}
+.filter{display:flex;gap:8px;overflow-x:auto;margin:0 -18px 6px;padding:2px 18px 8px;scrollbar-width:none}
+.filter::-webkit-scrollbar{display:none}
+.filter .chip{white-space:nowrap;flex:none;padding:8px 14px;font-size:.88rem}
+.hinweis{display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;background:#FDF0D6;margin-bottom:14px;font-weight:600;font-size:.9rem}
+.hinweis .em{font-size:1.4rem}
+.hinweis button{margin-left:auto}
+.leer-box{text-align:center;padding:30px 20px;color:var(--muted);font-weight:600}
+.leer-box .em{font-size:2.6rem;display:block;margin-bottom:8px}
+
+/* Formular */
+.feld{margin-bottom:16px}
+.feld label{display:block;font-weight:800;font-size:.9rem;margin:0 0 6px 4px}
+.feld input[type=text],.feld textarea,.feld select{width:100%;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;outline:none;font-size:1rem;-webkit-appearance:none;appearance:none}
+.feld input:focus,.feld textarea:focus,.feld select:focus{border-color:var(--peach)}
+.feld textarea{min-height:96px;resize:vertical}
+.feld select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%239C8981' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.kat-wahl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.kat-wahl .kat{padding:8px 2px;font-size:.75rem}
+.kat-wahl .kat .em{font-size:1.25rem}
+.schalter{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:16px;background:#fff;border:2px solid var(--line);width:100%;text-align:left;font-weight:700}
+.schalter small{display:block;font-weight:600;color:var(--muted);font-size:.8rem}
+.toggle{width:50px;height:30px;border-radius:999px;background:#E6D9CD;position:relative;flex:none;transition:background .2s}
+.toggle::after{content:'';position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s}
+.toggle.an{background:var(--sage-d)}
+.toggle.an::after{left:23px}
+.bilder{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bild{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;background:#eee}
+.bild img{width:100%;height:100%;object-fit:cover;display:block}
+.bild .nr{position:absolute;left:6px;top:6px;background:rgba(255,255,255,.9);border-radius:999px;font-size:.72rem;font-weight:800;padding:2px 7px}
+.bild .akt{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:4px}
+.bild .akt button{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);font-weight:800;font-size:.85rem;display:grid;place-items:center}
+.bild-neu{aspect-ratio:1;border-radius:16px;border:2px dashed #E3CDBE;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--accent-d);font-weight:800;font-size:.8rem;background:#FFF8F3}
+.bild-neu svg{width:28px;height:28px}
+
+/* Stepper / Einstellungen */
+.einst{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.einst:last-child{border-bottom:0}
+.einst b{display:block;font-size:.98rem}
+.einst small{color:var(--muted);font-weight:600;font-size:.8rem}
+.stepper{display:flex;align-items:center;gap:6px;background:#F6EDE4;border-radius:999px;padding:4px;flex:none}
+.stepper button{width:34px;height:34px;border-radius:50%;background:#fff;font-weight:800;font-size:1.2rem;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.stepper span{min-width:52px;text-align:center;font-weight:800}
+.einst .toggle{cursor:pointer}
+.einst input[type=text]{width:140px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);outline:none;text-align:right;font-weight:700}
+
+/* Plan */
+.plan-sum{display:flex;gap:10px;margin-bottom:16px}
+.plan-sum div{flex:1;background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:12px;text-align:center}
+.plan-sum b{display:block;font-size:1.35rem}
+.plan-sum span{font-size:.78rem;color:var(--muted);font-weight:700}
+.plan-item{display:flex;align-items:center;gap:12px;padding:8px 0}
+.plan-item .nr{width:26px;text-align:center;font-weight:800;color:var(--muted);font-size:.85rem}
+.plan-item .thumb{width:46px;height:46px;border-radius:12px;font-size:1.3rem}
+.plan-item b{display:block;font-size:.95rem}
+.plan-item span{font-size:.8rem;color:var(--muted);font-weight:600}
+.plan-unten{position:fixed;left:0;right:0;bottom:0;padding:14px 18px calc(var(--sb) + 14px);background:linear-gradient(transparent,var(--bg) 30%);display:flex;gap:10px;z-index:10}
+.plan-unten .btn.zweit{flex:0 0 auto;width:auto;padding:16px 18px}
+
+/* Training */
+#s-training{padding:calc(var(--st) + 10px) 18px calc(var(--sb) + 18px);min-height:100dvh;height:100dvh;flex-direction:column;transition:background .5s}
+#s-training.aktiv{display:flex}
+#s-training[data-phase=uebung]{background:linear-gradient(180deg,#FDE3D3,#FBF4EC 70%)}
+#s-training[data-phase=pause]{background:linear-gradient(180deg,#DCEAD7,#FBF4EC 70%)}
+#s-training[data-phase=wechsel]{background:linear-gradient(180deg,#E8DFF3,#FBF4EC 70%)}
+#s-training[data-phase=bereit]{background:linear-gradient(180deg,#FBEBC1,#FBF4EC 70%)}
+.tr-top{display:flex;align-items:center;gap:10px}
+.tr-top .mitte{flex:1;text-align:center;font-weight:800;font-size:.95rem}
+.tr-top .mitte small{display:block;color:var(--muted);font-weight:700;font-size:.78rem}
+.tr-prog{height:8px;border-radius:999px;background:rgba(255,255,255,.7);margin:10px 0 12px;overflow:hidden}
+.tr-prog div{height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .3s linear}
+.tr-label{align-self:center;padding:6px 16px;border-radius:999px;font-weight:800;font-size:.9rem;background:rgba(255,255,255,.85);margin-bottom:10px}
+.tr-bild{flex:1;min-height:120px;border-radius:26px;position:relative;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+.tr-bild img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .5s;background:#fff}
+.tr-bild img.sicht{opacity:1}
+.tr-bild .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:5rem}
+.tr-bild .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.tr-bild .dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,59,54,.25)}
+.tr-bild .dots i.an{background:var(--accent)}
+.tr-bild .naechste{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);border-radius:999px;padding:5px 12px;font-weight:800;font-size:.8rem;color:var(--sage-d)}
+.tr-name{text-align:center;font-size:1.5rem;font-weight:800;margin:12px 0 2px;line-height:1.2}
+.tr-seite{text-align:center;min-height:24px}
+.tr-seite span{display:inline-block;padding:3px 12px;border-radius:999px;background:var(--lav);font-weight:800;font-size:.85rem}
+.tr-besch{text-align:center;font-size:.88rem;color:var(--muted);font-weight:600;margin:4px 8px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tr-besch.offen{-webkit-line-clamp:unset}
+.tr-unten{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.ring{position:relative;width:min(36vw,150px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .bg{stroke:rgba(255,255,255,.9)}
+.ring .vg{stroke:var(--accent);transition:stroke-dashoffset .12s linear}
+#s-training[data-phase=pause] .ring .vg{stroke:var(--sage-d)}
+#s-training[data-phase=wechsel] .ring .vg{stroke:#9B83C4}
+#s-training[data-phase=bereit] .ring .vg{stroke:#D9A93A}
+.ring .zahl{position:absolute;inset:0;display:grid;place-items:center;font-size:2.8rem;font-weight:800}
+.ring .zahl.puls{animation:puls .5s ease}
+@keyframes puls{0%{transform:scale(1.25);color:var(--accent-d)}100%{transform:scale(1)}}
+.rund{width:64px;height:64px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center}
+.rund svg{width:28px;height:28px}
+.rund.gross{width:76px;height:76px;background:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(227,137,106,.4)}
+.rund.gross svg{width:34px;height:34px}
+.rund-txt{font-size:.72rem;font-weight:800;text-align:center;color:var(--muted);margin-top:4px}
+.pausiert-hinweis{position:absolute;inset:0;background:rgba(251,244,236,.75);display:none;place-items:center;font-weight:800;font-size:1.3rem;color:var(--accent-d);backdrop-filter:blur(2px)}
+#s-training.pausiert .pausiert-hinweis{display:grid}
+
+/* Fertig */
+#s-fertig{text-align:center;padding-top:calc(var(--st) + 60px)}
+#s-fertig .gross-em{font-size:5rem;animation:hops 1s ease}
+@keyframes hops{0%{transform:scale(.3) rotate(-20deg);opacity:0}60%{transform:scale(1.15) rotate(8deg)}100%{transform:scale(1)}}
+#s-fertig h1{font-size:2rem;margin:10px 0 6px}
+.konfetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.konfetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+/* Verlauf */
+.balken{display:flex;align-items:flex-end;gap:8px;height:120px;margin:8px 0 4px}
+.balken div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.balken i{width:100%;max-width:34px;border-radius:10px 10px 6px 6px;background:var(--peach);min-height:6px}
+.balken i.heute{background:var(--accent)}
+.balken i.null{background:#F1E6DC}
+.balken span{font-size:.75rem;font-weight:800;color:var(--muted)}
+.balken em{font-style:normal;font-size:.7rem;font-weight:800;color:var(--accent-d);min-height:14px}
+.stats{display:flex;gap:10px}
+.stats div{flex:1;text-align:center;padding:10px;border-radius:16px;background:#F8F0E7}
+.stats b{display:block;font-size:1.3rem}
+.stats span{font-size:.75rem;color:var(--muted);font-weight:700}
+.eintrag{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.eintrag:last-child{border-bottom:0}
+.eintrag .tag{width:48px;height:48px;border-radius:14px;background:var(--peach);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;line-height:1.05;flex:none}
+.eintrag .tag small{font-size:.65rem;font-weight:700}
+.eintrag .tag.halb{background:#EFE4DA}
+.eintrag .info{flex:1;min-width:0}
+.eintrag b{display:block}
+.eintrag span{font-size:.82rem;color:var(--muted);font-weight:600}
+.eintrag .weg{width:32px;height:32px;border-radius:50%;color:var(--muted);display:grid;place-items:center}
+.eintrag .weg svg{width:18px;height:18px}
+
+/* Modal & Toast */
+.modal{position:fixed;inset:0;background:rgba(74,59,54,.35);display:none;align-items:flex-end;justify-content:center;z-index:50;padding:12px 12px calc(var(--sb) + 12px)}
+.modal.offen{display:flex;animation:fade .2s}
+.modal .box{background:var(--card);border-radius:28px;padding:24px 20px 18px;width:100%;max-width:460px;animation:hoch .25s ease}
+.modal h2{font-size:1.3rem;margin-bottom:8px}
+.modal p{color:var(--muted);font-weight:600;margin:0 0 18px;line-height:1.45}
+.modal ol{margin:0 0 18px;padding-left:20px;color:var(--ink);font-weight:600;line-height:1.5;font-size:.92rem}
+.modal .reihe{flex-direction:column}
+@keyframes fade{from{opacity:0}}
+@keyframes hoch{from{transform:translateY(40px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(var(--sb) + 110px);transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-weight:700;font-size:.92rem;opacity:0;transition:all .25s;z-index:60;pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.toast.zeig{opacity:1;transform:translateX(-50%)}
+.version{text-align:center;color:var(--muted);font-size:.8rem;font-weight:600;margin-top:10px}
+</style>
+</head>
+<body data-screen="home">
+
+<section class="screen" id="s-home"></section>
+<section class="screen" id="s-plan"></section>
+<section class="screen" id="s-training" data-phase="bereit">
+  <div class="tr-top">
+    <button class="icon-btn" id="tr-x" aria-label="Training beenden"></button>
+    <div class="mitte" id="tr-info"></div>
+    <button class="icon-btn" id="tr-ton" aria-label="Ton an/aus"></button>
+  </div>
+  <div class="tr-prog"><div id="tr-prog"></div></div>
+  <div class="tr-label" id="tr-label"></div>
+  <div class="tr-bild" id="tr-bild"></div>
+  <div class="tr-name" id="tr-name"></div>
+  <div class="tr-seite" id="tr-seite"></div>
+  <div class="tr-besch" id="tr-besch"></div>
+  <div class="tr-unten">
+    <div style="width:64px"><button class="rund" id="tr-zurueck" aria-label="Zurück"></button><div class="rund-txt">Zurück</div></div>
+    <div class="ring">
+      <svg viewBox="0 0 160 160"><circle class="bg" cx="80" cy="80" r="70" fill="none" stroke-width="12"/><circle class="vg" id="tr-ring" cx="80" cy="80" r="70" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="439.82" stroke-dashoffset="0"/></svg>
+      <div class="zahl" id="tr-zahl"></div>
+      <button class="pausiert-hinweis" id="tr-weiter-overlay">▶</button>
+    </div>
+    <div style="width:64px"><button class="rund" id="tr-skip" aria-label="Überspringen"></button><div class="rund-txt">Weiter</div></div>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:10px">
+    <button class="btn klein zweit" id="tr-pause" style="min-width:160px"></button>
+  </div>
+</section>
+<section class="screen" id="s-fertig"></section>
+<section class="screen" id="s-uebungen"></section>
+<section class="screen" id="s-edit"></section>
+<section class="screen" id="s-verlauf"></section>
+<section class="screen" id="s-einstellungen"></section>
+
+<nav class="nav">
+  <button data-nav="home"></button>
+  <button data-nav="uebungen"></button>
+  <button data-nav="verlauf"></button>
+</nav>
+
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="datei" accept="image/*" multiple hidden>
+
+<script>
+'use strict';
+const APP_VERSION = '1.0.0';
+
+/* ---------- Icons ---------- */
+const I = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>',
+  liste:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>',
+  verlauf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V13M10 20V8M15 20v-5M20 20V5"/></svg>',
+  zahnrad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  zurueck:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.4-6.5a1 1 0 0 0 0-1.8L9.5 4.6A1 1 0 0 0 8 5.5z"/></svg>',
+  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.2" height="14" rx="1.5"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.5"/></svg>',
+  skip:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 6.2v11.6a1 1 0 0 0 1.6.8l8-5.8a1 1 0 0 0 0-1.6l-8-5.8A1 1 0 0 0 5 6.2z"/><rect x="16.5" y="5" width="3" height="14" rx="1.2"/></svg>',
+  prev:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.2v11.6a1 1 0 0 1-1.6.8l-8-5.8a1 1 0 0 1 0-1.6l8-5.8a1 1 0 0 1 1.6.8z"/><rect x="4.5" y="5" width="3" height="14" rx="1.2"/></svg>',
+  kamera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  muell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
+  ton:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+  tonAus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>',
+  export:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 14v6h14v-6"/></svg>',
+};
+
+/* ---------- Kategorien ---------- */
+const KATEGORIEN = [
+  {id:'Arme', emoji:'💪', farbe:'#F3C6CF'},
+  {id:'Beine', emoji:'🦵', farbe:'#CBDFEC'},
+  {id:'Bauch', emoji:'🔥', farbe:'#F6E3A9'},
+  {id:'Rücken', emoji:'🌿', farbe:'#DCD0EC'},
+  {id:'Po', emoji:'🍑', farbe:'#F7CDB6'},
+  {id:'Ganzkörper', emoji:'⭐', farbe:'#C5D8BF'},
+  {id:'Aufwärmen', emoji:'☀️', farbe:'#F9D9A6', extra:true},
+  {id:'Abwärmen', emoji:'🌙', farbe:'#CFE3DD', extra:true},
+];
+const HAUPT = KATEGORIEN.filter(k => !k.extra);
+const kat = id => KATEGORIEN.find(k => k.id === id) || {id, emoji:'•', farbe:'#EEE'};
+
+/* ---------- Speicher ---------- */
+function laden(k, def){ try{ const v = localStorage.getItem('flivfit.'+k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
+function speichern(k, v){ try{ localStorage.setItem('flivfit.'+k, JSON.stringify(v)); }catch(e){} }
+
+const DEFAULTS = {name:'Fliv', uebungDauer:30, pause:15, wechsel:5, aufwaermen:true, abwaermen:true, toene:true, vibration:true, letzteZeit:15, letzteKats:[]};
+const S = Object.assign({}, DEFAULTS, laden('einstellungen', {}));
+const sSpeichern = () => speichern('einstellungen', S);
+let VERLAUF = laden('verlauf', []);
+
+const DB = {
+  _db:null, _mem:new Map(), _ok:true,
+  open(){
+    if(this._db) return Promise.resolve(this._db);
+    return new Promise((res, rej) => {
+      try{
+        const r = indexedDB.open('flivfit', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('uebungen', {keyPath:'id'});
+        r.onsuccess = () => { this._db = r.result; res(r.result); };
+        r.onerror = () => rej(r.error);
+      }catch(e){ rej(e); }
+    });
+  },
+  async _tx(mode, fn){
+    try{
+      const db = await this.open();
+      return await new Promise((res, rej) => {
+        const tx = db.transaction('uebungen', mode); const st = tx.objectStore('uebungen');
+        const q = fn(st); let erg;
+        if(q) q.onsuccess = () => { erg = q.result; };
+        tx.oncomplete = () => res(erg); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error);
+      });
+    }catch(e){ this._ok = false; throw e; }
+  },
+  async alle(){ try{ return await this._tx('readonly', s => s.getAll()); }catch(e){ return [...this._mem.values()]; } },
+  async put(o){ try{ await this._tx('readwrite', s => s.put(o)); }catch(e){ this._mem.set(o.id, o); } },
+  async weg(id){ try{ await this._tx('readwrite', s => s.delete(id)); }catch(e){ this._mem.delete(id); } },
+};
+
+/* ---------- Übungspool ---------- */
+let REPO = {stand:null, uebungen:[]};
+let POOL = [];
+let LOKAL = 0;
+
+async function ladeRepo(){
+  try{
+    const r = await fetch('data/uebungen.json', {cache:'no-cache'});
+    if(r.ok) REPO = await r.json();
+  }catch(e){}
+  if(!REPO || !Array.isArray(REPO.uebungen)) REPO = {stand:null, uebungen:[]};
+}
+async function bauePool(){
+  const map = new Map(REPO.uebungen.map(u => [u.id, Object.assign({}, u, {quelle:'repo'})]));
+  const lokal = await DB.alle();
+  let n = 0;
+  for(const l of lokal){
+    const r = map.get(l.id);
+    if(r && (r.geaendert||0) >= (l.geaendert||0)){ DB.weg(l.id); continue; }   // GitHub-Stand ist aktueller -> lokale Kopie aufräumen
+    if(l.geloescht){ if(r){ map.delete(l.id); n++; } else DB.weg(l.id); continue; }
+    map.set(l.id, Object.assign({}, l, {quelle:'lokal', neu:!r}));
+    n++;
+  }
+  POOL = [...map.values()].sort((a, b) => a.name.localeCompare(b.name, 'de'));
+  LOKAL = n;
+}
+const urlCache = new WeakMap();
+function bildUrl(b){
+  if(typeof b === 'string') return b;
+  let u = urlCache.get(b);
+  if(!u){ u = URL.createObjectURL(b); urlCache.set(b, u); }
+  return u;
+}
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function thumb(ex, extra=''){
+  const k = kat(ex.kategorie);
+  if(ex.bilder && ex.bilder.length) return `<img class="thumb ${extra}" src="${esc(bildUrl(ex.bilder[0]))}" alt="">`;
+  return `<div class="thumb ${extra}" style="background:${k.farbe}">${k.emoji}</div>`;
+}
+const dauer = ex => ex.dauer || S.uebungDauer;
+const blockZeit = ex => ex.einseitig ? 2*dauer(ex) + S.wechsel : dauer(ex);
+const fmtSek = s => s >= 60 ? (s % 60 ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} min` : `${s/60} min`) : `${s} s`;
+const exMeta = ex => (ex.einseitig ? `2 × ${dauer(ex)} s · einseitig` : `${dauer(ex)} s`);
+
+/* ---------- Navigation ---------- */
+function navigiere(name, push=true, arg){
+  if(push) history.pushState({s:name, arg}, '');
+  zeige(name, arg);
+}
+function zeige(name, arg){
+  const r = RENDER[name]; if(r) r(arg);
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('aktiv', s.id === 's-'+name));
+  document.body.dataset.screen = name;
+  document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('an', b.dataset.nav === name));
+  window.scrollTo(0, 0);
+}
+window.addEventListener('popstate', e => {
+  if(document.body.dataset.screen === 'training' && T){
+    history.pushState({s:'training'}, '');
+    beendenFragen();
+    return;
+  }
+  const s = e.state && e.state.s;
+  zeige(s && s !== 'training' ? s : 'home', e.state && e.state.arg);
+});
+const zurueck = () => history.back();
+
+/* ---------- UI-Helfer ---------- */
+let toastTimer;
+function toast(t){
+  const el = document.getElementById('toast'); el.textContent = t; el.classList.add('zeig');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('zeig'), 2200);
+}
+function frage(titel, text, ja='OK', nein='Abbrechen', gefahr=false){
+  return new Promise(res => {
+    const m = document.getElementById('modal');
+    m.innerHTML = `<div class="box"><h2>${titel}</h2><p>${text}</p><div class="reihe">
+      <button class="btn ${gefahr?'gefahr':''}" data-a="1">${ja}</button>
+      <button class="btn zweit" data-a="0">${nein}</button></div></div>`;
+    m.classList.add('offen');
+    m.onclick = e => {
+      const b = e.target.closest('[data-a]');
+      if(b || e.target === m){ m.classList.remove('offen'); m.onclick = null; res(!!(b && b.dataset.a === '1')); }
+    };
+  });
+}
+
+/* ---------- Startseite ---------- */
+const ZEITEN = [10, 15, 20, 30, 45];
+const AUSWAHL = {zeit: S.letzteZeit, kats: new Set(S.letzteKats)};
+
+function wochenStart(d){ const x = new Date(d); x.setHours(0,0,0,0); x.setDate(x.getDate() - ((x.getDay()+6) % 7)); return x; }
+function dieseWoche(){
+  const ws = wochenStart(new Date()).getTime();
+  const e = VERLAUF.filter(v => new Date(v.datum).getTime() >= ws);
+  return {anzahl:e.length, min:Math.round(e.reduce((s,v) => s+v.dauer, 0)/60)};
+}
+function tageszeitGruss(){
+  const h = new Date().getHours();
+  return h < 11 ? 'Guten Morgen' : h < 18 ? 'Hallo' : 'Guten Abend';
+}
+
+function renderHome(){
+  const el = document.getElementById('s-home');
+  const w = dieseWoche();
+  const mix = AUSWAHL.kats.size === 0;
+  el.innerHTML = `
+    <div class="kopf">
+      <div style="flex:1"><h1>${tageszeitGruss()}, ${esc(S.name || 'du')} 🌸</h1><div class="sub">Worauf hast du heute Lust?</div></div>
+      <button class="icon-btn" id="h-einst" aria-label="Einstellungen">${I.zahnrad}</button>
+    </div>
+    <div class="woche-mini"><span class="em">${w.anzahl ? '🌱' : '☕'}</span>
+      <div>${w.anzahl ? `Diese Woche: ${w.anzahl} ${w.anzahl===1?'Training':'Trainings'} · ${w.min} Min` : 'Diese Woche noch kein Training'}
+      <small>${w.anzahl ? 'Schön dabei, weiter so!' : 'Perfekter Moment für ein paar Minuten.'}</small></div></div>
+    <div class="card"><h3>Wie lange?</h3>
+      <div class="zeit-chips">${ZEITEN.map(z => `<button class="chip ${AUSWAHL.zeit===z?'an':''}" data-zeit="${z}">${z}<small>Min</small></button>`).join('')}</div>
+    </div>
+    <div class="card"><h3>Was trainieren?</h3>
+      <button class="mix ${mix?'an':''}" id="h-mix"><span class="em">🎨</span><div><b>Ausgeglichene Mischung</b><span>Von allem etwas, schön verteilt</span></div></button>
+      <div class="kat-grid">${HAUPT.map(k => {
+        const n = POOL.filter(u => u.kategorie === k.id).length;
+        return `<button class="kat ${AUSWAHL.kats.has(k.id)?'an':''} ${n?'':'leer'}" style="--kf:${k.farbe}" data-kat="${k.id}"><span class="anz">${n}</span><span class="em">${k.emoji}</span>${k.id}</button>`;
+      }).join('')}</div>
+    </div>
+    <button class="btn" id="h-los">${I.play} Training zusammenstellen</button>`;
+  el.querySelector('#h-einst').onclick = () => navigiere('einstellungen');
+  el.querySelectorAll('[data-zeit]').forEach(b => b.onclick = () => { AUSWAHL.zeit = +b.dataset.zeit; merkeAuswahl(); renderHome(); });
+  el.querySelector('#h-mix').onclick = () => { AUSWAHL.kats.clear(); merkeAuswahl(); renderHome(); };
+  el.querySelectorAll('[data-kat]').forEach(b => b.onclick = () => {
+    const k = b.dataset.kat;
+    AUSWAHL.kats.has(k) ? AUSWAHL.kats.delete(k) : AUSWAHL.kats.add(k);
+    merkeAuswahl(); renderHome();
+  });
+  el.querySelector('#h-los').onclick = () => {
+    const p = erstellePlan();
+    if(!p){ toast(AUSWAHL.kats.size ? 'In diesen Kategorien gibt es noch keine Übungen' : 'Lege zuerst ein paar Übungen an'); return; }
+    PLAN = p; navigiere('plan');
+  };
+}
+function merkeAuswahl(){ S.letzteZeit = AUSWAHL.zeit; S.letzteKats = [...AUSWAHL.kats]; sSpeichern(); }
+
+/* ---------- Plan erstellen ---------- */
+let PLAN = null;
+function mischen(a){ a = a.slice(); for(let i = a.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+// Füllt ein Zeitbudget reihum aus den Gruppen (Kategorien). Wiederholungen sind erlaubt.
+function fuelle(gruppen, budget){
+  gruppen = mischen(gruppen.filter(g => g.length));
+  if(!gruppen.length || budget <= 0) return [];
+  const stapel = gruppen.map(g => mischen(g));
+  const res = []; let t = 0, gi = 0, last = null, schutz = 0;
+  while(schutz++ < 500){
+    const g = gi++ % gruppen.length;
+    if(!stapel[g].length) stapel[g] = mischen(gruppen[g]);
+    let c = stapel[g].shift();
+    if(last && c.id === last.id && gruppen[g].length > 1){
+      if(!stapel[g].length) stapel[g] = mischen(gruppen[g]).filter(x => x.id !== last.id);
+      stapel[g].push(c); c = stapel[g].shift();
+    }
+    const kosten = blockZeit(c) + S.pause;
+    if(res.length && t + kosten - budget > kosten/2) break;
+    res.push(c); t += kosten; last = c;
+    if(t >= budget) break;
+  }
+  return res;
+}
+function erstellePlan(){
+  const gesamt = AUSWAHL.zeit * 60;
+  const nachKat = k => POOL.filter(u => u.kategorie === k);
+  const kats = AUSWAHL.kats.size ? [...AUSWAHL.kats] : HAUPT.map(k => k.id);
+  const haupt = kats.map(nachKat).filter(g => g.length);
+  if(!haupt.length) return null;
+  const aw = S.aufwaermen ? nachKat('Aufwärmen') : [];
+  const ab = S.abwaermen ? nachKat('Abwärmen') : [];
+  const awB = aw.length ? Math.max(60, Math.round(gesamt*0.12)) : 0;
+  const abB = ab.length ? Math.max(60, Math.round(gesamt*0.12)) : 0;
+  const bloecke = [];
+  if(awB) bloecke.push({titel:'Aufwärmen', items:fuelle([aw], awB)});
+  bloecke.push({titel:'Training', items:fuelle(haupt, gesamt - awB - abB)});
+  if(abB) bloecke.push({titel:'Abwärmen', items:fuelle([ab], abB)});
+  return {bloecke, kats: AUSWAHL.kats.size ? [...AUSWAHL.kats] : ['Mischung'], zeit: AUSWAHL.zeit};
+}
+function planInfo(p){
+  let t = 0, n = 0;
+  p.bloecke.forEach(b => b.items.forEach(ex => { t += blockZeit(ex); n++; }));
+  return {sek: t + Math.max(0, n-1)*S.pause, n};
+}
+
+function renderPlan(){
+  const el = document.getElementById('s-plan');
+  if(!PLAN){ el.innerHTML = ''; return; }
+  const info = planInfo(PLAN);
+  let nr = 0;
+  el.innerHTML = `
+    <div class="kopf"><button class="icon-btn" id="p-zur">${I.zurueck}</button><div style="flex:1"><h1>Dein Training</h1><div class="sub">${PLAN.kats.join(' · ')}</div></div></div>
+    <div class="plan-sum">
+      <div><b>${Math.round(info.sek/60)}</b><span>Minuten</span></div>
+      <div><b>${info.n}</b><span>Übungen</span></div>
+      <div><b>${S.pause}s</b><span>Pause</span></div>
+    </div>
+    ${PLAN.bloecke.filter(b => b.items.length).map(b => `
+      <div class="card"><h3>${b.titel === 'Aufwärmen' ? '☀️ ' : b.titel === 'Abwärmen' ? '🌙 ' : '💪 '}${b.titel}</h3>
+        ${b.items.map(ex => `<div class="plan-item"><span class="nr">${++nr}</span>${thumb(ex)}<div><b>${esc(ex.name)}</b><span>${exMeta(ex)} · ${esc(ex.kategorie)}</span></div></div>`).join('')}
+      </div>`).join('')}
+    <div class="plan-unten">
+      <button class="btn zweit" id="p-neu">🔀 Neu mischen</button>
+      <button class="btn" id="p-los">${I.play} Los geht's</button>
+    </div>`;
+  el.querySelector('#p-zur').onclick = zurueck;
+  el.querySelector('#p-neu').onclick = () => { PLAN = erstellePlan(); renderPlan(); };
+  el.querySelector('#p-los').onclick = starteTraining;
+}
+
+/* ---------- Ton & Vibration ---------- */
+let AC = null;
+function audioInit(){
+  try{
+    if(!AC){ const A = window.AudioContext || window.webkitAudioContext; if(A) AC = new A(); }
+    if(AC && AC.state === 'suspended') AC.resume();
+  }catch(e){}
+}
+function piep(freq, dauerS=0.12, vol=0.35, verz=0){
+  if(!S.toene || !AC) return;
+  try{
+    const t = AC.currentTime + verz;
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dauerS);
+    o.connect(g).connect(AC.destination); o.start(t); o.stop(t + dauerS + 0.05);
+  }catch(e){}
+}
+function vib(m){ if(S.vibration && navigator.vibrate) try{ navigator.vibrate(m); }catch(e){} }
+
+let WL = null;
+async function wachHalten(){ try{ if('wakeLock' in navigator) WL = await navigator.wakeLock.request('screen'); }catch(e){} }
+function wachLoslassen(){ try{ WL && WL.release(); }catch(e){} WL = null; }
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && T) wachHalten(); });
+
+/* ---------- Training ---------- */
+let T = null;
+const PHASE_TEXT = {uebung:'💪 Übung', pause:'🍃 Pause', wechsel:'🔄 Seite wechseln', bereit:'✨ Gleich geht’s los'};
+
+function bauePhasen(plan){
+  const items = plan.bloecke.flatMap(b => b.items.map(ex => ({ex, block:b.titel})));
+  const ph = [{typ:'bereit', ex:items[0].ex, dauer:10, block:items[0].block, nr:1}];
+  items.forEach((it, i) => {
+    const d = dauer(it.ex), nr = i+1;
+    if(it.ex.einseitig){
+      ph.push({typ:'uebung', ex:it.ex, dauer:d, seite:'Linke Seite', block:it.block, nr});
+      ph.push({typ:'wechsel', ex:it.ex, dauer:S.wechsel, seite:'Rechte Seite', block:it.block, nr});
+      ph.push({typ:'uebung', ex:it.ex, dauer:d, seite:'Rechte Seite', block:it.block, nr});
+    } else {
+      ph.push({typ:'uebung', ex:it.ex, dauer:d, block:it.block, nr});
+    }
+    if(i < items.length-1) ph.push({typ:'pause', ex:items[i+1].ex, dauer:S.pause, block:items[i+1].block, nr:nr+1});
+  });
+  return {ph, anzahl:items.length};
+}
+
+function starteTraining(){
+  audioInit();
+  piep(660, 0.08, 0.2);
+  const {ph, anzahl} = bauePhasen(PLAN);
+  T = {ph, anzahl, i:0, pausiert:false, start:Date.now(), pausenSumme:0, plan:PLAN, letzterBeep:null,
+       gesamt: ph.reduce((s, p) => s + p.dauer, 0), vorher: 0};
+  T.ende = Date.now() + ph[0].dauer*1000;
+  history.replaceState({s:'home'}, '');
+  navigiere('training');
+  renderPhase();
+  T.interval = setInterval(tick, 100);
+  wachHalten();
+}
+
+function tick(){
+  if(!T || T.pausiert) return;
+  const jetzt = Date.now();
+  while(T && jetzt >= T.ende){ if(!naechstePhase(T.ende)) return; }
+  const rest = (T.ende - jetzt)/1000, sek = Math.ceil(rest);
+  zeigeZeit(rest, sek);
+  if(sek <= 5 && sek >= 1 && sek !== T.letzterBeep){
+    T.letzterBeep = sek;
+    const typ = T.ph[T.i].typ;
+    piep(typ === 'uebung' ? 880 : 740, 0.13, 0.35);
+    const z = document.getElementById('tr-zahl'); z.classList.remove('puls'); void z.offsetWidth; z.classList.add('puls');
+  }
+}
+function naechstePhase(ab){
+  T.vorher += T.ph[T.i].dauer;
+  T.i++;
+  if(T.i >= T.ph.length){ trainingFertig(false); return false; }
+  const p = T.ph[T.i];
+  T.ende = ab + p.dauer*1000; T.letzterBeep = null;
+  if(p.typ === 'uebung'){ piep(1046, 0.5, 0.4); vib(350); }
+  else if(p.typ === 'pause'){ piep(523, 0.35, 0.35); piep(392, 0.45, 0.35, 0.18); vib([120, 80, 120]); }
+  else if(p.typ === 'wechsel'){ piep(784, 0.3, 0.35); vib(180); }
+  renderPhase();
+  return true;
+}
+function springe(richtung){
+  if(!T) return;
+  const jetzt = Date.now();
+  if(richtung > 0){
+    if(T.pausiert){ T.pausiert = false; T.pausenSumme += jetzt - T.pauseStart; }
+    naechstePhase(jetzt);
+  } else {
+    // Zurück: zum Anfang der aktuellen Übung bzw. zur vorigen Übung
+    let ziel = T.i;
+    const vergangen = T.ph[T.i].dauer - (T.pausiert ? T.rest/1000 : (T.ende - jetzt)/1000);
+    if(vergangen < 3 || T.ph[T.i].typ !== 'uebung'){
+      ziel = T.i - 1;
+      while(ziel > 0 && T.ph[ziel].typ !== 'uebung') ziel--;
+      if(ziel < 0) ziel = 0;
+    }
+    T.vorher = T.ph.slice(0, ziel).reduce((s, p) => s + p.dauer, 0);
+    T.i = ziel; T.letzterBeep = null;
+    if(T.pausiert){ T.pausiert = false; T.pausenSumme += jetzt - T.pauseStart; }
+    T.ende = jetzt + T.ph[ziel].dauer*1000;
+    renderPhase();
+  }
+  if(T) tick();
+}
+function pauseUmschalten(){
+  if(!T) return;
+  audioInit();
+  if(T.pausiert){ T.ende = Date.now() + T.rest; T.pausenSumme += Date.now() - T.pauseStart; T.pausiert = false; }
+  else { T.rest = T.ende - Date.now(); T.pauseStart = Date.now(); T.pausiert = true; }
+  renderSteuerung();
+}
+async function beendenFragen(){
+  if(!T) return;
+  const warPausiert = T.pausiert;
+  if(!warPausiert) pauseUmschalten();
+  const ja = await frage('Training beenden?', 'Dein bisheriges Training wird im Verlauf gespeichert, wenn es länger als eine Minute ging.', 'Beenden', 'Weitermachen', true);
+  if(!T) return;
+  if(ja) trainingFertig(true);
+  else if(!warPausiert) pauseUmschalten();
+}
+function trainingFertig(abgebrochen){
+  clearInterval(T.interval); clearInterval(KARUSSELL);
+  wachLoslassen();
+  const jetzt = Date.now();
+  const sek = Math.round((jetzt - T.start - T.pausenSumme - (T.pausiert ? jetzt - T.pauseStart : 0))/1000);
+  const erledigt = new Set(T.ph.slice(0, abgebrochen ? T.i : T.ph.length).filter(p => p.typ === 'uebung').map(p => p.nr)).size;
+  const eintrag = {datum:new Date().toISOString(), dauer:sek, geplant:T.plan.zeit, kats:T.plan.kats, uebungen:erledigt, vollstaendig:!abgebrochen};
+  if(!abgebrochen || sek >= 60){ VERLAUF.unshift(eintrag); speichern('verlauf', VERLAUF); }
+  T = null;
+  if(abgebrochen){ history.replaceState({s:'home'}, ''); zeige('home'); toast(sek >= 60 ? 'Training gespeichert' : 'Training beendet'); return; }
+  [523, 659, 784, 1046].forEach((f, i) => piep(f, 0.3, 0.35, i*0.14));
+  vib([100, 60, 100, 60, 300]);
+  history.replaceState({s:'fertig', arg:eintrag}, '');
+  zeige('fertig', eintrag);
+}
+
+let KARUSSELL = null;
+function renderPhase(){
+  const p = T.ph[T.i]; const ex = p.ex; const k = kat(ex.kategorie);
+  const sc = document.getElementById('s-training');
+  sc.dataset.phase = p.typ;
+  document.getElementById('tr-info').innerHTML = `${esc(p.block)}<small>Übung ${p.nr} von ${T.anzahl}</small>`;
+  document.getElementById('tr-label').textContent = PHASE_TEXT[p.typ];
+  document.getElementById('tr-name').textContent = ex.name;
+  document.getElementById('tr-seite').innerHTML = p.seite ? `<span>${p.seite}</span>` : (ex.einseitig && p.typ !== 'uebung' ? '<span>Beginne links</span>' : '');
+  const besch = document.getElementById('tr-besch');
+  besch.textContent = ex.beschreibung || ''; besch.classList.remove('offen');
+  const bild = document.getElementById('tr-bild');
+  const bilder = ex.bilder || [];
+  const vorschau = (p.typ === 'pause' || p.typ === 'bereit') ? `<div class="naechste">Als Nächstes</div>` : '';
+  if(bilder.length){
+    bild.innerHTML = bilder.map((b, i) => `<img src="${esc(bildUrl(b))}" class="${i===0?'sicht':''}" alt="">`).join('') +
+      (bilder.length > 1 ? `<div class="dots">${bilder.map((_, i) => `<i class="${i===0?'an':''}"></i>`).join('')}</div>` : '') + vorschau;
+  } else {
+    bild.innerHTML = `<div class="ph" style="background:${k.farbe}">${k.emoji}</div>` + vorschau;
+  }
+  clearInterval(KARUSSELL);
+  bild.dataset.idx = 0;
+  if(bilder.length > 1) KARUSSELL = setInterval(() => bildWeiter(), 2500);
+  renderSteuerung();
+  zeigeZeit((T.ende - Date.now())/1000, Math.ceil((T.ende - Date.now())/1000));
+}
+function bildWeiter(){
+  const bild = document.getElementById('tr-bild');
+  const imgs = bild.querySelectorAll('img'); if(imgs.length < 2) return;
+  const n = ((+bild.dataset.idx || 0) + 1) % imgs.length; bild.dataset.idx = n;
+  imgs.forEach((im, i) => im.classList.toggle('sicht', i === n));
+  bild.querySelectorAll('.dots i').forEach((d, i) => d.classList.toggle('an', i === n));
+}
+function renderSteuerung(){
+  const sc = document.getElementById('s-training');
+  sc.classList.toggle('pausiert', !!(T && T.pausiert));
+  document.getElementById('tr-pause').innerHTML = T && T.pausiert ? `${I.play} Weiter` : `${I.pause} Pause`;
+  document.getElementById('tr-ton').innerHTML = S.toene ? I.ton : I.tonAus;
+}
+function zeigeZeit(rest, sek){
+  if(!T) return;
+  const p = T.ph[T.i];
+  if(T.pausiert){ rest = T.rest/1000; sek = Math.ceil(rest); }
+  rest = Math.max(0, rest);
+  document.getElementById('tr-zahl').textContent = Math.max(0, sek);
+  document.getElementById('tr-ring').style.strokeDashoffset = (439.82 * (1 - rest/p.dauer)).toFixed(1);
+  document.getElementById('tr-prog').style.width = (100 * (T.vorher + p.dauer - rest) / T.gesamt).toFixed(1) + '%';
+}
+function initTrainingSteuerung(){
+  document.getElementById('tr-x').innerHTML = I.x;
+  document.getElementById('tr-skip').innerHTML = I.skip;
+  document.getElementById('tr-zurueck').innerHTML = I.prev;
+  document.getElementById('tr-x').onclick = beendenFragen;
+  document.getElementById('tr-skip').onclick = () => springe(1);
+  document.getElementById('tr-zurueck').onclick = () => springe(-1);
+  document.getElementById('tr-pause').onclick = pauseUmschalten;
+  document.getElementById('tr-weiter-overlay').onclick = pauseUmschalten;
+  document.getElementById('tr-ton').onclick = () => { S.toene = !S.toene; sSpeichern(); audioInit(); renderSteuerung(); toast(S.toene ? 'Töne an' : 'Töne aus'); };
+  document.getElementById('tr-bild').onclick = () => { bildWeiter(); clearInterval(KARUSSELL); if(T && (T.ph[T.i].ex.bilder||[]).length > 1) KARUSSELL = setInterval(bildWeiter, 2500); };
+  document.getElementById('tr-besch').onclick = e => e.currentTarget.classList.toggle('offen');
+}
+
+/* ---------- Fertig ---------- */
+function renderFertig(e){
+  const el = document.getElementById('s-fertig');
+  if(!e){ el.innerHTML = ''; return; }
+  const farben = ['#F7CDB6','#E3896A','#C5D8BF','#F6E3A9','#DCD0EC','#F3C6CF'];
+  el.innerHTML = `
+    <div class="konfetti">${Array.from({length:40}, (_, i) => `<i style="left:${Math.random()*100}%;background:${farben[i%6]};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()*0.8}s"></i>`).join('')}</div>
+    <div class="gross-em">🎉</div>
+    <h1>Geschafft, ${esc(S.name || 'du')}!</h1>
+    <p class="muted" style="font-weight:600;margin:0 0 26px">Stark gemacht. Gönn dir einen Schluck Wasser.</p>
+    <div class="plan-sum">
+      <div><b>${Math.max(1, Math.round(e.dauer/60))}</b><span>Minuten</span></div>
+      <div><b>${e.uebungen}</b><span>Übungen</span></div>
+      <div><b>${dieseWoche().anzahl}</b><span>diese Woche</span></div>
+    </div>
+    <p class="muted" style="font-weight:700;margin:0 0 24px">${esc(e.kats.join(' · '))}</p>
+    <button class="btn" id="f-ok">Fertig</button>`;
+  el.querySelector('#f-ok').onclick = () => { history.replaceState({s:'home'}, ''); zeige('home'); };
+}
+
+/* ---------- Übungen ---------- */
+let FILTER = 'Alle';
+function renderUebungen(){
+  const el = document.getElementById('s-uebungen');
+  const kats = FILTER === 'Alle' ? KATEGORIEN : [kat(FILTER)];
+  const gruppen = kats.map(k => ({k, list: POOL.filter(u => u.kategorie === k.id)})).filter(g => g.list.length || FILTER !== 'Alle');
+  el.innerHTML = `
+    <div class="kopf"><div style="flex:1"><h1>Übungen</h1><div class="sub">${POOL.length} im Pool</div></div>
+      <button class="btn klein" id="u-neu">${I.plus} Neu</button></div>
+    ${LOKAL ? `<div class="hinweis"><span class="em">📦</span><div>${LOKAL} ${LOKAL===1?'Änderung ist':'Änderungen sind'} nur auf diesem Handy</div><button class="btn klein" id="u-exp">Export</button></div>` : ''}
+    <div class="filter">${['Alle', ...KATEGORIEN.map(k => k.id)].map(f => `<button class="chip ${FILTER===f?'an':''}" data-f="${f}">${f==='Alle' ? 'Alle' : kat(f).emoji+' '+f}</button>`).join('')}</div>
+    ${gruppen.length ? gruppen.map(g => `
+      <div class="grp-titel"><span class="punkt" style="background:${g.k.farbe}"></span>${g.k.id} <span class="muted">(${g.list.length})</span></div>
+      <div class="ex-liste">${g.list.length ? g.list.map(ex => `
+        <button class="ex" data-id="${esc(ex.id)}">${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex)}${ex.bilder && ex.bilder.length > 1 ? ` · ${ex.bilder.length} Bilder` : ''}</span>${ex.quelle==='lokal' ? `<span class="badge">${ex.neu?'Neu':'Geändert'}</span>` : ''}</div></button>`).join('')
+        : `<div class="leer-box"><span class="em">${g.k.emoji}</span>Noch keine Übungen in ${g.k.id}</div>`}</div>`).join('')
+    : `<div class="leer-box"><span class="em">🌱</span>Noch keine Übungen. Tippe auf „Neu“.</div>`}`;
+  el.querySelector('#u-neu').onclick = () => navigiere('edit', true, {neu:true});
+  const ex = el.querySelector('#u-exp'); if(ex) ex.onclick = exportieren;
+  el.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { FILTER = b.dataset.f; renderUebungen(); });
+  el.querySelectorAll('[data-id]').forEach(b => b.onclick = () => navigiere('edit', true, {id:b.dataset.id}));
+}
+
+/* ---------- Übung bearbeiten ---------- */
+let EDIT = null;
+function neueId(){ return 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function renderEdit(arg){
+  if(arg && (arg.id || arg.neu)){
+    const ex = arg.id ? POOL.find(u => u.id === arg.id) : null;
+    EDIT = ex ? {id:ex.id, name:ex.name, kategorie:ex.kategorie, beschreibung:ex.beschreibung||'', dauer:ex.dauer||null, einseitig:!!ex.einseitig, bilder:[...(ex.bilder||[])], quelle:ex.quelle, neu:false}
+              : {id:null, name:'', kategorie: FILTER !== 'Alle' ? FILTER : 'Bauch', beschreibung:'', dauer:null, einseitig:false, bilder:[], neu:true};
+  }
+  if(!EDIT) return;
+  const el = document.getElementById('s-edit');
+  const DAUERN = [20, 30, 40, 45, 60, 75, 90, 120];
+  el.innerHTML = `
+    <div class="kopf"><button class="icon-btn" id="e-zur">${I.zurueck}</button><h1>${EDIT.neu ? 'Neue Übung' : 'Übung bearbeiten'}</h1></div>
+    <div class="feld"><label>Name</label><input type="text" id="e-name" value="${esc(EDIT.name)}" placeholder="z. B. Kniebeugen" autocomplete="off"></div>
+    <div class="feld"><label>Kategorie</label><div class="kat-wahl">${KATEGORIEN.map(k => `<button class="kat ${EDIT.kategorie===k.id?'an':''}" style="--kf:${k.farbe}" data-k="${k.id}"><span class="em">${k.emoji}</span>${k.id}</button>`).join('')}</div></div>
+    <div class="feld"><label>Bilder</label><div class="bilder" id="e-bilder"></div></div>
+    <div class="feld"><label>Beschreibung</label><textarea id="e-besch" placeholder="Wie geht die Übung? Worauf achten?">${esc(EDIT.beschreibung)}</textarea></div>
+    <div class="feld"><label>Dauer</label><select id="e-dauer">
+      <option value="">Standard (${S.uebungDauer} s, aus den Einstellungen)</option>
+      ${DAUERN.map(d => `<option value="${d}" ${EDIT.dauer===d?'selected':''}>${fmtSek(d)}</option>`).join('')}
+      ${EDIT.dauer && !DAUERN.includes(EDIT.dauer) ? `<option value="${EDIT.dauer}" selected>${fmtSek(EDIT.dauer)}</option>` : ''}
+    </select></div>
+    <div class="feld"><button class="schalter" id="e-seit"><div>Einseitige Übung<small>Läuft links und rechts direkt hintereinander</small></div><span class="toggle ${EDIT.einseitig?'an':''}"></span></button></div>
+    <button class="btn" id="e-save" style="margin-top:8px">Speichern</button>
+    ${EDIT.neu ? '' : `<button class="btn gefahr" id="e-del" style="margin-top:10px">${I.muell} Übung löschen</button>`}`;
+  renderBilder();
+  el.querySelector('#e-zur').onclick = zurueck;
+  el.querySelector('#e-name').oninput = e => EDIT.name = e.target.value;
+  el.querySelector('#e-besch').oninput = e => EDIT.beschreibung = e.target.value;
+  el.querySelector('#e-dauer').onchange = e => EDIT.dauer = e.target.value ? +e.target.value : null;
+  el.querySelectorAll('[data-k]').forEach(b => b.onclick = () => {
+    EDIT.kategorie = b.dataset.k;
+    el.querySelectorAll('[data-k]').forEach(x => x.classList.toggle('an', x === b));
+  });
+  el.querySelector('#e-seit').onclick = () => { EDIT.einseitig = !EDIT.einseitig; el.querySelector('#e-seit .toggle').classList.toggle('an', EDIT.einseitig); };
+  el.querySelector('#e-save').onclick = speichereEdit;
+  const del = el.querySelector('#e-del'); if(del) del.onclick = loescheEdit;
+}
+function renderBilder(){
+  const box = document.getElementById('e-bilder');
+  box.innerHTML = EDIT.bilder.map((b, i) => `
+    <div class="bild"><img src="${esc(bildUrl(b))}" alt=""><span class="nr">${i+1}</span>
+      <div class="akt"><button data-l="${i}" ${i===0?'style="visibility:hidden"':''}>◀</button><button data-x="${i}">✕</button><button data-r="${i}" ${i===EDIT.bilder.length-1?'style="visibility:hidden"':''}>▶</button></div></div>`).join('') +
+    `<button class="bild-neu" id="e-bild-neu">${I.kamera}Bild hinzufügen</button>`;
+  box.querySelector('#e-bild-neu').onclick = () => { const f = document.getElementById('datei'); f.value = ''; f.click(); };
+  box.querySelectorAll('[data-x]').forEach(b => b.onclick = () => { EDIT.bilder.splice(+b.dataset.x, 1); renderBilder(); });
+  box.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { const i = +b.dataset.l; [EDIT.bilder[i-1], EDIT.bilder[i]] = [EDIT.bilder[i], EDIT.bilder[i-1]]; renderBilder(); });
+  box.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { const i = +b.dataset.r; [EDIT.bilder[i+1], EDIT.bilder[i]] = [EDIT.bilder[i], EDIT.bilder[i+1]]; renderBilder(); });
+}
+async function verkleinere(file){
+  const url = URL.createObjectURL(file);
+  try{
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const max = 1200;
+    const f = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const w = Math.round(img.naturalWidth*f), h = Math.round(img.naturalHeight*f);
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+    return await new Promise(r => c.toBlob(r, 'image/jpeg', 0.82));
+  } finally { URL.revokeObjectURL(url); }
+}
+document.getElementById('datei').onchange = async e => {
+  const files = [...e.target.files]; if(!files.length || !EDIT) return;
+  toast(files.length > 1 ? `${files.length} Bilder werden geladen …` : 'Bild wird geladen …');
+  for(const f of files){
+    try{ const b = await verkleinere(f); if(b) EDIT.bilder.push(b); }catch(err){ toast('Ein Bild konnte nicht geladen werden'); }
+  }
+  renderBilder();
+};
+async function speichereEdit(){
+  if(!EDIT.name.trim()){ toast('Bitte einen Namen eingeben'); document.getElementById('e-name').focus(); return; }
+  const rec = {id: EDIT.id || neueId(), name:EDIT.name.trim(), kategorie:EDIT.kategorie, beschreibung:EDIT.beschreibung.trim(),
+               dauer:EDIT.dauer || null, einseitig:!!EDIT.einseitig, bilder:EDIT.bilder, geaendert:Date.now()};
+  await DB.put(rec);
+  await bauePool();
+  toast(EDIT.neu ? 'Übung angelegt' : 'Gespeichert');
+  EDIT = null;
+  zurueck();
+}
+async function loescheEdit(){
+  const ok = await frage('Übung löschen?', `„${esc(EDIT.name)}“ wird aus dem Pool entfernt.`, 'Löschen', 'Abbrechen', true);
+  if(!ok) return;
+  if(EDIT.quelle === 'repo' || REPO.uebungen.some(u => u.id === EDIT.id)) await DB.put({id:EDIT.id, geloescht:true, geaendert:Date.now()});
+  else await DB.weg(EDIT.id);
+  await bauePool();
+  toast('Übung gelöscht');
+  EDIT = null;
+  zurueck();
+}
+
+/* ---------- Export für GitHub (ZIP) ---------- */
+const CRC = (() => { const t = new Uint32Array(256); for(let n = 0; n < 256; n++){ let c = n; for(let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(d){ let c = 0xFFFFFFFF; for(let i = 0; i < d.length; i++) c = CRC[(c ^ d[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zip(files){
+  const enc = new TextEncoder(); const teile = [], zentral = []; let offset = 0;
+  const d = new Date();
+  const zeit = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+  const datum = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  for(const f of files){
+    const name = enc.encode(f.name), crc = crc32(f.data), gr = f.data.length;
+    const h = new DataView(new ArrayBuffer(30));
+    h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true);
+    h.setUint16(10, zeit, true); h.setUint16(12, datum, true); h.setUint32(14, crc, true); h.setUint32(18, gr, true); h.setUint32(22, gr, true);
+    h.setUint16(26, name.length, true); h.setUint16(28, 0, true);
+    teile.push(new Uint8Array(h.buffer), name, f.data);
+    const c = new DataView(new ArrayBuffer(46));
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint16(10, 0, true);
+    c.setUint16(12, zeit, true); c.setUint16(14, datum, true); c.setUint32(16, crc, true); c.setUint32(20, gr, true); c.setUint32(24, gr, true);
+    c.setUint16(28, name.length, true); c.setUint32(42, offset, true);
+    zentral.push(new Uint8Array(c.buffer), name);
+    offset += 30 + name.length + gr;
+  }
+  const zGr = zentral.reduce((s, a) => s + a.length, 0);
+  const e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, zGr, true); e.setUint32(16, offset, true);
+  return new Blob([...teile, ...zentral, new Uint8Array(e.buffer)], {type:'application/zip'});
+}
+async function exportieren(){
+  toast('Export wird vorbereitet …');
+  const files = [], liste = [];
+  for(const ex of POOL){
+    const pfade = [];
+    for(let i = 0; i < (ex.bilder || []).length; i++){
+      const b = ex.bilder[i]; const pfad = `data/bilder/${ex.id}-${i+1}.jpg`;
+      try{
+        const blob = typeof b === 'string' ? await (await fetch(b)).blob() : b;
+        files.push({name:pfad, data:new Uint8Array(await blob.arrayBuffer())}); pfade.push(pfad);
+      }catch(err){ console.warn('Bild fehlt', b, err); }
+    }
+    liste.push({id:ex.id, name:ex.name, kategorie:ex.kategorie, beschreibung:ex.beschreibung||'', dauer:ex.dauer||null, einseitig:!!ex.einseitig, bilder:pfade, geaendert:ex.geaendert||0});
+  }
+  const json = {app:'FlivFit', stand:new Date().toISOString(), uebungen:liste};
+  files.unshift({name:'data/uebungen.json', data:new TextEncoder().encode(JSON.stringify(json, null, 2))});
+  const blob = zip(files);
+  const d = new Date(); const tag = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const name = `flivfit-uebungen-${tag}.zip`;
+  const datei = new File([blob], name, {type:'application/zip'});
+  const teilbar = navigator.canShare && navigator.canShare({files:[datei]});
+  document.getElementById('toast').classList.remove('zeig');
+  const m = document.getElementById('modal');
+  m.innerHTML = `<div class="box"><h2>📦 Übungen exportieren</h2>
+    <p>${liste.length} Übungen · ${files.length-1} Bilder · ${(blob.size/1024/1024).toFixed(1)} MB</p>
+    <ol><li>ZIP speichern oder teilen</li><li>Entpacken: darin ist der Ordner <b>data</b></li><li>Den Ordner <b>data</b> im GitHub-Repo hochladen und die alten Dateien ersetzen</li><li>Nach dem Update haben beide Handys den neuen Stand</li></ol>
+    <div class="reihe"><button class="btn" data-a="dl">${I.export} ZIP herunterladen</button>
+    ${teilbar ? `<button class="btn zweit" data-a="share">Teilen …</button>` : ''}
+    <button class="btn zweit" data-a="x">Schließen</button></div></div>`;
+  m.classList.add('offen');
+  m.onclick = async e => {
+    const b = e.target.closest('[data-a]');
+    if(!b && e.target !== m) return;
+    const a = b ? b.dataset.a : 'x';
+    if(a === 'dl'){
+      const l = document.createElement('a'); l.href = URL.createObjectURL(blob); l.download = name; document.body.appendChild(l); l.click();
+      setTimeout(() => { URL.revokeObjectURL(l.href); l.remove(); }, 5000);
+    } else if(a === 'share'){
+      try{ await navigator.share({files:[datei], title:name}); }catch(err){}
+    }
+    if(a === 'x'){ m.classList.remove('offen'); m.onclick = null; }
+  };
+}
+
+/* ---------- Verlauf ---------- */
+function renderVerlauf(){
+  const el = document.getElementById('s-verlauf');
+  const ws = wochenStart(new Date());
+  const tage = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+  const heute = (new Date().getDay() + 6) % 7;
+  const min = tage.map((_, i) => {
+    const a = new Date(ws); a.setDate(a.getDate() + i); const b = new Date(a); b.setDate(b.getDate() + 1);
+    return Math.round(VERLAUF.filter(v => { const t = new Date(v.datum); return t >= a && t < b; }).reduce((s, v) => s + v.dauer, 0)/60);
+  });
+  const maxM = Math.max(15, ...min);
+  const w = dieseWoche();
+  const gesamtMin = Math.round(VERLAUF.reduce((s, v) => s + v.dauer, 0)/60);
+  // Wochen in Folge mit mindestens einem Training
+  let serie = 0; { const x = new Date(ws); for(;;){ const a = x.getTime(), b = a + 7*864e5; if(VERLAUF.some(v => { const t = new Date(v.datum).getTime(); return t >= a && t < b; })){ serie++; x.setDate(x.getDate()-7); } else break; } }
+  el.innerHTML = `
+    <div class="kopf"><div style="flex:1"><h1>Verlauf</h1><div class="sub">Deine Trainings im Überblick</div></div></div>
+    <div class="card"><h3>Diese Woche</h3>
+      <div class="balken">${tage.map((t, i) => `<div><em>${min[i] || ''}</em><i class="${i===heute?'heute':''} ${min[i]?'':'null'}" style="height:${min[i] ? Math.max(8, 100*min[i]/maxM) : 6}%"></i><span>${t}</span></div>`).join('')}</div>
+      <div class="stats" style="margin-top:12px">
+        <div><b>${w.anzahl}</b><span>Trainings</span></div>
+        <div><b>${w.min}</b><span>Minuten</span></div>
+        <div><b>${serie}</b><span>${serie===1?'Woche':'Wochen'} in Folge</span></div>
+      </div>
+    </div>
+    <div class="card"><h3>Alle Trainings <span class="muted" style="font-weight:700">· ${VERLAUF.length} · ${gesamtMin} Min</span></h3>
+      ${VERLAUF.length ? VERLAUF.slice(0, 100).map((v, i) => {
+        const d = new Date(v.datum);
+        return `<div class="eintrag"><div class="tag ${v.vollstaendig?'':'halb'}">${d.getDate()}<small>${d.toLocaleDateString('de-DE',{month:'short'})}</small></div>
+          <div class="info"><b>${Math.max(1, Math.round(v.dauer/60))} Min · ${v.uebungen} Übungen</b><span>${d.toLocaleDateString('de-DE',{weekday:'short'})}, ${d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})} · ${esc((v.kats||[]).join(', '))}${v.vollstaendig ? '' : ' · abgebrochen'}</span></div>
+          <button class="weg" data-weg="${i}" aria-label="Eintrag löschen">${I.x}</button></div>`;
+      }).join('') : `<div class="leer-box"><span class="em">🌱</span>Noch keine Trainings. Dein erstes wartet!</div>`}
+    </div>`;
+  el.querySelectorAll('[data-weg]').forEach(b => b.onclick = async () => {
+    if(await frage('Eintrag löschen?', 'Dieses Training wird aus dem Verlauf entfernt.', 'Löschen', 'Abbrechen', true)){
+      VERLAUF.splice(+b.dataset.weg, 1); speichern('verlauf', VERLAUF); renderVerlauf();
+    }
+  });
+}
+
+/* ---------- Einstellungen ---------- */
+function renderEinstellungen(){
+  const el = document.getElementById('s-einstellungen');
+  const stepper = (key, min, max, step, label, sub) => `
+    <div class="einst"><div><b>${label}</b><small>${sub}</small></div>
+      <div class="stepper"><button data-s="${key}" data-d="-${step}" data-min="${min}" data-max="${max}">−</button><span>${fmtSek(S[key])}</span><button data-s="${key}" data-d="${step}" data-min="${min}" data-max="${max}">+</button></div></div>`;
+  const schalter = (key, label, sub) => `
+    <div class="einst"><div><b>${label}</b><small>${sub}</small></div><span class="toggle ${S[key]?'an':''}" data-t="${key}"></span></div>`;
+  el.innerHTML = `
+    <div class="kopf"><button class="icon-btn" id="s-zur">${I.zurueck}</button><h1>Einstellungen</h1></div>
+    <div class="card"><h3>⏱ Timer</h3>
+      ${stepper('uebungDauer', 10, 180, 5, 'Übungsdauer', 'Standard für alle Übungen ohne eigene Dauer')}
+      ${stepper('pause', 5, 90, 5, 'Pause', 'Zwischen zwei Übungen')}
+      ${stepper('wechsel', 3, 20, 1, 'Seitenwechsel', 'Bei einseitigen Übungen')}
+    </div>
+    <div class="card"><h3>🧘 Ablauf</h3>
+      ${schalter('aufwaermen', 'Aufwärmen', 'Übungen aus „Aufwärmen“ am Anfang')}
+      ${schalter('abwaermen', 'Abwärmen', 'Übungen aus „Abwärmen“ am Ende')}
+    </div>
+    <div class="card"><h3>🔔 Signale</h3>
+      ${schalter('toene', 'Töne', 'Piepen in den letzten 5 Sekunden')}
+      ${schalter('vibration', 'Vibration', 'Bei jedem Wechsel (nur Android)')}
+      <div class="einst"><div><b>Ton testen</b><small>Lautstärke am Handy prüfen</small></div><button class="btn klein zweit" id="s-test">🔊 Test</button></div>
+    </div>
+    <div class="card"><h3>🌸 Persönlich</h3>
+      <div class="einst"><div><b>Name</b><small>Für die Begrüßung</small></div><input type="text" id="s-name" value="${esc(S.name)}"></div>
+    </div>
+    <div class="card"><h3>📦 Übungen teilen</h3>
+      <p class="muted" style="font-weight:600;margin:0 0 12px;font-size:.9rem">${LOKAL ? `${LOKAL} ${LOKAL===1?'Änderung ist':'Änderungen sind'} bisher nur auf diesem Handy.` : 'Alles auf dem GitHub-Stand.'} Der Export enthält den ganzen Übungspool mit Bildern für GitHub.</p>
+      <button class="btn ${LOKAL?'':'zweit'}" id="s-exp">${I.export} Für GitHub exportieren</button>
+    </div>
+    <div class="version">FlivFit v${APP_VERSION}${REPO.stand ? ` · Übungsstand ${new Date(REPO.stand).toLocaleDateString('de-DE')}` : ''}</div>`;
+  el.querySelector('#s-zur').onclick = zurueck;
+  el.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
+    const k = b.dataset.s; S[k] = Math.min(+b.dataset.max, Math.max(+b.dataset.min, S[k] + (+b.dataset.d)));
+    sSpeichern(); b.parentElement.querySelector('span').textContent = fmtSek(S[k]);
+  });
+  el.querySelectorAll('[data-t]').forEach(t => t.onclick = () => { const k = t.dataset.t; S[k] = !S[k]; sSpeichern(); t.classList.toggle('an', S[k]); });
+  el.querySelector('#s-test').onclick = () => { audioInit(); const alt = S.toene; S.toene = true; [0,1,2].forEach(i => piep(880, 0.13, 0.35, i*0.35)); piep(1046, 0.5, 0.4, 1.05); S.toene = alt; vib(200); };
+  el.querySelector('#s-name').oninput = e => { S.name = e.target.value.trim(); sSpeichern(); };
+  el.querySelector('#s-exp').onclick = exportieren;
+}
+
+/* ---------- Start ---------- */
+const RENDER = {home:renderHome, plan:renderPlan, fertig:renderFertig, uebungen:renderUebungen, edit:renderEdit, verlauf:renderVerlauf, einstellungen:renderEinstellungen};
+
+document.querySelectorAll('.nav button').forEach(b => {
+  const k = b.dataset.nav;
+  b.innerHTML = {home:I.home + 'Training', uebungen:I.liste + 'Übungen', verlauf:I.verlauf + 'Verlauf'}[k];
+  b.onclick = () => { if(document.body.dataset.screen === k) return; history.replaceState({s:k}, ''); zeige(k); };
+});
+initTrainingSteuerung();
+
+(async () => {
+  await ladeRepo();
+  await bauePool();
+  history.replaceState({s:'home'}, '');
+  zeige('home');
+})();
+
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+  let neuGeladen = false;
+  const hatteController = !!navigator.serviceWorker.controller;   // beim allerersten Besuch nicht neu laden
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if(neuGeladen || !hatteController) return;
+    if(T){ toast('Update bereit – wird nach dem Training geladen'); return; }
+    neuGeladen = true; location.reload();
+  });
+}
+</script>
+</body>
+</html>

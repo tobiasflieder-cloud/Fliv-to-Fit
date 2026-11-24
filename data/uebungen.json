@@ -1,0 +1,16 @@
+{
+  "app": "FlivFit",
+  "stand": "2026-11-24T17:00:00.000Z",
+  "uebungen": [
+    {
+      "id": "russian-twist",
+      "name": "Russian Twist",
+      "kategorie": "Bauch",
+      "beschreibung": "Auf den Po setzen, Knie angewinkelt, Oberkörper leicht nach hinten lehnen. Hände vor der Brust zusammen und den Oberkörper abwechselnd nach links und rechts drehen. Für mehr Schwierigkeit die Füße vom Boden heben.",
+      "dauer": null,
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1764003600000
+    }
+  ]
+}
