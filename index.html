@@ -95,7 +95,6 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 .ex .info{flex:1;min-width:0}
 .ex .info b{display:block;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ex .info span{font-size:.82rem;color:var(--muted);font-weight:600}
-.badge{display:inline-block;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--butter);color:#8A6A1E;margin-left:4px;vertical-align:middle}
 .grp-titel{display:flex;align-items:center;gap:8px;font-weight:800;margin:18px 4px 8px;font-size:.95rem}
 .grp-titel .punkt{width:12px;height:12px;border-radius:50%}
 .filter{display:flex;gap:8px;overflow-x:auto;margin:0 -18px 6px;padding:2px 18px 8px;scrollbar-width:none}
@@ -373,7 +372,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 
 <script>
 'use strict';
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.3.0';
 const $ = s => document.querySelector(s);
 
 /* ---------- Icons ---------- */
@@ -411,12 +410,43 @@ const KATEGORIEN = [
   {id:'Rücken', emoji:'🌿', farbe:'#DCD0EC'},
   {id:'Po', emoji:'🍑', farbe:'#F7CDB6'},
   {id:'Schulter', emoji:'🦋', farbe:'#E6D3EA'},
+  {id:'Hüfte', emoji:'🌀', farbe:'#F2DCC8'},
+  {id:'Beckenboden', emoji:'🪷', farbe:'#F4D3DF'},
   {id:'Ganzkörper', emoji:'⭐', farbe:'#C5D8BF'},
   {id:'Aufwärmen', emoji:'☀️', farbe:'#F9D9A6', extra:true},
   {id:'Abwärmen', emoji:'🌙', farbe:'#CFE3DD', extra:true},
 ];
 const HAUPT = KATEGORIEN.filter(k => !k.extra);
 const kat = id => KATEGORIEN.find(k => k.id === id) || {id, emoji:'•', farbe:'#EEE'};
+
+/* ---------- Geräte ---------- */
+const GERAETE = [
+  {id:'Hantel', emoji:'🏋️'}, {id:'Kettlebell', emoji:'🔔'}, {id:'Theraband', emoji:'🎗️'},
+  {id:'Ringe', emoji:'⭕'}, {id:'Klimmzugstange', emoji:'➖'}, {id:'Liegestützgriffe', emoji:'✊'}
+];
+const OHNE_GERAET = {id:'ohne', name:'Ohne Gerät', emoji:'🤸'};   // nur als Filter-Option
+const geraet = id => id === 'ohne' ? OHNE_GERAET : (GERAETE.find(g => g.id === id) || {id, emoji:'•'});
+const geraetName = id => id === 'ohne' ? OHNE_GERAET.name : id;
+// Standard-Geräte bestehender Übungen (greift in norm(), wenn das Feld geraete fehlt)
+const STD_GERAETE = (() => {
+  const t = {
+    Hantel: ['reverse-fly', 'romanian-deadlift', 'schulter-seitheben', 'hantel-links-rechts', 'hantel-ueber-kopf', 'hantel-rudern', 'v-fly'],
+    Kettlebell: ['kettlebell-swing', 'kettlebell-rundherum', 'kettlebell-ran-hoch'],
+    Theraband: ['plank-band-ziehen', 'bizeps-band', 'band-schwert', 'rudern-band-raus'],
+    Ringe: ['ringe-beine-ranziehen', 'ringe-arme-vor', 'liegestuetz-ringe'],
+    Klimmzugstange: ['klimmzuege', 'hanging-leg-raise'],
+    'Liegestützgriffe': ['liegestuetz-griffe'],
+  };
+  const m = {};
+  for(const [g, ids] of Object.entries(t)) ids.forEach(id => (m[id] = m[id] || []).push(g));
+  return m;
+})();
+// Mehrfachauswahl (Zufallstraining): erlaubt, wenn mindestens eines der Geräte gewählt ist; leere Auswahl = alles
+const geraetErlaubt = (ex, wahl) => !wahl.size || (ex.geraete.length ? ex.geraete.some(g => wahl.has(g)) : wahl.has('ohne'));
+// Einfachauswahl (Filterreihen): 'Alle', 'ohne' oder ein Gerät
+const geraetFilter = (ex, f) => f === 'Alle' || (f === 'ohne' ? !ex.geraete.length : ex.geraete.includes(f));
+const geraetChips = (aktiv, attr) => ['Alle', 'ohne', ...GERAETE.map(g => g.id)].map(f =>
+  `<button class="chip ${aktiv===f?'an':''}" ${attr}="${f}">${f==='Alle' ? 'Alle' : geraet(f).emoji+' '+geraetName(f)}</button>`).join('');
 
 /* ---------- Speicher ---------- */
 function laden(k, def){ try{ const v = localStorage.getItem('flivfit.'+k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
@@ -438,7 +468,7 @@ const profilInfo = id => PROFILE.find(p => p.id === id) || PROFILE[0];
 let PROFIL = laden('profil', 'Fliv');
 if(!PROFILE.some(p => p.id === PROFIL)) PROFIL = 'Fliv';
 
-const DEFAULTS = {uebungDauer:30, pause:15, wechsel:5, freiPause:60, aufwaermen:true, abwaermen:true, toene:true, lautstaerke:'laut', vibration:true, letzteZeit:15, letzteKats:[], modus:'zufall'};
+const DEFAULTS = {uebungDauer:30, pause:15, wechsel:5, freiPause:60, aufwaermen:true, abwaermen:true, toene:true, lautstaerke:'laut', vibration:true, letzteZeit:15, letzteKats:[], letzteGeraete:[], modus:'zufall'};
 let S, VERLAUF, LEISTUNG;
 function profilLaden(){
   S = Object.assign({}, DEFAULTS, laden('einstellungen.'+PROFIL, {}));
@@ -521,6 +551,7 @@ function norm(ex){
     w[p.id] = alt ? {modus: alt.modus === 'wdh' ? 'wdh' : 'zeit', wert: alt.wert || null} : {modus:'zeit', wert: ex.dauer || null};
   }
   ex.werte = w;
+  if(!Array.isArray(ex.geraete)) ex.geraete = (STD_GERAETE[ex.id] || []).slice();
   delete ex.kategorie; delete ex.dauer;
   return ex;
 }
@@ -542,6 +573,7 @@ const eintrag = (ex, ov) => Object.assign({ex}, wertVon(ex, PROFIL, ov));
 const fmtSek = s => s >= 60 ? (s % 60 ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} min` : `${s/60} min`) : `${s} s`;
 const exMeta = (ex, p = PROFIL) => { const w = wertVon(ex, p); return ex.einseitig ? `2 × ${wertText(w)} · einseitig` : wertText(w); };
 const katText = ex => ex.kategorien.join(' + ');
+const geraetEmojis = ex => ex.geraete.length ? ' · ' + ex.geraete.map(g => geraet(g).emoji).join(' ') : '';
 
 /* Leistungen (geschaffte Wiederholungen / Sekunden) */
 function leistungEintragen(exId, modus, wert, seite){
@@ -711,7 +743,7 @@ document.addEventListener('visibilitychange', () => { if(document.visibilityStat
 
 /* ---------- Startseite ---------- */
 const ZEITEN = [10, 15, 20, 30, 45];
-const AUSWAHL = {zeit: S.letzteZeit, kats: new Set(S.letzteKats)};
+const AUSWAHL = {zeit: S.letzteZeit, kats: new Set(S.letzteKats), geraete: new Set(S.letzteGeraete)};
 function wochenStart(d){ const x = new Date(d); x.setHours(0,0,0,0); x.setDate(x.getDate() - ((x.getDay()+6) % 7)); return x; }
 function dieseWoche(){
   const ws = wochenStart(new Date()).getTime();
@@ -723,7 +755,7 @@ function profilWechseln(id){
   if(id === PROFIL) return;
   PROFIL = id; speichern('profil', PROFIL);
   profilLaden();
-  AUSWAHL.zeit = S.letzteZeit; AUSWAHL.kats = new Set(S.letzteKats);
+  AUSWAHL.zeit = S.letzteZeit; AUSWAHL.kats = new Set(S.letzteKats); AUSWAHL.geraete = new Set(S.letzteGeraete);
   FILTER_PROFIL = PROFIL;
   FREI = laden('frei.'+PROFIL, null);
   renderHome();
@@ -751,13 +783,16 @@ function renderHome(){
         return `<button class="kat ${AUSWAHL.kats.has(k.id)?'an':''} ${n?'':'leer'}" style="--kf:${k.farbe}" data-kat="${k.id}"><span class="anz">${n}</span><span class="em">${k.emoji}</span>${k.id}</button>`;
       }).join('')}</div>
     </div>
+    <div class="card"><h3>Womit? <span class="muted" style="font-weight:600;font-size:.88rem">· ${AUSWAHL.geraete.size ? 'mehrere möglich' : 'Alle Geräte'}</span></h3>
+      <div class="chips">${['ohne', ...GERAETE.map(g => g.id)].map(g => `<button class="chip ${AUSWAHL.geraete.has(g)?'an':''}" data-geraet="${g}">${geraet(g).emoji} ${geraetName(g)}</button>`).join('')}</div>
+    </div>
     <button class="btn" id="h-los">${I.play} Training zusammenstellen</button>`;
   } else if(modus === 'plaene'){
     const pl = plaeneAktiv();
     inhalt = `
     ${pl.length ? pl.map(p => {
       const P = planAusGespeichert(p), info = planInfo(P);
-      return `<button class="plan-karte" data-plan="${esc(p.id)}"><span class="em">📋</span><div><b>${esc(p.name)}</b><span>${P.items.length} Übungen · ${p.runden} ${p.runden===1?'Runde':'Runden'} · ca. ${Math.max(1, Math.round(info.sek/60))} Min${p.quelle==='lokal' ? ' · <span class="badge">'+(p.neu?'Neu':'Geändert')+'</span>' : ''}</span></div><span class="pfeil">${I.zurueck}</span></button>`;
+      return `<button class="plan-karte" data-plan="${esc(p.id)}"><span class="em">📋</span><div><b>${esc(p.name)}</b><span>${P.items.length} Übungen · ${p.runden} ${p.runden===1?'Runde':'Runden'} · ca. ${Math.max(1, Math.round(info.sek/60))} Min</span></div><span class="pfeil">${I.zurueck}</span></button>`;
     }).join('') : `<div class="card"><p class="info-text" style="margin:0">Noch keine Pläne. Lege einen festen Zirkel an, mit Übungen in deiner Reihenfolge, Runden und eigener Pause. Oder speichere einen gelungenen Zufallsmix.</p></div>`}
     <button class="btn" id="h-neuplan" style="margin-top:6px">${I.plus} Neuer Plan</button>`;
   } else {
@@ -791,9 +826,13 @@ function renderHome(){
       const k = b.dataset.kat; AUSWAHL.kats.has(k) ? AUSWAHL.kats.delete(k) : AUSWAHL.kats.add(k);
       merkeAuswahl(); renderHome();
     });
+    el.querySelectorAll('[data-geraet]').forEach(b => b.onclick = () => {
+      const g = b.dataset.geraet; AUSWAHL.geraete.has(g) ? AUSWAHL.geraete.delete(g) : AUSWAHL.geraete.add(g);
+      merkeAuswahl(); renderHome();
+    });
     el.querySelector('#h-los').onclick = () => {
       const p = erstellePlan();
-      if(!p){ toast(AUSWAHL.kats.size ? 'In diesen Kategorien gibt es noch keine Übungen' : 'Lege zuerst ein paar Übungen an'); return; }
+      if(!p){ toast(AUSWAHL.geraete.size ? 'Keine Übungen für diese Auswahl' : AUSWAHL.kats.size ? 'In diesen Kategorien gibt es noch keine Übungen' : 'Lege zuerst ein paar Übungen an'); return; }
       PLAN = p; navigiere('plan');
     };
   } else if(modus === 'plaene'){
@@ -810,7 +849,7 @@ function renderHome(){
     };
   }
 }
-function merkeAuswahl(){ S.letzteZeit = AUSWAHL.zeit; S.letzteKats = [...AUSWAHL.kats]; sSpeichern(); }
+function merkeAuswahl(){ S.letzteZeit = AUSWAHL.zeit; S.letzteKats = [...AUSWAHL.kats]; S.letzteGeraete = [...AUSWAHL.geraete]; sSpeichern(); }
 
 /* ---------- Zufallsplan ---------- */
 let PLAN = null;
@@ -838,7 +877,7 @@ function fuelle(gruppen, budget){
 }
 function erstellePlan(){
   const gesamt = AUSWAHL.zeit * 60;
-  const pool = poolAktiv();
+  const pool = poolAktiv().filter(u => geraetErlaubt(u, AUSWAHL.geraete));   // Gerätefilter gilt auch für Auf-/Abwärmen
   const nachKat = k => pool.filter(u => hatKat(u, k));
   const kats = AUSWAHL.kats.size ? [...AUSWAHL.kats] : HAUPT.map(k => k.id);
   const haupt = kats.map(nachKat).filter(g => g.length);
@@ -851,7 +890,9 @@ function erstellePlan(){
   if(awB) bloecke.push({titel:'Aufwärmen', items:fuelle([aw], awB)});
   bloecke.push({titel:'Training', items:fuelle(haupt, gesamt - awB - abB)});
   if(abB) bloecke.push({titel:'Abwärmen', items:fuelle([ab], abB)});
-  return {art:'zufall', bloecke, kats: AUSWAHL.kats.size ? [...AUSWAHL.kats] : ['Mischung'], zeit: AUSWAHL.zeit, pause: S.pause};
+  const geraete = GERAETE.map(g => g.id).filter(g => AUSWAHL.geraete.has(g));
+  if(AUSWAHL.geraete.has('ohne')) geraete.unshift('ohne');
+  return {art:'zufall', bloecke, kats: AUSWAHL.kats.size ? [...AUSWAHL.kats] : ['Mischung'], geraete, zeit: AUSWAHL.zeit, pause: S.pause};
 }
 function planAusGespeichert(p){
   const items = (p.items || []).map(it => { const ex = exById(it.id); return ex ? eintrag(ex, it) : null; }).filter(Boolean);
@@ -873,7 +914,7 @@ function renderPlan(){
     liste = PLAN.bloecke.filter(b => b.items.length).map(b => `<div class="card"><h3>${b.titel === 'Aufwärmen' ? '☀️ ' : b.titel === 'Abwärmen' ? '🌙 ' : '💪 '}${b.titel}</h3>${b.items.map(e => zeile(e, ++nr)).join('')}</div>`).join('');
   }
   el.innerHTML = `
-    <div class="kopf"><button class="icon-btn" id="p-zur">${I.zurueck}</button><div style="flex:1"><h1>${PLAN.art === 'plan' ? esc(PLAN.name) : 'Dein Training'}</h1><div class="sub">${PLAN.art === 'plan' ? 'Fester Plan' : esc(PLAN.kats.join(' · '))}</div></div></div>
+    <div class="kopf"><button class="icon-btn" id="p-zur">${I.zurueck}</button><div style="flex:1"><h1>${PLAN.art === 'plan' ? esc(PLAN.name) : 'Dein Training'}</h1><div class="sub">${PLAN.art === 'plan' ? 'Fester Plan' : esc(PLAN.kats.join(' · ')) + ((PLAN.geraete || []).length ? ' · ' + PLAN.geraete.map(g => geraet(g).emoji + ' ' + geraetName(g)).join(', ') : '')}</div></div></div>
     <div class="plan-sum">
       <div><b>${Math.max(1, Math.round(info.sek/60))}</b><span>Minuten ca.</span></div>
       <div><b>${PLAN.art === 'plan' ? PLAN.items.length + (PLAN.runden > 1 ? '×' + PLAN.runden : '') : info.n}</b><span>Übungen</span></div>
@@ -888,7 +929,7 @@ function renderPlan(){
     </div>`;
   el.querySelector('#p-zur').onclick = zurueck;
   el.querySelector('#p-los').onclick = starteTraining;
-  const neu = el.querySelector('#p-neu'); if(neu) neu.onclick = () => { PLAN = erstellePlan(); renderPlan(); };
+  const neu = el.querySelector('#p-neu'); if(neu) neu.onclick = () => { const p = erstellePlan(); if(!p){ toast('Keine Übungen für diese Auswahl'); return; } PLAN = p; renderPlan(); };
   const save = el.querySelector('#p-save'); if(save) save.onclick = async () => {
     const name = await eingabe('Als Plan speichern', 'Wie soll der Plan heißen?', `Mix ${new Date().toLocaleDateString('de-DE')}`);
     if(!name) return;
@@ -1188,27 +1229,29 @@ function freiPauseStopp(still){
 }
 
 /* ---------- Übungen auswählen (frei / Plan) ---------- */
-let AUSW = null, AUSW_FILTER = 'Alle';
+let AUSW = null, AUSW_FILTER = 'Alle', AUSW_GERAET = 'Alle';
 function renderAuswahl(arg){
   if(arg && (!AUSW || AUSW.token !== arg.token)) AUSW = {zweck:arg.zweck, token:arg.token, gewaehlt:[], vorher:new Set(arg.vorauswahl || []), suche:''};
   if(!AUSW) return;
   const el = $('#s-auswahl');
   const plan = AUSW.zweck === 'plan';
   const q = AUSW.suche.toLowerCase();
-  const liste = poolAktiv().filter(u => (AUSW_FILTER === 'Alle' || hatKat(u, AUSW_FILTER)) && (!q || u.name.toLowerCase().includes(q)));
+  const liste = poolAktiv().filter(u => (AUSW_FILTER === 'Alle' || hatKat(u, AUSW_FILTER)) && geraetFilter(u, AUSW_GERAET) && (!q || u.name.toLowerCase().includes(q)));
   el.innerHTML = `
     <div class="kopf"><button class="icon-btn" id="a-zur">${I.zurueck}</button><div style="flex:1"><h1>Übungen wählen</h1><div class="sub">${AUSW.gewaehlt.length} ausgewählt${plan ? ' · in Tipp-Reihenfolge' : ''}</div></div></div>
     <input class="suche" id="a-suche" placeholder="Suchen …" value="${esc(AUSW.suche)}" autocomplete="off">
     <div class="filter">${['Alle', ...KATEGORIEN.map(k => k.id)].map(f => `<button class="chip ${AUSW_FILTER===f?'an':''}" data-f="${f}">${f==='Alle' ? 'Alle' : kat(f).emoji+' '+f}</button>`).join('')}</div>
+    <div class="filter">${geraetChips(AUSW_GERAET, 'data-g')}</div>
     <div class="ex-liste" id="a-liste">${liste.map(ex => {
       const i = AUSW.gewaehlt.indexOf(ex.id), dabei = AUSW.vorher.has(ex.id);
-      return `<button class="wahl-item ${i >= 0 ? 'an' : ''}" data-id="${esc(ex.id)}" ${dabei ? 'style="opacity:.5"' : ''}>${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex)} · ${esc(katText(ex))}${dabei ? ' · schon dabei' : ''}</span></div><span class="haken">${i >= 0 ? (plan ? i+1 : '✓') : ''}</span></button>`;
+      return `<button class="wahl-item ${i >= 0 ? 'an' : ''}" data-id="${esc(ex.id)}" ${dabei ? 'style="opacity:.5"' : ''}>${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex)} · ${esc(katText(ex))}${geraetEmojis(ex)}${dabei ? ' · schon dabei' : ''}</span></div><span class="haken">${i >= 0 ? (plan ? i+1 : '✓') : ''}</span></button>`;
     }).join('') || `<div class="leer-box"><span class="em">🔍</span>Keine Übungen gefunden</div>`}</div>
     <div class="unten-leiste"><button class="btn" id="a-ok" ${AUSW.gewaehlt.length ? '' : 'style="opacity:.5"'}>${AUSW.zweck === 'frei' ? `${I.play} Los geht's` : `${I.check} Hinzufügen`} (${AUSW.gewaehlt.length})</button></div>`;
   el.querySelector('#a-zur').onclick = zurueck;
   const s = el.querySelector('#a-suche');
   s.oninput = e => { AUSW.suche = e.target.value; const pos = e.target.selectionStart; renderAuswahl(); const n = $('#a-suche'); n.focus(); n.setSelectionRange(pos, pos); };
   el.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { AUSW_FILTER = b.dataset.f; renderAuswahl(); });
+  el.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { AUSW_GERAET = b.dataset.g; renderAuswahl(); });
   el.querySelectorAll('[data-id]').forEach(b => b.onclick = () => {
     const id = b.dataset.id, i = AUSW.gewaehlt.indexOf(id);
     i >= 0 ? AUSW.gewaehlt.splice(i, 1) : AUSW.gewaehlt.push(id);
@@ -1321,11 +1364,11 @@ function renderFertig(e){
 }
 
 /* ---------- Übungen ---------- */
-let FILTER = 'Alle';
+let FILTER = 'Alle', FILTER_GERAET = 'Alle';
 let FILTER_PROFIL = PROFIL;
 function renderUebungen(){
   const el = $('#s-uebungen');
-  const basis = FILTER_PROFIL === 'Alle' ? POOL : POOL.filter(u => u.profile.includes(FILTER_PROFIL));
+  const basis = (FILTER_PROFIL === 'Alle' ? POOL : POOL.filter(u => u.profile.includes(FILTER_PROFIL))).filter(u => geraetFilter(u, FILTER_GERAET));
   const mp = FILTER_PROFIL === 'Alle' ? PROFIL : FILTER_PROFIL;
   const kats = FILTER === 'Alle' ? KATEGORIEN : [kat(FILTER)];
   const gruppen = kats.map(k => ({k, list: basis.filter(u => FILTER === 'Alle' ? u.kategorien[0] === k.id : hatKat(u, k.id))}))
@@ -1337,16 +1380,18 @@ function renderUebungen(){
     ${LOKAL ? `<div class="hinweis"><span class="em">📦</span><div>${LOKAL} ${LOKAL===1?'Änderung ist':'Änderungen sind'} nur auf diesem Handy</div><button class="btn klein" id="u-exp">Export</button></div>` : ''}
     <div class="profil-wahl" style="margin-bottom:12px;width:max-content">${[...PROFILE.map(p => p.id), 'Alle'].map(p => `<button class="${FILTER_PROFIL===p?'an':''}" data-fp="${p}">${p === 'Alle' ? 'Alle' : profilInfo(p).emoji + ' ' + p}</button>`).join('')}</div>
     <div class="filter">${['Alle', ...KATEGORIEN.map(k => k.id)].map(f => `<button class="chip ${FILTER===f?'an':''}" data-f="${f}">${f==='Alle' ? 'Alle' : kat(f).emoji+' '+f}</button>`).join('')}</div>
+    <div class="filter">${geraetChips(FILTER_GERAET, 'data-g')}</div>
     ${gruppen.length ? gruppen.map(g => `
       <div class="grp-titel"><span class="punkt" style="background:${g.k.farbe}"></span>${g.k.id} <span class="muted">(${g.list.length})</span></div>
       <div class="ex-liste">${g.list.length ? g.list.map(ex => `
-        <button class="ex" data-id="${esc(ex.id)}">${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex, mp)}${ex.kategorien.length > 1 ? ' · ' + esc(katText(ex)) : ''}${ex.bilder && ex.bilder.length > 1 ? ` · ${ex.bilder.length} Bilder` : ''}</span>${ex.quelle==='lokal' ? `<span class="badge">${ex.neu?'Neu':'Geändert'}</span>` : ''}</div><span style="font-size:.85rem;flex:none">${profilTag(ex)}</span></button>`).join('')
+        <button class="ex" data-id="${esc(ex.id)}">${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex, mp)}${ex.kategorien.length > 1 ? ' · ' + esc(katText(ex)) : ''}${ex.bilder && ex.bilder.length > 1 ? ` · ${ex.bilder.length} Bilder` : ''}${geraetEmojis(ex)}</span></div><span style="font-size:.85rem;flex:none">${profilTag(ex)}</span></button>`).join('')
         : `<div class="leer-box"><span class="em">${g.k.emoji}</span>Noch keine Übungen in ${g.k.id}</div>`}</div>`).join('')
     : `<div class="leer-box"><span class="em">🌱</span>Noch keine Übungen. Tippe auf „Neu“.</div>`}`;
   el.querySelector('#u-neu').onclick = () => navigiere('edit', true, {neu:true});
   const ex = el.querySelector('#u-exp'); if(ex) ex.onclick = exportieren;
   el.querySelectorAll('[data-fp]').forEach(b => b.onclick = () => { FILTER_PROFIL = b.dataset.fp; renderUebungen(); });
   el.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { FILTER = b.dataset.f; renderUebungen(); });
+  el.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { FILTER_GERAET = b.dataset.g; renderUebungen(); });
   el.querySelectorAll('[data-id]').forEach(b => b.onclick = () => navigiere('edit', true, {id:b.dataset.id}));
 }
 
@@ -1356,8 +1401,8 @@ function renderEdit(arg){
   if(arg && (arg.id || arg.neu) && (!EDIT || EDIT.token !== arg.token)){
     const ex = arg.id ? exById(arg.id) : null;
     const werte = {}; PROFILE.forEach(p => werte[p.id] = ex ? Object.assign({}, ex.werte[p.id]) : {modus:'zeit', wert:null});
-    EDIT = ex ? {id:ex.id, name:ex.name, kategorien:[...ex.kategorien], profile:[...ex.profile], werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:[...(ex.bilder||[])], quelle:ex.quelle, neu:false, token:arg.token}
-              : {id:null, name:'', kategorien: FILTER !== 'Alle' ? [FILTER] : [], profile:[FILTER_PROFIL !== 'Alle' ? FILTER_PROFIL : PROFIL], werte, beschreibung:'', einseitig:false, bilder:[], neu:true, token:arg.token};
+    EDIT = ex ? {id:ex.id, name:ex.name, kategorien:[...ex.kategorien], geraete:[...ex.geraete], profile:[...ex.profile], werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:[...(ex.bilder||[])], quelle:ex.quelle, neu:false, token:arg.token}
+              : {id:null, name:'', kategorien: FILTER !== 'Alle' ? [FILTER] : [], geraete: FILTER_GERAET !== 'Alle' && FILTER_GERAET !== 'ohne' ? [FILTER_GERAET] : [], profile:[FILTER_PROFIL !== 'Alle' ? FILTER_PROFIL : PROFIL], werte, beschreibung:'', einseitig:false, bilder:[], neu:true, token:arg.token};
   }
   if(!EDIT) return;
   const el = $('#s-edit');
@@ -1366,6 +1411,8 @@ function renderEdit(arg){
     <div class="kopf"><button class="icon-btn" id="e-zur">${I.zurueck}</button><h1>${EDIT.neu ? 'Neue Übung' : 'Übung bearbeiten'}</h1></div>
     <div class="feld"><label>Name</label><input type="text" id="e-name" value="${esc(EDIT.name)}" placeholder="z. B. Kniebeugen" autocomplete="off"></div>
     <div class="feld"><label>Kategorien <span class="muted" style="font-weight:600">· eine oder mehrere</span></label><div class="kat-wahl">${KATEGORIEN.map(k => `<button class="kat ${EDIT.kategorien.includes(k.id)?'an':''}" style="--kf:${k.farbe}" data-k="${k.id}"><span class="em">${k.emoji}</span>${k.id}</button>`).join('')}</div></div>
+    <div class="feld"><label>Geräte <span class="muted" style="font-weight:600" id="e-geraete-hinweis">${EDIT.geraete.length ? '· eines oder mehrere' : '· keine Auswahl = Ohne Gerät 🤸'}</span></label>
+      <div class="chips">${GERAETE.map(g => `<button class="chip ${EDIT.geraete.includes(g.id)?'an':''}" data-ger="${g.id}">${g.emoji} ${g.id}</button>`).join('')}</div></div>
     <div class="feld"><label>Für wen?</label><div class="profil-schalter">${PROFILE.map(p => `<button class="${EDIT.profile.includes(p.id)?'an':''}" data-p="${p.id}">${p.emoji} ${p.id}</button>`).join('')}</div></div>
     <div class="feld"><label>Vorgabe pro Profil</label><div id="e-werte"></div></div>
     ${li ? `<div class="feld"><label>Deine Werte (${esc(PROFIL)})</label><div class="card" style="padding:14px;margin:0">
@@ -1386,6 +1433,12 @@ function renderEdit(arg){
     const k = b.dataset.k, i = EDIT.kategorien.indexOf(k);
     i >= 0 ? EDIT.kategorien.splice(i, 1) : EDIT.kategorien.push(k);
     b.classList.toggle('an', i < 0);
+  });
+  el.querySelectorAll('[data-ger]').forEach(b => b.onclick = () => {
+    const g = b.dataset.ger, i = EDIT.geraete.indexOf(g);
+    i >= 0 ? EDIT.geraete.splice(i, 1) : EDIT.geraete.push(g);
+    b.classList.toggle('an', i < 0);
+    el.querySelector('#e-geraete-hinweis').textContent = EDIT.geraete.length ? '· eines oder mehrere' : '· keine Auswahl = Ohne Gerät 🤸';
   });
   el.querySelectorAll('[data-p]').forEach(b => b.onclick = () => {
     const p = b.dataset.p, i = EDIT.profile.indexOf(p);
@@ -1452,6 +1505,7 @@ async function speichereEdit(){
   if(!EDIT.profile.length){ toast('Bitte mindestens ein Profil wählen'); return; }
   const reihe = k => KATEGORIEN.findIndex(x => x.id === k);
   const rec = {id: EDIT.id || neueId(), name:EDIT.name.trim(), kategorien:[...EDIT.kategorien].sort((a, b) => reihe(a) - reihe(b)),
+               geraete:GERAETE.map(g => g.id).filter(g => EDIT.geraete.includes(g)),
                profile:PROFILE.map(p => p.id).filter(p => EDIT.profile.includes(p)), werte:EDIT.werte, beschreibung:EDIT.beschreibung.trim(),
                einseitig:!!EDIT.einseitig, bilder:EDIT.bilder, geaendert:Date.now()};
   await DB.put(rec); await bauePool();
@@ -1504,7 +1558,7 @@ async function exportieren(){
         files.push({name:pfad, data:new Uint8Array(await blob.arrayBuffer())}); pfade.push(pfad);
       }catch(err){ console.warn('Bild fehlt', b, err); }
     }
-    liste.push({id:ex.id, name:ex.name, kategorien:ex.kategorien, profile:ex.profile, werte:ex.werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:pfade, geaendert:ex.geaendert||0});
+    liste.push({id:ex.id, name:ex.name, kategorien:ex.kategorien, geraete:ex.geraete, profile:ex.profile, werte:ex.werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:pfade, geaendert:ex.geaendert||0});
   }
   const plaene = PLAENE.map(p => ({id:p.id, name:p.name, profil:p.profil, runden:p.runden, pause:p.pause, items:p.items, geaendert:p.geaendert||0}));
   const json = {app:'FlivFit', stand:new Date().toISOString(), uebungen:liste, plaene};

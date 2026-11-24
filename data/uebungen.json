@@ -8,6 +8,7 @@
       "kategorien": [
         "Bauch"
       ],
+      "geraete": [],
       "profile": [
         "Fliv",
         "Flivi"
@@ -24,6 +25,7 @@
       "kategorien": [
         "Arme"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -38,6 +40,9 @@
       "name": "Liegestütz auf Griffen",
       "kategorien": [
         "Arme"
+      ],
+      "geraete": [
+        "Liegestützgriffe"
       ],
       "profile": [
         "Flivi"
@@ -55,6 +60,9 @@
         "Schulter",
         "Rücken"
       ],
+      "geraete": [
+        "Klimmzugstange"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -70,6 +78,7 @@
       "kategorien": [
         "Bauch"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -85,6 +94,7 @@
       "kategorien": [
         "Bauch"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -100,6 +110,7 @@
       "kategorien": [
         "Bauch"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -114,6 +125,9 @@
       "name": "Kettlebell Swing",
       "kategorien": [
         "Ganzkörper"
+      ],
+      "geraete": [
+        "Kettlebell"
       ],
       "profile": [
         "Flivi"
@@ -130,6 +144,9 @@
       "kategorien": [
         "Ganzkörper"
       ],
+      "geraete": [
+        "Kettlebell"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -145,6 +162,7 @@
       "kategorien": [
         "Schulter"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -159,6 +177,9 @@
       "name": "Reverse Fly",
       "kategorien": [
         "Schulter"
+      ],
+      "geraete": [
+        "Hantel"
       ],
       "profile": [
         "Flivi"
@@ -175,6 +196,7 @@
       "kategorien": [
         "Rücken"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -190,6 +212,7 @@
       "kategorien": [
         "Bauch"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -206,6 +229,7 @@
         "Beine",
         "Po"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -221,6 +245,9 @@
       "kategorien": [
         "Beine",
         "Po"
+      ],
+      "geraete": [
+        "Hantel"
       ],
       "profile": [
         "Flivi"
@@ -238,6 +265,7 @@
         "Beine",
         "Po"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -253,6 +281,7 @@
       "kategorien": [
         "Bauch"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -267,6 +296,9 @@
       "name": "Schulter Seitheben",
       "kategorien": [
         "Schulter"
+      ],
+      "geraete": [
+        "Hantel"
       ],
       "profile": [
         "Flivi"
@@ -283,6 +315,7 @@
       "kategorien": [
         "Schulter"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -298,6 +331,9 @@
       "kategorien": [
         "Ganzkörper",
         "Po"
+      ],
+      "geraete": [
+        "Hantel"
       ],
       "profile": [
         "Flivi"
@@ -315,6 +351,9 @@
         "Schulter",
         "Arme"
       ],
+      "geraete": [
+        "Hantel"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -329,6 +368,9 @@
       "name": "Kettlebell ran hoch",
       "kategorien": [
         "Schulter"
+      ],
+      "geraete": [
+        "Kettlebell"
       ],
       "profile": [
         "Flivi"
@@ -346,6 +388,7 @@
         "Po",
         "Beine"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -362,6 +405,9 @@
         "Rücken",
         "Arme"
       ],
+      "geraete": [
+        "Hantel"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -376,6 +422,9 @@
       "name": "Hanging Leg Raise",
       "kategorien": [
         "Bauch"
+      ],
+      "geraete": [
+        "Klimmzugstange"
       ],
       "profile": [
         "Flivi"
@@ -392,6 +441,9 @@
         "Bauch",
         "Rücken"
       ],
+      "geraete": [
+        "Theraband"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -406,6 +458,7 @@
       "kategorien": [
         "Beine"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -420,6 +473,9 @@
       "kategorien": [
         "Arme"
       ],
+      "geraete": [
+        "Theraband"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -433,6 +489,9 @@
       "name": "Band Schwert",
       "kategorien": [
         "Schulter"
+      ],
+      "geraete": [
+        "Theraband"
       ],
       "profile": [
         "Flivi"
@@ -449,6 +508,7 @@
         "Schulter",
         "Rücken"
       ],
+      "geraete": [],
       "profile": [
         "Flivi"
       ],
@@ -462,6 +522,9 @@
       "name": "Ringe Beine ranziehen",
       "kategorien": [
         "Bauch"
+      ],
+      "geraete": [
+        "Ringe"
       ],
       "profile": [
         "Flivi"
@@ -478,6 +541,9 @@
         "Bauch",
         "Schulter"
       ],
+      "geraete": [
+        "Ringe"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -491,6 +557,9 @@
       "name": "Liegestütz Ringe",
       "kategorien": [
         "Arme"
+      ],
+      "geraete": [
+        "Ringe"
       ],
       "profile": [
         "Flivi"
@@ -507,6 +576,9 @@
         "Rücken",
         "Schulter"
       ],
+      "geraete": [
+        "Theraband"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -522,6 +594,9 @@
         "Schulter",
         "Rücken"
       ],
+      "geraete": [
+        "Hantel"
+      ],
       "profile": [
         "Flivi"
       ],
@@ -529,6 +604,408 @@
       "einseitig": false,
       "bilder": [],
       "geaendert": 1795545946095
+    },
+    {
+      "id": "kb-kneeling-cross-chop",
+      "name": "Kneeling Cross Chop",
+      "kategorien": [
+        "Bauch",
+        "Schulter"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Im Halbkniestand die Kettlebell mit beiden Händen seitlich neben der Hüfte halten. Diagonal nach oben über die gegenüberliegende Schulter ziehen und dabei den Oberkörper mitdrehen, kontrolliert zurück. Die Hüfte bleibt stabil.",
+      "einseitig": true,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-kneeling-around-the-world",
+      "name": "Kneeling Around the World",
+      "kategorien": [
+        "Bauch",
+        "Schulter"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Aufrecht knien, Bauch fest. Die Kettlebell nah am Körper um den Kopf kreisen lassen, ohne ins Hohlkreuz zu gehen. Zwischendurch die Richtung wechseln.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-ellenbogen-zu-knie",
+      "name": "Ellenbogen zu Knie",
+      "kategorien": [
+        "Bauch"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Aufrecht stehen, Kettlebell vor der Brust. Abwechselnd ein Knie hochziehen und den Oberkörper mit der Kettlebell zum Knie drehen. Bauch dabei aktiv anspannen.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-side-bend",
+      "name": "Side Bend",
+      "kategorien": [
+        "Bauch"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Aufrecht stehen, Kettlebell seitlich in einer Hand. Den Oberkörper zur Seite der Kettlebell neigen und mit der seitlichen Bauchmuskulatur wieder aufrichten. Nicht nach vorne oder hinten kippen.",
+      "einseitig": true,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-stehend-rotation",
+      "name": "Stehend Rotation",
+      "kategorien": [
+        "Bauch"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Hüftbreit stehen, Kettlebell mit beiden Händen vor der Brust. Den Oberkörper kontrolliert nach links und rechts drehen, die Hüfte zeigt dabei nach vorne.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-curl-up-press",
+      "name": "Curl Up Press",
+      "kategorien": [
+        "Arme",
+        "Schulter"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Kettlebell mit beiden Händen vor den Oberschenkeln. Zur Brust hochbeugen (Curl) und anschließend über den Kopf drücken. Auf demselben Weg kontrolliert zurück.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-front-raise",
+      "name": "Front Raise",
+      "kategorien": [
+        "Schulter"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Kettlebell mit beiden Händen vor den Oberschenkeln. Mit fast gestreckten Armen bis auf Schulterhöhe heben und langsam wieder senken, ohne Schwung.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-up-lift",
+      "name": "Up Lift",
+      "kategorien": [
+        "Schulter",
+        "Arme"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Die Kettlebell steht vor dir. Mit beiden Händen greifen und nach oben vor die Brust ziehen, die Ellbogen führen nach außen oben. Langsam wieder absenken.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-curl-front-push",
+      "name": "Curl Front Push",
+      "kategorien": [
+        "Arme",
+        "Schulter"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Kettlebell zur Brust hochbeugen, dann gerade nach vorne wegdrücken, bis die Arme gestreckt sind. Zurück zur Brust holen und absenken.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "kb-leg-raise-ueber-bell",
+      "name": "Leg Raise über Bell",
+      "kategorien": [
+        "Bauch"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Auf den Rücken legen, die Kettlebell steht seitlich neben der Hüfte. Die Beine anheben und über die Kettlebell auf die andere Seite führen, ohne sie abzulegen. Unterer Rücken bleibt am Boden.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-open-and-serve",
+      "name": "Open and Serve",
+      "kategorien": [
+        "Schulter",
+        "Rücken"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Hanteln vor dem Körper, Ellbogen 90 Grad gebeugt auf Schulterhöhe. Die Arme nach außen öffnen, sodass die Unterarme nach oben zeigen, dann wieder nach vorne zusammenführen wie beim Servieren.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-liegestuetz-rudern",
+      "name": "Liegestütz Rudern",
+      "kategorien": [
+        "Arme",
+        "Rücken",
+        "Bauch"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Im hohen Stütz auf den Hanteln, Füße breit. Einen Liegestütz machen, dann abwechselnd eine Hantel zur Hüfte rudern. Die Hüfte bleibt ruhig und kippt nicht.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-rudern-und-zurueck",
+      "name": "Rudern und zurück",
+      "kategorien": [
+        "Rücken",
+        "Arme"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Mit geradem Rücken vorbeugen. Die Hanteln zur Hüfte rudern, dann die Arme nach hinten strecken und wieder zurückführen. Langsam absenken.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-trizeps-lift-zum-knie",
+      "name": "Trizeps Lift zum Knie",
+      "kategorien": [
+        "Arme",
+        "Bauch"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Die Hantel mit gestreckten Armen über den Kopf halten. Hinter den Kopf absenken, wieder hochstrecken und dann nach vorne unten zu einem angezogenen Knie führen. Die Knie wechseln sich ab.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-front-archer",
+      "name": "Front Archer",
+      "kategorien": [
+        "Schulter",
+        "Rücken"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Zwei Hanteln mit langen Armen nach vorne ausstrecken. Im Wechsel eine Hantel wie beim Bogenschießen zurückziehen und wieder nach vorne führen. Der Oberkörper bleibt ruhig.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-ausfallschritt-rotation",
+      "name": "Ausfallschritt Rotation",
+      "kategorien": [
+        "Beine",
+        "Bauch"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Hantel vor der Brust halten, einen großen Schritt nach vorne. Unten den Oberkörper zum vorderen Bein drehen, zurück zur Mitte und hochdrücken. Die Beine wechseln sich ab.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "h-ausfallschritt-schwert",
+      "name": "Ausfallschritt Schwert ziehen",
+      "kategorien": [
+        "Beine",
+        "Schulter"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Im Ausfallschritt die Hantel an der gegenüberliegenden Hüfte halten. Beim Hochkommen die Hantel wie ein Schwert diagonal nach außen oben ziehen, beim Absenken zurück. Erst eine Seite, dann die andere.",
+      "einseitig": true,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "tigerstand-zu-plank",
+      "name": "Tigerstand zu Plank",
+      "kategorien": [
+        "Bauch",
+        "Ganzkörper"
+      ],
+      "geraete": [],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Im Vierfüßlerstand die Knie ein paar Zentimeter vom Boden abheben (Tigerstand). Die Beine nach hinten in den hohen Stütz strecken und wieder zurück in den Tigerstand.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "slow-mountain-climber",
+      "name": "Slow Mountain Climber",
+      "kategorien": [
+        "Bauch"
+      ],
+      "geraete": [],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Im hohen Stütz langsam ein Knie zur Brust ziehen, kurz halten und zurückstellen, dann die andere Seite. Die Hüfte bleibt tief und ruhig.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "tigerstand-side-swing",
+      "name": "Tigerstand Side Swing",
+      "kategorien": [
+        "Bauch",
+        "Hüfte"
+      ],
+      "geraete": [],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Aus dem Tigerstand die Hüfte drehen und die Beine seitlich nach vorne durchschwingen, zurück in den Tigerstand, dann zur anderen Seite.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "plank-tap",
+      "name": "Plank Tap",
+      "kategorien": [
+        "Bauch"
+      ],
+      "geraete": [],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Im Unterarmstütz abwechselnd einen Fuß seitlich abtippen und zurück. Der Körper bleibt eine gerade Linie, die Hüfte ruhig.",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795556399071
+    },
+    {
+      "id": "hip-raise-faedeln",
+      "name": "Hip Raise fädeln",
+      "kategorien": [
+        "Po",
+        "Hüfte"
+      ],
+      "geraete": [],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "beschreibung": "Rückenlage, ein Fuß aufgestellt. Die Hüfte einbeinig anheben und dabei das freie Bein unter dem Standbein hindurchfädeln, dann zurück. Erst eine Seite, dann die andere.",
+      "einseitig": true,
+      "bilder": [],
+      "geaendert": 1795556399071
     }
   ],
   "plaene": []

@@ -1,6 +1,6 @@
 // FlivFit Service Worker
 // Bei jeder neuen Version die Versionsnummer hochzählen, damit Handys das Update laden.
-const VERSION = 'flivfit-1.2.0';
+const VERSION = 'flivfit-1.3.0';
 
 const SHELL = [
   './',

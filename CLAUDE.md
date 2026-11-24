@@ -26,21 +26,27 @@ Bei jeder Änderung beide Stellen anpassen, sonst laden die Handys das Update ni
 
 ## Daten & Speicher
 - **Übungen** (`data/uebungen.json` → `uebungen[]`):
-  `{id, name, kategorien[], profile[], werte:{Fliv:{modus:'zeit'|'wdh', wert}, Flivi:{…}}, beschreibung, einseitig, bilder[], geaendert}`
+  `{id, name, kategorien[], geraete[], profile[], werte:{Fliv:{modus:'zeit'|'wdh', wert}, Flivi:{…}}, beschreibung, einseitig, bilder[], geaendert}`
   - `wert: null` bei Zeit = Standarddauer aus den Einstellungen.
   - Ältere Felder (`kategorie`, `dauer`) werden in `norm()` automatisch umgewandelt.
+  - `geraete`: Liste aus `GERAETE` (Hantel, Kettlebell, Theraband, Ringe, Klimmzugstange, Liegestützgriffe); leeres Array = „Ohne Gerät“.
+    Fehlt das Feld (z. B. ältere lokale Kopien am Handy), setzt `norm()` den Standard aus `STD_GERAETE`, sonst `[]`.
 - **Pläne** (`plaene[]`): `{id, name, profil, runden, pause, items:[{id, modus?, wert?}], geaendert}`.
 - **Lokale Änderungen** am Handy: Übungen in IndexedDB (`flivfit` / `uebungen`, Bilder als Blob), Pläne in `localStorage` `flivfit.plaene.lokal`.
   Beim Start wird zusammengeführt (`bauePool()`): Wer das neuere `geaendert` hat, gewinnt. Ist der GitHub-Stand neuer oder gleich, wird die lokale Kopie gelöscht.
   → **Beim Ändern bestehender Übungen in `uebungen.json` das `geaendert` nur dann erhöhen, wenn die Änderung lokale Bearbeitungen am Handy überschreiben soll.** Neue Übungen bekommen den aktuellen Zeitstempel (ms).
-- **Pro Profil in `localStorage`**: `flivfit.einstellungen.<Profil>`, `flivfit.verlauf.<Profil>`, `flivfit.leistung.<Profil>` (eingetragene Wdh./Sekunden), `flivfit.frei.<Profil>` (laufendes freies Training). Aktives Profil: `flivfit.profil`.
+- **Pro Profil in `localStorage`**: `flivfit.einstellungen.<Profil>` (u. a. `letzteZeit`, `letzteKats`, `letzteGeraete`), `flivfit.verlauf.<Profil>`, `flivfit.leistung.<Profil>` (eingetragene Wdh./Sekunden), `flivfit.frei.<Profil>` (laufendes freies Training). Aktives Profil: `flivfit.profil`.
 - Export (`exportieren()`) erzeugt eine ZIP mit `data/uebungen.json` + `data/bilder/`, die Tobi ins Repo hochlädt.
 
 ## Kategorien
-Arme, Beine, Bauch, Rücken, Po, Schulter, Ganzkörper (Haupt) sowie Aufwärmen und Abwärmen (werden im Zufallstraining automatisch an Anfang/Ende gesetzt). Eine Übung kann mehrere Kategorien haben.
+Arme, Beine, Bauch, Rücken, Po, Schulter, Hüfte, Beckenboden, Ganzkörper (9 Haupt, Startseite als 3 × 3-Grid) sowie Aufwärmen und Abwärmen (werden im Zufallstraining automatisch an Anfang/Ende gesetzt). Eine Übung kann mehrere Kategorien haben.
 
 ## Trainingsarten
-- **Zufall**: Zeit + Kategorien wählen → `erstellePlan()` füllt die Zeit reihum aus den Kategorien (Wiederholungen erlaubt, nie zweimal direkt hintereinander). Wdh.-Übungen werden mit 3 s pro Wiederholung geschätzt.
+- **Zufall**: Zeit + Kategorien + Geräte („Womit?“) wählen → `erstellePlan()` füllt die Zeit reihum aus den Kategorien (Wiederholungen erlaubt, nie zweimal direkt hintereinander). Wdh.-Übungen werden mit 3 s pro Wiederholung geschätzt.
+
+## Gerätefilter
+- **Zufall „Womit?“** (Mehrfachauswahl, `geraetErlaubt()`): keine Auswahl = alle Übungen. Sonst ist eine Übung erlaubt, wenn mindestens eines ihrer Geräte gewählt ist; Übungen ohne Gerät nur, wenn „Ohne Gerät“ (`'ohne'`) gewählt ist. Gilt auch für Auf-/Abwärmen (bleibt nichts übrig, fällt der Block weg). Kein Treffer → Toast „Keine Übungen für diese Auswahl“.
+- **Übungsliste und Übungsauswahl** (Einfachauswahl, `geraetFilter()`): „Alle“, „Ohne Gerät“ oder ein Gerät.
 - **Plan**: fester Zirkel mit Runden und eigener Pause, optional eigene Werte pro Übung.
 - **Frei**: ohne Timer, Wiederholungen/Sekunden pro Durchgang eintragen, Pausen-Uhr.
 - Timer-Ablauf in `bauePhasen()` (Phasen: bereit, uebung, wechsel, pause). Countdown-Töne in den letzten 5 s (`countdownTon`), Wdh.-Phasen ohne Countdown mit „Fertig – eintragen“.
