@@ -8,6 +8,7 @@ Gehostet über **GitHub Pages** (Branch `main`, Ordner `/`). Kein Build-Schritt,
 - Nur das umsetzen, was im Auftrag steht. Bei Unklarheiten nachfragen statt raten.
 - Sprache der App und der Code-Kommentare: Deutsch.
 - Nach jeder Änderung: Versionsnummer erhöhen (siehe unten) und kurz zusammenfassen, was sich geändert hat.
+- Fertige und getestete Änderungen immer direkt in `main` mergen und pushen (dann sind sie über GitHub Pages live).
 
 ## Dateien
 | Datei | Inhalt |
