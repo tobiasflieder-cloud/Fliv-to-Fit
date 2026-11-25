@@ -1,6 +1,6 @@
 // FlivFit Service Worker
 // Bei jeder neuen Version die Versionsnummer hochzählen, damit Handys das Update laden.
-const VERSION = 'flivfit-1.3.1';
+const VERSION = 'flivfit-1.4.0';
 
 const SHELL = [
   './',
@@ -49,6 +49,24 @@ self.addEventListener('fetch', (e) => {
           return res;
         })
         .catch(() => caches.match(req, { ignoreSearch: true }).then((r) => r || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Videos: Der Browser fragt sie in Teilen an (Range). Immer die ganze Datei laden und cachen,
+  // damit sie auch offline laufen.
+  if (/\.(mp4|webm|mov|m4v)$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(url.href, { ignoreVary: true }).then((r) =>
+        r ||
+        fetch(url.href).then((res) => {
+          if (res.status === 200) {
+            const kopie = res.clone();
+            caches.open(VERSION).then((c) => c.put(url.href, kopie));
+          }
+          return res;
+        })
+      )
     );
     return;
   }

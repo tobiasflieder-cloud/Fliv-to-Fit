@@ -124,7 +124,12 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 .toggle.an::after{left:23px}
 .bilder{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .bild{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;background:#eee}
-.bild img{width:100%;height:100%;object-fit:cover;display:block}
+.bild img,.bild video{width:100%;height:100%;object-fit:cover;display:block}
+.bild .vid{position:absolute;right:6px;top:6px;background:rgba(255,255,255,.9);border-radius:999px;font-size:.72rem;font-weight:800;padding:2px 7px}
+.bild .kaputt{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:8px;background:#FDF0D6;font-size:.72rem;font-weight:800;color:#8A6A1E}
+.bild.fehler .kaputt{display:grid}
+.thumb-wrap{position:relative;flex:none;display:block}
+.thumb-wrap .play{position:absolute;right:3px;bottom:3px;font-size:.6rem;background:rgba(255,255,255,.9);border-radius:999px;padding:1px 5px;line-height:1.4}
 .bild .nr{position:absolute;left:6px;top:6px;background:rgba(255,255,255,.9);border-radius:999px;font-size:.72rem;font-weight:800;padding:2px 7px}
 .bild .akt{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:4px}
 .bild .akt button{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);font-weight:800;font-size:.85rem;display:grid;place-items:center}
@@ -169,8 +174,8 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 .tr-prog div{height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .3s linear}
 .tr-label{align-self:center;padding:6px 16px;border-radius:999px;font-weight:800;font-size:.9rem;background:rgba(255,255,255,.85);margin-bottom:10px}
 .tr-bild{flex:1;min-height:120px;border-radius:26px;position:relative;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
-.tr-bild img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .5s;background:#fff}
-.tr-bild img.sicht{opacity:1}
+.tr-bild img,.tr-bild video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .5s;background:#fff}
+.tr-bild img.sicht,.tr-bild video.sicht{opacity:1}
 .tr-bild .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:5rem}
 .tr-bild .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}
 .tr-bild .dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,59,54,.25)}
@@ -368,11 +373,11 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 <div class="modal" id="modal"></div>
 <div class="pause-sheet" id="pause-sheet"></div>
 <div class="toast" id="toast"></div>
-<input type="file" id="datei" accept="image/*" multiple hidden>
+<input type="file" id="datei" accept="image/*,video/*" multiple hidden>
 
 <script>
 'use strict';
-const APP_VERSION = '1.3.1';
+const APP_VERSION = '1.4.0';
 const $ = s => document.querySelector(s);
 
 /* ---------- Icons ---------- */
@@ -573,6 +578,10 @@ const eintrag = (ex, ov) => Object.assign({ex}, wertVon(ex, PROFIL, ov));
 const fmtSek = s => s >= 60 ? (s % 60 ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} min` : `${s/60} min`) : `${s} s`;
 const exMeta = (ex, p = PROFIL) => { const w = wertVon(ex, p); return ex.einseitig ? `2 × ${wertText(w)} · einseitig` : wertText(w); };
 const katText = ex => ex.kategorien.join(' + ');
+const medienText = ex => {
+  const m = ex.bilder || [], v = m.filter(istVideo).length, f = m.length - v;
+  return (f > 1 ? ` · ${f} Bilder` : '') + (v ? ` · 🎬${v > 1 ? ' ' + v : ''}` : '');
+};
 const geraetEmojis = ex => ex.geraete.length ? ' · ' + ex.geraete.map(g => geraet(g).emoji).join(' ') : '';
 
 /* Leistungen (geschaffte Wiederholungen / Sekunden) */
@@ -598,10 +607,22 @@ function bildUrl(b){
   if(!u){ u = URL.createObjectURL(b); urlCache.set(b, u); }
   return u;
 }
+// Medien einer Übung (Feld bilder[]): Fotos und Videos gemischt, als Blob (lokal) oder Pfad (GitHub)
+const VIDEO_MAX_MB = 20;
+const istVideo = b => typeof b === 'string' ? /\.(mp4|webm|mov|m4v)$/i.test(b) : !!(b && b.type && b.type.startsWith('video/'));
+function videoEndung(b){
+  if(typeof b === 'string') return (b.match(/\.(\w+)$/) || [, 'mp4'])[1].toLowerCase();
+  return b.type.includes('webm') ? 'webm' : b.type.includes('quicktime') ? 'mov' : 'mp4';
+}
+// Video-Tag; '#t=0.1' zeigt am Handy direkt ein Standbild statt einer schwarzen Fläche
+const videoTag = (b, attr='') => `<video src="${esc(bildUrl(b))}#t=0.1" muted playsinline preload="metadata" ${attr}></video>`;
 function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function thumb(ex, extra=''){
   const k = kat(ex.kategorien[0]);
-  if(ex.bilder && ex.bilder.length) return `<img class="thumb ${extra}" src="${esc(bildUrl(ex.bilder[0]))}" alt="">`;
+  const m = ex.bilder || [];
+  const foto = m.find(b => !istVideo(b));
+  if(foto) return `<img class="thumb ${extra}" src="${esc(bildUrl(foto))}" alt="">`;
+  if(m.length) return `<span class="thumb-wrap">${videoTag(m[0], `class="thumb ${extra}"`)}<span class="play">▶</span></span>`;
   return `<div class="thumb ${extra}" style="background:${k.farbe}">${k.emoji}</div>`;
 }
 function neueId(p='u'){ return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
@@ -1051,7 +1072,7 @@ function detailText(logs){
   return [...g].map(([n, v]) => `${n} ${v.join('·')}`).join(', ');
 }
 function trainingFertig(abgebrochen){
-  clearInterval(T.interval); clearInterval(KARUSSELL);
+  clearInterval(T.interval); stoppeKarussell();
   wachLoslassen();
   const jetzt = Date.now();
   const sek = Math.round((jetzt - T.start - T.pausenSumme - (T.pausiert ? jetzt - T.pauseStart : 0))/1000);
@@ -1078,20 +1099,43 @@ function renderPhase(){
   const besch = $('#tr-besch'); besch.textContent = ex.beschreibung || ''; besch.classList.remove('offen');
   const bild = $('#tr-bild'), bilder = ex.bilder || [];
   const vorschau = (p.typ === 'pause' || p.typ === 'bereit') ? `<div class="naechste">Als Nächstes</div>` : '';
+  stoppeKarussell();
   bild.innerHTML = bilder.length
-    ? bilder.map((b, i) => `<img src="${esc(bildUrl(b))}" class="${i===0?'sicht':''}" alt="">`).join('') + (bilder.length > 1 ? `<div class="dots">${bilder.map((_, i) => `<i class="${i===0?'an':''}"></i>`).join('')}</div>` : '') + vorschau
+    ? bilder.map(b => istVideo(b) ? videoTag(b, bilder.length === 1 ? 'loop' : '') : `<img src="${esc(bildUrl(b))}" alt="">`).join('') + (bilder.length > 1 ? `<div class="dots">${bilder.map((_, i) => `<i class="${i===0?'an':''}"></i>`).join('')}</div>` : '') + vorschau
     : `<div class="ph" style="background:${k.farbe}">${k.emoji}</div>` + vorschau;
-  clearInterval(KARUSSELL); bild.dataset.idx = 0;
-  if(bilder.length > 1) KARUSSELL = setInterval(bildWeiter, 2500);
+  if(bilder.length) zeigeMedium(0);
   renderSteuerung();
   zeigeZeit((T.ende - Date.now())/1000, Math.ceil((T.ende - Date.now())/1000));
 }
-function bildWeiter(){
-  const bild = $('#tr-bild'), imgs = bild.querySelectorAll('img'); if(imgs.length < 2) return;
-  const n = ((+bild.dataset.idx || 0) + 1) % imgs.length; bild.dataset.idx = n;
-  imgs.forEach((im, i) => im.classList.toggle('sicht', i === n));
+// Fotos wechseln alle 2,5 s; ein Video läuft stumm bis zum Ende, dann kommt das nächste Medium.
+// Ist es das einzige Medium, läuft es in Schleife.
+function zeigeMedium(n){
+  const bild = $('#tr-bild'), el = [...bild.querySelectorAll('img,video')]; if(!el.length) return;
+  clearTimeout(KARUSSELL); KARUSSELL = null;
+  n = n % el.length; bild.dataset.idx = n;
+  el.forEach((m, i) => {
+    m.classList.toggle('sicht', i === n);
+    if(m.tagName === 'VIDEO' && i !== n){ m.pause(); m.onended = null; }
+  });
   bild.querySelectorAll('.dots i').forEach((d, i) => d.classList.toggle('an', i === n));
+  const m = el[n];
+  if(m.tagName === 'VIDEO'){
+    const kaputt = () => { m.remove(); if(bild.querySelector('img,video')) zeigeMedium(n); else bild.insertAdjacentHTML('afterbegin', medienPlatzhalter()); };
+    if(m.error){ kaputt(); return; }
+    m.onerror = kaputt;
+    if(el.length > 1) m.onended = () => zeigeMedium(n + 1);
+    try{ m.currentTime = 0; }catch(e){}
+    const p = m.play(); if(p) p.catch(() => {});
+  } else if(el.length > 1){
+    KARUSSELL = setTimeout(() => zeigeMedium(n + 1), 2500);
+  }
 }
+const bildWeiter = () => zeigeMedium((+$('#tr-bild').dataset.idx || 0) + 1);
+function stoppeKarussell(){
+  clearTimeout(KARUSSELL); KARUSSELL = null;
+  document.querySelectorAll('#tr-bild video').forEach(v => { v.onended = null; v.pause(); });
+}
+function medienPlatzhalter(){ const k = T ? kat(T.ph[T.i].ex.kategorien[0]) : kat(''); return `<div class="ph" style="background:${k.farbe}">${k.emoji}</div>`; }
 function renderSteuerung(){
   const sc = $('#s-training'), btn = $('#tr-pause');
   const wdh = T && T.ph[T.i].wdh;
@@ -1123,7 +1167,7 @@ function initTrainingSteuerung(){
   $('#tr-pause').onclick = pauseUmschalten;
   $('#tr-weiter-overlay').onclick = pauseUmschalten;
   $('#tr-ton').onclick = () => { S.toene = !S.toene; sSpeichern(); audioInit(); renderSteuerung(); toast(S.toene ? 'Töne an' : 'Töne aus'); };
-  $('#tr-bild').onclick = () => { bildWeiter(); clearInterval(KARUSSELL); if(T && (T.ph[T.i].ex.bilder||[]).length > 1) KARUSSELL = setInterval(bildWeiter, 2500); };
+  $('#tr-bild').onclick = () => { if(T && (T.ph[T.i].ex.bilder||[]).length > 1) bildWeiter(); };
   $('#tr-besch').onclick = e => e.currentTarget.classList.toggle('offen');
 }
 
@@ -1384,7 +1428,7 @@ function renderUebungen(){
     ${gruppen.length ? gruppen.map(g => `
       <div class="grp-titel"><span class="punkt" style="background:${g.k.farbe}"></span>${g.k.id} <span class="muted">(${g.list.length})</span></div>
       <div class="ex-liste">${g.list.length ? g.list.map(ex => `
-        <button class="ex" data-id="${esc(ex.id)}">${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex, mp)}${ex.kategorien.length > 1 ? ' · ' + esc(katText(ex)) : ''}${ex.bilder && ex.bilder.length > 1 ? ` · ${ex.bilder.length} Bilder` : ''}${geraetEmojis(ex)}</span></div><span style="font-size:.85rem;flex:none">${profilTag(ex)}</span></button>`).join('')
+        <button class="ex" data-id="${esc(ex.id)}">${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex, mp)}${ex.kategorien.length > 1 ? ' · ' + esc(katText(ex)) : ''}${medienText(ex)}${geraetEmojis(ex)}</span></div><span style="font-size:.85rem;flex:none">${profilTag(ex)}</span></button>`).join('')
         : `<div class="leer-box"><span class="em">${g.k.emoji}</span>Noch keine Übungen in ${g.k.id}</div>`}</div>`).join('')
     : `<div class="leer-box"><span class="em">🌱</span>Noch keine Übungen. Tippe auf „Neu“.</div>`}`;
   el.querySelector('#u-neu').onclick = () => navigiere('edit', true, {neu:true});
@@ -1420,7 +1464,7 @@ function renderEdit(arg){
       <span class="muted" style="font-weight:700">Bestwert: ${lText(li.letzte.m, li.best)}</span>
       <div class="leistung">${li.alle.slice(-10).reverse().map(x => `<i class="${x.w === li.best && x.m === li.letzte.m ? 'best' : ''}">${new Date(x.d).toLocaleDateString('de-DE',{day:'numeric',month:'numeric'})}: ${lText(x.m, x.w)}</i>`).join('')}</div>
     </div></div>` : ''}
-    <div class="feld"><label>Bilder</label><div class="bilder" id="e-bilder"></div></div>
+    <div class="feld"><label>Fotos & Videos <span class="muted" style="font-weight:600">· Videos bis ${VIDEO_MAX_MB} MB</span></label><div class="bilder" id="e-bilder"></div></div>
     <div class="feld"><label>Beschreibung</label><textarea id="e-besch" placeholder="Wie geht die Übung? Worauf achten?">${esc(EDIT.beschreibung)}</textarea></div>
     <div class="feld"><button class="schalter" id="e-seit"><div>Einseitige Übung<small>Läuft links und rechts direkt hintereinander</small></div><span class="toggle ${EDIT.einseitig?'an':''}"></span></button></div>
     <button class="btn" id="e-save" style="margin-top:8px">Speichern</button>
@@ -1474,9 +1518,10 @@ function renderWerte(){
 function renderBilder(){
   const box = $('#e-bilder');
   box.innerHTML = EDIT.bilder.map((b, i) => `
-    <div class="bild"><img src="${esc(bildUrl(b))}" alt=""><span class="nr">${i+1}</span>
+    <div class="bild">${istVideo(b) ? videoTag(b) + '<span class="vid">🎬</span><span class="kaputt">Video lässt sich hier nicht abspielen</span>' : `<img src="${esc(bildUrl(b))}" alt="">`}<span class="nr">${i+1}</span>
       <div class="akt"><button data-l="${i}" ${i===0?'style="visibility:hidden"':''}>◀</button><button data-x="${i}">✕</button><button data-r="${i}" ${i===EDIT.bilder.length-1?'style="visibility:hidden"':''}>▶</button></div></div>`).join('') +
-    `<button class="bild-neu" id="e-bild-neu">${I.kamera}Bild hinzufügen</button>`;
+    `<button class="bild-neu" id="e-bild-neu">${I.kamera}Foto/Video hinzufügen</button>`;
+  box.querySelectorAll('video').forEach(v => v.onerror = () => v.closest('.bild').classList.add('fehler'));
   box.querySelector('#e-bild-neu').onclick = () => { const f = $('#datei'); f.value = ''; f.click(); };
   box.querySelectorAll('[data-x]').forEach(b => b.onclick = () => { EDIT.bilder.splice(+b.dataset.x, 1); renderBilder(); });
   box.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { const i = +b.dataset.l; [EDIT.bilder[i-1], EDIT.bilder[i]] = [EDIT.bilder[i], EDIT.bilder[i-1]]; renderBilder(); });
@@ -1495,8 +1540,15 @@ async function verkleinere(file){
 }
 $('#datei').onchange = async e => {
   const files = [...e.target.files]; if(!files.length || !EDIT) return;
-  toast(files.length > 1 ? `${files.length} Bilder werden geladen …` : 'Bild wird geladen …');
-  for(const f of files){ try{ const b = await verkleinere(f); if(b) EDIT.bilder.push(b); }catch(err){ toast('Ein Bild konnte nicht geladen werden'); } }
+  toast(files.length > 1 ? `${files.length} Dateien werden geladen …` : 'Wird geladen …');
+  for(const f of files){
+    if(f.type.startsWith('video/')){
+      // Videos werden nicht verkleinert, nur auf die Größe geprüft (GitHub-Upload über die Website: max. 25 MB)
+      if(f.size > VIDEO_MAX_MB * 1024 * 1024){ toast(`Video zu groß (${Math.round(f.size/1048576)} MB, max. ${VIDEO_MAX_MB} MB) – bitte kürzer aufnehmen, ca. 10–15 s`); continue; }
+      EDIT.bilder.push(new Blob([f], {type:f.type})); continue;
+    }
+    try{ const b = await verkleinere(f); if(b) EDIT.bilder.push(b); }catch(err){ toast('Ein Bild konnte nicht geladen werden'); }
+  }
   renderBilder();
 };
 async function speichereEdit(){
@@ -1552,11 +1604,11 @@ async function exportieren(){
   for(const ex of POOL){
     const pfade = [];
     for(let i = 0; i < (ex.bilder || []).length; i++){
-      const b = ex.bilder[i], pfad = `data/bilder/${ex.id}-${i+1}.jpg`;
+      const b = ex.bilder[i], pfad = `data/bilder/${ex.id}-${i+1}.${istVideo(b) ? videoEndung(b) : 'jpg'}`;
       try{
         const blob = typeof b === 'string' ? await (await fetch(b)).blob() : b;
         files.push({name:pfad, data:new Uint8Array(await blob.arrayBuffer())}); pfade.push(pfad);
-      }catch(err){ console.warn('Bild fehlt', b, err); }
+      }catch(err){ console.warn('Datei fehlt', b, err); }
     }
     liste.push({id:ex.id, name:ex.name, kategorien:ex.kategorien, geraete:ex.geraete, profile:ex.profile, werte:ex.werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:pfade, geaendert:ex.geaendert||0});
   }
