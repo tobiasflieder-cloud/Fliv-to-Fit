@@ -33,9 +33,14 @@ Geplante Änderungen, die noch nicht umgesetzt sind. Erledigte Punkte werden hie
   - **Levelaufstieg** mit Erfahrungspunkten aus Trainings.
   - **Items** (z. B. Heiltränke, Stärkungen) und **Equipment** (Ausrüstung mit Werten).
   - Eine Reise durch die Welt, die mit jedem Training weitergeht.
-- Offene Fragen:
-  - Wie werden Übungen zu Angriffen? (z. B. Kategorie = Angriffsart, Wdh./Sekunden = Schaden, eingetragene Leistung zählt mit)
-  - Wie viel Spiel vs. schnelles Training? Eigener Modus neben Zufall/Plan/Frei?
-  - Grafik ohne Build-Schritt und Abhängigkeiten: SVG/CSS, Emoji oder eigene Illustrationen (wer zeichnet / woher kommen die Bilder)?
-  - Wie mit Verlauf und Leistungen verknüpfen? Was passiert bei Trainingspausen (keine Strafe, eher sanft)?
+- **Entschieden:**
+  - **Eigener Modus** neben Zufall, Plan und Frei (vierter Reiter auf der Startseite).
+  - **Auswahl am Anfang:** Vor dem Abenteuer wählt man (wie bei „Womit?“) die verfügbaren Geräte.
+    Die Angriffe/Übungen richten sich danach: Mit Hantel gewählt dürfen auch Hantel-Übungen kommen, sonst nicht
+    (gleiche Logik wie `geraetErlaubt()`).
+  - **Grafik:** Claude baut erst Platzhalter-Grafiken (SVG/CSS, im Stil der App). Später ggf. durch richtige Illustrationen ersetzen.
+  - **Sanft, kein Zwang:** keine Strafen bei Trainingspausen, kein Fortschrittsverlust. Man spielt einfach weiter, wenn man kann.
+- Noch offen:
+  - Wie genau werden Übungen zu Angriffen? (z. B. Kategorie = Angriffsart, Wdh./Sekunden = Schaden, eingetragene Leistung zählt mit)
+  - Wie lang ist ein Kampf / eine Spielrunde? (feste Zeit wie beim Zufallstraining oder bis der Gegner besiegt ist)
   - Umfang: in mehreren Versionen schrittweise bauen (erst Level/XP, dann Gegner, dann Items/Equipment, dann Welt)?
