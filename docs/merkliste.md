@@ -23,7 +23,19 @@ Geplante Änderungen, die noch nicht umgesetzt sind. Erledigte Punkte werden hie
 
 ## Idee (langfristig): Spielmodus mit Gamification
 - Noch kein Bauauftrag – erst im claude.ai-Chat durchdenken.
-- Inspiration: Abenteuer-Fitnessspiele wie Ring Fit Adventure – Training fühlt sich wie ein Spiel an. Eigenes Konzept, kein Nachbau.
-- Mögliche Bausteine zum Besprechen: Erfahrungspunkte und Level pro Profil, Wochen-Serien, Abzeichen/Erfolge,
-  eine kleine eigene Welt oder Reise, die mit jedem Training weitergeht, gemeinsame Ziele für Fliv & Flivi.
-- Offene Fragen: Wie viel Spiel vs. schnelles Training? Gemeinsam oder gegeneinander? Wie mit dem bestehenden Verlauf verknüpfen?
+- **Für jeden allein:** Fliv und Flivi spielen jeweils ihr eigenes Abenteuer (Fortschritt pro Profil, kein Gegeneinander).
+- **Welt:** hübsch, warm, von Ghibli *inspiriert* (Stimmung: Natur, sanfte Farben, gemütlich-magisch), aber eigene Welt, eigene Figuren, kein Nachbau.
+  Passt zum bestehenden Design (pastellig, rund).
+- **Spielprinzip** angelehnt an Abenteuer-Fitnessspiele wie Ring Fit Adventure (eigenes Konzept, kein Nachbau):
+  - Training = Kampf: Übungen sind Angriffe bzw. Verteidigung.
+  - Gegner und Bosse mit **Schwächen** (z. B. anfällig für bestimmte Kategorien wie Beine oder Bauch) und **Bedingungen**
+    (z. B. „nur Übungen ohne Gerät“, „Boss erst ab Level 5“, „in 10 Minuten besiegen“).
+  - **Levelaufstieg** mit Erfahrungspunkten aus Trainings.
+  - **Items** (z. B. Heiltränke, Stärkungen) und **Equipment** (Ausrüstung mit Werten).
+  - Eine Reise durch die Welt, die mit jedem Training weitergeht.
+- Offene Fragen:
+  - Wie werden Übungen zu Angriffen? (z. B. Kategorie = Angriffsart, Wdh./Sekunden = Schaden, eingetragene Leistung zählt mit)
+  - Wie viel Spiel vs. schnelles Training? Eigener Modus neben Zufall/Plan/Frei?
+  - Grafik ohne Build-Schritt und Abhängigkeiten: SVG/CSS, Emoji oder eigene Illustrationen (wer zeichnet / woher kommen die Bilder)?
+  - Wie mit Verlauf und Leistungen verknüpfen? Was passiert bei Trainingspausen (keine Strafe, eher sanft)?
+  - Umfang: in mehreren Versionen schrittweise bauen (erst Level/XP, dann Gegner, dann Items/Equipment, dann Welt)?
