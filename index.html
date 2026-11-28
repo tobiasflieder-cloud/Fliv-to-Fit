@@ -254,7 +254,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 .version{text-align:center;color:var(--muted);font-size:.8rem;font-weight:600;margin-top:10px}
 /* ===== v1.2 ===== */
 .modus-tabs{display:flex;background:#F1E5D9;border-radius:18px;padding:4px;gap:4px;margin-bottom:16px}
-.modus-tabs button{flex:1;padding:11px 4px;border-radius:14px;font-weight:800;font-size:.92rem;color:var(--muted)}
+.modus-tabs button{flex:1;padding:11px 2px;border-radius:14px;font-weight:800;font-size:.8rem;color:var(--muted);white-space:nowrap}
 .modus-tabs button.an{background:var(--card);color:var(--ink);box-shadow:0 2px 6px rgba(160,110,80,.18)}
 .plan-karte{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border-radius:18px;background:var(--card);box-shadow:var(--shadow);margin-bottom:10px}
 .plan-karte .em{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--peach),var(--butter));display:grid;place-items:center;font-size:1.4rem;flex:none}
@@ -326,6 +326,71 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 .leistung i.best{background:var(--butter)}
 #s-training .tr-pause-btn.fertig{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(227,137,106,.35);min-width:200px;padding:14px 18px;font-size:1.05rem}
 .eintrag .details{display:block;font-size:.78rem;color:var(--ink);opacity:.75;font-weight:600;margin-top:2px}
+/* ===== Abenteuer ===== */
+.wesen{display:block;width:100%;height:100%;overflow:visible}
+.wesen .koerper{animation:wipp 2.8s ease-in-out infinite;transform-origin:60px 108px}
+.wesen.strahlend .koerper{animation:huepf .9s ease-in-out infinite}
+@keyframes wipp{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg) translateY(-1px)}}
+@keyframes huepf{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.ab-figur{width:150px;height:150px;margin:0 auto 6px;position:relative}
+.silhouette .wesen .koerper *{fill:#E8DCD0 !important;stroke:#E8DCD0 !important}
+.silhouette .gesicht{display:none}
+.silhouette i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:2rem;color:#fff;padding-top:14%}
+.ab-karte{text-align:center}
+.ab-karte h2{font-size:1.3rem;margin-bottom:6px}
+.ab-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 2px}
+.ab-tag{padding:5px 11px;border-radius:999px;font-weight:800;font-size:.8rem}
+.ab-tag.mag{background:#E3EFDD;color:#4F7A49}
+.ab-tag.nein{background:#F1E6DC;color:var(--muted)}
+.link-btn{font-weight:800;font-size:.88rem;color:var(--accent-d);padding:10px 8px 0;text-decoration:underline;text-underline-offset:3px}
+.slot{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.slot:last-child{border-bottom:0}
+.slot .thumb{width:44px;height:44px;border-radius:12px;font-size:1.2rem}
+.slot.leer .thumb{border:2px dashed #E3CDBE;background:none}
+.slot.aus{opacity:.4}
+.slot .mitte{flex:1;min-width:0}
+.slot b{display:block;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot span{font-size:.8rem;color:var(--muted);font-weight:600}
+.sterne{color:#E3A33A !important;letter-spacing:1px}
+.stern-wahl{display:flex;gap:4px;align-items:center}
+.stern-wahl button{font-size:2rem;line-height:1;color:#E6D9CD;padding:2px}
+.stern-wahl button.an{color:#E3A33A}
+.wesen-liste{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;max-height:55vh;overflow-y:auto}
+.wesen-zeile{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:18px;background:#F8F0E7;border:2px solid transparent;text-align:left}
+.wesen-zeile.an{border-color:var(--accent);background:#FFF4EE}
+.wesen-zeile .ab-figur{width:56px;height:56px;margin:0;flex:none}
+.wesen-zeile b{display:block}
+.wesen-zeile span{font-size:.8rem;color:var(--muted);font-weight:600}
+.fb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fb{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:14px 10px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.fb .ab-figur{width:100px;height:100px}
+.fb b{font-size:.95rem}
+.fb span{font-size:.75rem;color:var(--muted);font-weight:700}
+.fb.fremd b{color:var(--muted)}
+/* Abenteuer im Trainings-Screen */
+.ab-kopf{display:none;align-items:center;gap:10px;margin:8px 0 2px}
+#s-training.abenteuer .ab-kopf{display:flex}
+#s-training.abenteuer .tr-prog{display:none}
+.ab-wesen{width:64px;height:64px;flex:none}
+.ab-balken{flex:1;min-width:0}
+.ab-zeile{display:flex;justify-content:space-between;align-items:baseline;font-size:.75rem;font-weight:800;color:var(--muted);gap:6px}
+.ab-zeile b{color:var(--ink)}
+.ab-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.85);overflow:hidden;margin:2px 0 6px}
+.ab-bar i{display:block;height:100%;width:0;border-radius:999px;transition:width .4s}
+.ab-bar.laune i{background:linear-gradient(90deg,#F6C65B,#F39A7C)}
+.ab-bar.energie i{background:var(--sage-d)}
+.ab-plus{color:var(--accent-d);font-weight:800;opacity:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ab-plus.hoch{animation:plusHoch 1s ease}
+@keyframes plusHoch{0%{opacity:0;transform:translateY(4px)}20%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
+.ab-text{display:none;text-align:center;font-weight:700;font-size:.85rem;margin:2px 6px 8px;min-height:1.2em}
+#s-training.abenteuer .ab-text{display:block}
+#s-training[data-phase=grummel]{background:linear-gradient(180deg,#E8DDF0,#FBF4EC 70%)}
+#s-training[data-phase=abwehr]{background:linear-gradient(180deg,#F8D6CC,#FBF4EC 70%)}
+#s-training[data-phase=puste]{background:linear-gradient(180deg,#DCEAD7,#FBF4EC 70%)}
+#s-training[data-phase=grummel] .ring .vg{stroke:#9B83C4}
+#s-training[data-phase=abwehr] .ring .vg{stroke:var(--accent-d)}
+#s-training[data-phase=puste] .ring .vg{stroke:var(--sage-d)}
+.sieg-figur{width:170px;height:170px;margin:0 auto}
 </style>
 </head>
 <body data-screen="home">
@@ -339,6 +404,11 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
     <button class="icon-btn" id="tr-ton" aria-label="Ton an/aus"></button>
   </div>
   <div class="tr-prog"><div id="tr-prog"></div></div>
+  <div class="ab-kopf"><div class="ab-wesen" id="ab-wesen"></div><div class="ab-balken">
+    <div class="ab-zeile"><span>😊 Laune</span><span class="ab-plus" id="ab-plus"></span><b id="ab-laune-zahl"></b></div><div class="ab-bar laune"><i id="ab-laune"></i></div>
+    <div class="ab-zeile"><span>⚡ Energie</span><b id="ab-energie-zahl"></b></div><div class="ab-bar energie"><i id="ab-energie"></i></div>
+  </div></div>
+  <div class="ab-text" id="ab-text"></div>
   <div class="tr-label" id="tr-label"></div>
   <div class="tr-bild" id="tr-bild"></div>
   <div class="tr-name" id="tr-name"></div>
@@ -365,6 +435,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 <section class="screen" id="s-auswahl"></section>
 <section class="screen" id="s-frei"></section>
 <section class="screen" id="s-planedit"></section>
+<section class="screen" id="s-freundebuch"></section>
 
 <nav class="nav">
   <button data-nav="home"></button>
@@ -379,7 +450,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 
 <script>
 'use strict';
-const APP_VERSION = '1.5.0';
+const APP_VERSION = '1.6.0';
 const $ = s => document.querySelector(s);
 
 /* ---------- Icons ---------- */
@@ -559,6 +630,7 @@ function norm(ex){
   }
   ex.werte = w;
   if(!Array.isArray(ex.geraete)) ex.geraete = (STD_GERAETE[ex.id] || []).slice();
+  if(![1, 2, 3].includes(ex.staerke)) ex.staerke = 2;   // Stärke im Abenteuer
   // Bilder/Videos vom GitHub-Stand mit ?v=<geaendert> laden: Wird eine Datei gleichen Namens ersetzt (Übung geändert),
   // ist die URL neu und das Handy lädt sie frisch statt aus dem Zwischenspeicher.
   if(Array.isArray(ex.bilder) && ex.geaendert) ex.bilder = ex.bilder.map(b => typeof b === 'string' && !b.includes('?') ? `${b}?v=${ex.geaendert}` : b);
@@ -784,6 +856,7 @@ function profilWechseln(id){
   AUSWAHL.zeit = S.letzteZeit; AUSWAHL.kats = new Set(S.letzteKats); AUSWAHL.geraete = new Set(S.letzteGeraete);
   FILTER_PROFIL = PROFIL;
   FREI = laden('frei.'+PROFIL, null);
+  abLaden();
   renderHome();
 }
 function planInfo(p){
@@ -821,6 +894,8 @@ function renderHome(){
       return `<button class="plan-karte" data-plan="${esc(p.id)}"><span class="em">📋</span><div><b>${esc(p.name)}</b><span>${P.items.length} Übungen · ${p.runden} ${p.runden===1?'Runde':'Runden'} · ca. ${Math.max(1, Math.round(info.sek/60))} Min</span></div><span class="pfeil">${I.zurueck}</span></button>`;
     }).join('') : `<div class="card"><p class="info-text" style="margin:0">Noch keine Pläne. Lege einen festen Zirkel an, mit Übungen in deiner Reihenfolge, Runden und eigener Pause. Oder speichere einen gelungenen Zufallsmix.</p></div>`}
     <button class="btn" id="h-neuplan" style="margin-top:6px">${I.plus} Neuer Plan</button>`;
+  } else if(modus === 'abenteuer'){
+    inhalt = abenteuerInhalt();
   } else {
     inhalt = `
     <div class="card"><h3>✍️ Freies Training</h3>
@@ -839,7 +914,7 @@ function renderHome(){
     <div class="woche-mini"><span class="em">${w.anzahl ? '🌱' : '☕'}</span>
       <div>${w.anzahl ? `Diese Woche: ${w.anzahl} ${w.anzahl===1?'Training':'Trainings'} · ${w.min} Min` : 'Diese Woche noch kein Training'}
       <small>${w.anzahl ? 'Schön dabei, weiter so!' : 'Perfekter Moment für ein paar Minuten.'}</small></div></div>
-    <div class="modus-tabs">${[['zufall','🎲 Zufall'],['plaene','📋 Pläne'],['frei','✍️ Frei']].map(([k, t]) => `<button class="${modus===k?'an':''}" data-modus="${k}">${t}</button>`).join('')}</div>
+    <div class="modus-tabs">${[['zufall','🎲 Zufall'],['plaene','📋 Pläne'],['frei','✍️ Frei'],['abenteuer','🌳 Abenteuer']].map(([k, t]) => `<button class="${modus===k?'an':''}" data-modus="${k}">${t}</button>`).join('')}</div>
     ${inhalt}`;
   el.querySelector('#h-einst').onclick = () => navigiere('einstellungen');
   el.querySelectorAll('[data-profil]').forEach(b => b.onclick = () => { profilWechseln(b.dataset.profil); toast(`Profil ${PROFIL} ${profilInfo(PROFIL).emoji}`); });
@@ -868,6 +943,8 @@ function renderHome(){
       PLAN = P; navigiere('plan');
     });
     el.querySelector('#h-neuplan').onclick = () => navigiere('planedit', true, {neu:true});
+  } else if(modus === 'abenteuer'){
+    abenteuerBinden(el);
   } else {
     el.querySelector('#h-frei').onclick = () => {
       if(FREI){ navigiere('frei'); return; }
@@ -968,7 +1045,8 @@ function renderPlan(){
 
 /* ---------- Timer-Training ---------- */
 let T = null, KARUSSELL = null;
-const PHASE_TEXT = {uebung:'💪 Übung', pause:'🍃 Pause', wechsel:'🔄 Seite wechseln', bereit:'✨ Gleich geht’s los'};
+const PHASE_TEXT = {uebung:'💪 Übung', pause:'🍃 Pause', wechsel:'🔄 Seite wechseln', bereit:'✨ Gleich geht’s los',
+                    grummel:'😤 Grummel-Angriff', abwehr:'🛡️ Abwehr – halten!', puste:'🍃 Puste-Pause'};
 const phaseEnde = (p, ab) => p.wdh ? Infinity : ab + p.dauer*1000;
 
 function bauePhasen(plan){
@@ -987,10 +1065,15 @@ function bauePhasen(plan){
   return {ph, anzahl:items.length};
 }
 function starteTraining(){
-  audioInit(); ton(1500, 0.08, 0, 0.5);
   const {ph, anzahl} = bauePhasen(PLAN);
-  T = {ph, anzahl, i:0, pausiert:false, start:Date.now(), pausenSumme:0, plan:PLAN, letzterBeep:null, logs:[],
-       gesamt: ph.reduce((s, p) => s + p.dauer, 0), vorher: 0};
+  starteTimer(ph, anzahl, PLAN, null);
+}
+// Gemeinsamer Start für Timer-Training und Abenteuer (ab = Abenteuer-Zustand oder null)
+function starteTimer(ph, anzahl, plan, ab){
+  audioInit(); ton(1500, 0.08, 0, 0.5);
+  T = {ph, anzahl, i:0, pausiert:false, start:Date.now(), pausenSumme:0, plan, letzterBeep:null, logs:[],
+       gesamt: Math.max(1, ph.reduce((s, p) => s + p.dauer, 0)), vorher: 0, ab};
+  $('#s-training').classList.toggle('abenteuer', !!ab);
   T.ende = phaseEnde(ph[0], Date.now());
   history.replaceState({s:'home'}, '');
   navigiere('training');
@@ -1002,6 +1085,7 @@ function tick(){
   if(!T || T.pausiert) return;
   const jetzt = Date.now();
   while(T && jetzt >= T.ende){ if(!naechstePhase(T.ende)) return; }
+  if(T.ab){ abenteuerTick(jetzt); if(!T) return; }
   if(T.ph[T.i].wdh) return;
   const rest = (T.ende - jetzt)/1000, sek = Math.ceil(rest);
   zeigeZeit(rest, sek);
@@ -1010,15 +1094,16 @@ function tick(){
     const z = $('#tr-zahl'); z.classList.remove('puls'); void z.offsetWidth; z.classList.add('puls');
   }
 }
-function naechstePhase(ab){
+function naechstePhase(ab, uebersprungen){
   T.vorher += T.ph[T.i].dauer;
+  if(T.ab && !abenteuerPhaseEnde(T.ph[T.i], uebersprungen)) return false;   // Abenteuer: Phasen anhängen, ggf. Sieg
   T.i++;
   if(T.i >= T.ph.length){ trainingFertig(false); return false; }
   const p = T.ph[T.i];
   T.ende = phaseEnde(p, ab); T.letzterBeep = null;
-  if(p.typ === 'uebung'){ ton(2300, 0.5); vib(350); }
-  else if(p.typ === 'pause'){ ton(1500, 0.2); ton(1100, 0.4, 0.22); vib([120, 80, 120]); }
-  else if(p.typ === 'wechsel'){ ton(1700, 0.15); ton(1700, 0.15, 0.2); vib(180); }
+  if(p.typ === 'uebung' || p.typ === 'abwehr'){ ton(2300, 0.5); vib(350); }
+  else if(p.typ === 'pause' || p.typ === 'puste'){ ton(1500, 0.2); ton(1100, 0.4, 0.22); vib([120, 80, 120]); }
+  else if(p.typ === 'wechsel' || p.typ === 'grummel'){ ton(1700, 0.15); ton(1700, 0.15, 0.2); vib(180); }
   renderPhase();
   return true;
 }
@@ -1026,7 +1111,7 @@ function springe(richtung){
   if(!T) return;
   const jetzt = Date.now();
   if(T.pausiert){ T.pausiert = false; T.pausenSumme += jetzt - T.pauseStart; }
-  if(richtung > 0){ naechstePhase(jetzt); }
+  if(richtung > 0){ naechstePhase(jetzt, true); }
   else {
     const p = T.ph[T.i];
     const vergangen = p.wdh ? 0 : p.dauer - (T.ende - jetzt)/1000;
@@ -1084,6 +1169,11 @@ function trainingFertig(abgebrochen){
   const erledigt = new Set(T.ph.slice(0, abgebrochen ? T.i : T.ph.length).filter(p => p.typ === 'uebung').map(p => p.nr)).size;
   const e = {datum:new Date().toISOString(), art:T.plan.art, titel: T.plan.art === 'plan' ? T.plan.name : null, dauer:sek, geplant:T.plan.zeit,
              kats:T.plan.kats, uebungen:erledigt, vollstaendig:!abgebrochen, details: detailText(T.logs) || undefined};
+  if(T.ab){   // Abenteuer: Angriffe statt Übungen, Wesen und Puste-Pausen merken
+    const ab = T.ab;
+    Object.assign(e, {titel:`🌳 Abenteuer: ${ab.wesen.name}`, kats:[...ab.kats], uebungen:ab.angriffe, wesen:ab.wesen.id, puste:ab.puste,
+                      sieg:!!ab.sieg, neuerFreund:!!ab.neuerFreund});
+  }
   if(!abgebrochen || sek >= 60){ VERLAUF.unshift(e); vSpeichern(); }
   T = null;
   if(abgebrochen){ history.replaceState({s:'home'}, ''); zeige('home'); toast(sek >= 60 ? 'Training gespeichert' : 'Training beendet'); return; }
@@ -1100,15 +1190,16 @@ function renderPhase(){
   $('#tr-label').textContent = p.wdh ? '💪 In deinem Tempo' : PHASE_TEXT[p.typ];
   $('#tr-name').textContent = ex.name;
   const ziel = p.typ !== 'uebung' && p.e && p.e.modus === 'wdh' ? `<span style="background:var(--peach);margin-left:4px">${p.e.wert} Wdh.</span>` : '';
-  $('#tr-seite').innerHTML = (p.seite ? `<span>${p.seite}</span>` : (ex.einseitig && p.typ !== 'uebung' ? '<span>Beginne links</span>' : '')) + ziel;
+  $('#tr-seite').innerHTML = (p.seite ? `<span>${p.seite}</span>` : (ex.einseitig && (p.typ === 'pause' || p.typ === 'bereit') ? '<span>Beginne links</span>' : '')) + ziel;
   const besch = $('#tr-besch'); besch.textContent = ex.beschreibung || ''; besch.classList.remove('offen');
   const bild = $('#tr-bild'), bilder = ex.bilder || [];
-  const vorschau = (p.typ === 'pause' || p.typ === 'bereit') ? `<div class="naechste">Als Nächstes</div>` : '';
+  const vorschau = (p.typ === 'pause' || p.typ === 'bereit' || p.typ === 'grummel') ? `<div class="naechste">Als Nächstes</div>` : '';
   stoppeKarussell();
   bild.innerHTML = bilder.length
     ? bilder.map(b => istVideo(b) ? videoTag(b, bilder.length === 1 ? 'loop' : '') : `<img src="${esc(bildUrl(b))}" alt="">`).join('') + (bilder.length > 1 ? `<div class="dots">${bilder.map((_, i) => `<i class="${i===0?'an':''}"></i>`).join('')}</div>` : '') + vorschau
     : `<div class="ph" style="background:${k.farbe}">${k.emoji}</div>` + vorschau;
   if(bilder.length) zeigeMedium(0);
+  if(T.ab) abenteuerRender(p);
   renderSteuerung();
   zeigeZeit((T.ende - Date.now())/1000, Math.ceil((T.ende - Date.now())/1000));
 }
@@ -1174,6 +1265,348 @@ function initTrainingSteuerung(){
   $('#tr-ton').onclick = () => { S.toene = !S.toene; sSpeichern(); audioInit(); renderSteuerung(); toast(S.toene ? 'Töne an' : 'Töne aus'); };
   $('#tr-bild').onclick = () => { if(T && (T.ph[T.i].ex.bilder||[]).length > 1) bildWeiter(); };
   $('#tr-besch').onclick = e => e.currentTarget.classList.toggle('offen');
+}
+
+/* ---------- Abenteuer (Teil 1: Kampf-Kern) ----------
+   Man heitert grummelige Wesen auf: Übungen sind Angriffe, die Kategorie ist die Angriffsart.
+   Der Kampf läuft über die Timer-Engine (T.ab ist gesetzt). Phasen werden fortlaufend angehängt (abenteuerPhaseEnde),
+   bis der Laune-Balken voll ist. Man kann nicht verlieren.
+   Erweiterungspunkte für später: Erfahrungspunkte/Level (in abenteuerSieg), Items/Equipment (Bonus in abBonus/launeProSek),
+   Weltkarte mit Etappen und Bossen (WESEN um Etappe/Bedingung ergänzen), echte Grafiken (wesenSvg). */
+const WESEN = [
+  {id:'pilz', name:'Grummelpilz', mitArtikel:'Der Grummelpilz', freund:'dein Freund', ziel:200, mag:['Beine'], nein:['Arme'], farbe:'#F7CDB6',
+   intro:'Der Grummelpilz hat schlechte Laune. Seit Tagen hat es nicht geregnet, und keiner bewundert seinen Hut.',
+   freude:'Hihi, das hat gutgetan! Mein Hut kribbelt vor Freude.'},
+  {id:'igel', name:'Mürrischer Igel', mitArtikel:'Der Mürrische Igel', freund:'dein Freund', ziel:240, mag:['Bauch'], nein:['Rücken'], farbe:'#F6E3A9',
+   intro:'Der Mürrische Igel hat sich zu einer stacheligen Kugel eingerollt und brummt vor sich hin.',
+   freude:'Oh! Meine Stacheln sind ganz weich geworden. Danke dir!'},
+  {id:'schnecke', name:'Nebelschnecke', mitArtikel:'Die Nebelschnecke', freund:'deine Freundin', ziel:260, mag:['Schulter'], nein:['Beine'], farbe:'#DCD0EC',
+   intro:'Die Nebelschnecke hat sich im Morgennebel verlaufen und ist sehr, sehr langsam schlecht gelaunt.',
+   freude:'Der Nebel ist weg! Ich sehe endlich wieder die Sonne.'},
+  {id:'kraehe', name:'Brummelkrähe', mitArtikel:'Die Brummelkrähe', freund:'deine Freundin', ziel:290, mag:['Rücken'], nein:['Bauch'], farbe:'#CBDFEC',
+   intro:'Die Brummelkrähe sitzt auf ihrem Ast und krächzt jeden an, der vorbeikommt.',
+   freude:'Kraah-haha! So gut gelaunt war ich seit Jahren nicht!'},
+  {id:'moosriese', name:'Moosriese', mitArtikel:'Der Moosriese', freund:'dein Freund', ziel:360, mag:['Po', 'Hüfte'], nein:['Schulter'], farbe:'#C5D8BF',
+   intro:'Der Moosriese ist uralt, sehr groß und sehr grummelig. Seit hundert Jahren hat er nicht gelacht.',
+   freude:'Ho ho ho! Das Moos auf meinem Rücken blüht wieder!'},
+];
+const wesenById = id => WESEN.find(w => w.id === id) || WESEN[0];
+const AB_SLOTS = 6, AB_ENERGIE = 100, AB_ABWEHR_S = 15, AB_GRUMMEL_S = 5, AB_PUSTE_S = 30;
+
+// Speicher pro Profil: {slots:[übungs-id], geraete:[], freunde:{<wesen-id>:{erstesMal, anzahl}}}
+let AB = null, AB_WAHL = null;   // AB_WAHL: per „Anderes Wesen wählen“ gewähltes Wesen (nur bis zum nächsten Sieg)
+function abLaden(){ AB = Object.assign({slots:[], geraete:[], freunde:{}}, laden('abenteuer.'+PROFIL, {})); AB_WAHL = null; }
+const abSpeichern = () => speichern('abenteuer.'+PROFIL, AB);
+abLaden();
+const naechstesWesen = () => WESEN.find(w => !AB.freunde[w.id]) || null;
+const aktuellesWesen = () => wesenById(AB_WAHL || (naechstesWesen() || WESEN[0]).id);
+
+// Bonus einer Übung gegen ein Wesen: ×2 bei Schwäche, ×0,5 wenn alle Kategorien unbeeindruckt, sonst ×1
+function abBonus(ex, w){
+  if(ex.kategorien.some(k => w.mag.includes(k))) return 2;
+  if(ex.kategorien.every(k => w.nein.includes(k))) return 0.5;
+  return 1;
+}
+const launeProSek = (ex, w) => (ex.staerke || 2) * abBonus(ex, w);
+const abErlaubt = ex => geraetErlaubt(ex, new Set(AB.geraete));
+const abSlotEx = () => AB.slots.map(exById).filter(ex => ex && ex.profile.includes(PROFIL));
+
+// Slots aufräumen; sind keine belegt: 6 Übungen aus möglichst verschiedenen Kategorien vorbelegen
+function abSlotsPruefen(){
+  const vorher = AB.slots.join();
+  AB.slots = abSlotEx().map(ex => ex.id).slice(0, AB_SLOTS);
+  if(!AB.slots.length){
+    const pool = poolAktiv(), gewaehlt = [];
+    const gruppen = HAUPT.map(k => mischen(pool.filter(u => hatKat(u, k.id)))
+      .sort((a, b) => abErlaubt(b) - abErlaubt(a))).filter(g => g.length);
+    for(let runde = 0; gewaehlt.length < AB_SLOTS && runde < 10; runde++){
+      for(const g of gruppen){
+        const ex = g.find(u => !gewaehlt.includes(u.id));
+        if(ex && gewaehlt.length < AB_SLOTS) gewaehlt.push(ex.id);
+      }
+    }
+    AB.slots = gewaehlt;
+  }
+  if(AB.slots.join() !== vorher) abSpeichern();
+}
+const sterne = n => '★'.repeat(n) + '☆'.repeat(3 - n);
+
+/* Platzhalter-Grafiken (SVG). Später durch Bilddateien ersetzbar: wesenSvg() liefert nur das Markup für eine Fläche.
+   stimmung: 'grummelig' | 'neutral' | 'froehlich' | 'strahlend' */
+const stimmungAus = (laune, ziel) => { const q = laune / ziel; return q >= 1 ? 'strahlend' : q > 0.66 ? 'froehlich' : q >= 0.33 ? 'neutral' : 'grummelig'; };
+function gesicht(x, y, s, stimmung, mund = true){
+  const st = 'stroke="#4A3B36" stroke-width="2.6" stroke-linecap="round" fill="none"';
+  let g = '';
+  if(stimmung === 'strahlend') g += `<path d="M-14 1 Q-10 -6 -6 1 M6 1 Q10 -6 14 1" ${st}/>`;
+  else g += `<circle cx="-10" cy="0" r="3.3" fill="#4A3B36"/><circle cx="10" cy="0" r="3.3" fill="#4A3B36"/><circle cx="-9" cy="-1.2" r="1" fill="#fff"/><circle cx="11" cy="-1.2" r="1" fill="#fff"/>`;
+  if(stimmung === 'grummelig') g += `<path d="M-16 -9 L-5 -5 M16 -9 L5 -5" ${st}/>`;
+  if(stimmung === 'froehlich' || stimmung === 'strahlend') g += `<circle cx="-17" cy="7" r="4.2" fill="#F39A9A" opacity=".45"/><circle cx="17" cy="7" r="4.2" fill="#F39A9A" opacity=".45"/>`;
+  if(mund){
+    if(stimmung === 'grummelig') g += `<path d="M-7 13 Q0 7 7 13" ${st}/>`;
+    else if(stimmung === 'neutral') g += `<path d="M-6 11 L6 11" ${st}/>`;
+    else if(stimmung === 'froehlich') g += `<path d="M-8 8 Q0 16 8 8" ${st}/>`;
+    else g += `<path d="M-9 7 Q0 21 9 7 Z" fill="#C9704F" stroke="#4A3B36" stroke-width="2.2" stroke-linejoin="round"/>`;
+  }
+  return `<g class="gesicht" transform="translate(${x} ${y}) scale(${s})">${g}</g>`;
+}
+function wesenSvg(id, stimmung = 'grummelig'){
+  const sch = '<ellipse cx="60" cy="111" rx="34" ry="5" fill="#4A3B36" opacity=".08"/>';
+  let k = '';
+  if(id === 'pilz'){
+    k = `<rect x="38" y="56" width="44" height="52" rx="18" fill="#FFF4E8"/>
+      <path d="M14 64 Q14 16 60 14 Q106 16 106 64 Q60 76 14 64 Z" fill="#EFA98A"/>
+      <circle cx="40" cy="38" r="7" fill="#FFF4E8"/><circle cx="66" cy="28" r="5" fill="#FFF4E8"/><circle cx="84" cy="48" r="6" fill="#FFF4E8"/>
+      ${gesicht(60, 84, .85, stimmung)}`;
+  } else if(id === 'igel'){
+    let st = '';
+    for(let i = 0; i <= 10; i++){
+      const a = Math.PI * (1.08 + 0.84 * i / 10), b = a - 0.13, c = a + 0.13;
+      const p = (r, w) => `${(60 + r*Math.cos(w)).toFixed(1)},${(74 + r*Math.sin(w)).toFixed(1)}`;
+      st += `${p(33, b)} ${p(50, a)} ${p(33, c)} `;
+    }
+    k = `<polygon points="${st}" fill="#D9B860" stroke="#D9B860" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="60" cy="78" rx="38" ry="30" fill="#F6E3A9"/>
+      <ellipse cx="44" cy="106" rx="8" ry="4" fill="#E2C77A"/><ellipse cx="76" cy="106" rx="8" ry="4" fill="#E2C77A"/>
+      ${gesicht(60, 78, .9, stimmung)}`;
+  } else if(id === 'schnecke'){
+    k = `<rect x="14" y="84" width="94" height="22" rx="11" fill="#EDE5F6"/>
+      <circle cx="74" cy="62" r="30" fill="#C9B8E2"/>
+      <path d="M74 62 m-3 0 a3 3 0 1 1 6 0 a8 8 0 1 1 -16 0 a14 14 0 1 1 28 0 a20 20 0 1 1 -40 0" fill="none" stroke="#A893CC" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="30" cy="76" r="19" fill="#EDE5F6"/>
+      <path d="M24 60 L19 44 M36 60 L41 44" stroke="#EDE5F6" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="19" cy="43" r="4.5" fill="#DCD0EC"/><circle cx="41" cy="43" r="4.5" fill="#DCD0EC"/>
+      ${gesicht(30, 76, .72, stimmung)}`;
+  } else if(id === 'kraehe'){
+    k = `<ellipse cx="55" cy="22" rx="4" ry="9" fill="#A9C6DB" transform="rotate(-20 55 22)"/><ellipse cx="64" cy="21" rx="4" ry="10" fill="#A9C6DB" transform="rotate(15 64 21)"/>
+      <ellipse cx="25" cy="72" rx="11" ry="22" fill="#A9C6DB" transform="rotate(18 25 72)"/><ellipse cx="95" cy="72" rx="11" ry="22" fill="#A9C6DB" transform="rotate(-18 95 72)"/>
+      <ellipse cx="60" cy="66" rx="36" ry="38" fill="#CBDFEC"/><ellipse cx="60" cy="80" rx="22" ry="18" fill="#E3EEF6"/>
+      <path d="M50 104 L46 112 M70 104 L74 112" stroke="#E2A54A" stroke-width="4" stroke-linecap="round"/>
+      ${gesicht(60, 56, .95, stimmung, false)}
+      <path d="M52 64 L68 64 L60 76 Z" fill="#F6C65B" stroke="#E2A54A" stroke-width="2" stroke-linejoin="round"/>`;
+  } else {
+    k = `<ellipse cx="18" cy="74" rx="10" ry="20" fill="#AFC8A8"/><ellipse cx="102" cy="74" rx="10" ry="20" fill="#AFC8A8"/>
+      <rect x="20" y="26" width="80" height="82" rx="34" fill="#C5D8BF"/>
+      <circle cx="32" cy="34" r="10" fill="#93B98C"/><circle cx="48" cy="26" r="11" fill="#93B98C"/><circle cx="66" cy="25" r="12" fill="#93B98C"/>
+      <circle cx="84" cy="30" r="10" fill="#93B98C"/><circle cx="94" cy="42" r="7" fill="#93B98C"/><circle cx="26" cy="46" r="6" fill="#93B98C"/>
+      <path d="M72 14 Q78 6 86 10 Q80 18 72 14 Z" fill="#7FA877"/>
+      ${stimmung === 'strahlend' || stimmung === 'froehlich' ? '<circle cx="48" cy="22" r="3" fill="#F3C6CF"/><circle cx="84" cy="27" r="3" fill="#F6E3A9"/><circle cx="30" cy="31" r="2.5" fill="#fff"/>' : ''}
+      ${gesicht(60, 70, 1.15, stimmung)}`;
+  }
+  const funkeln = stimmung === 'strahlend' ? `<g class="funkeln" fill="#F6C65B"><path d="M12 22 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 Z"/><path d="M104 14 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 Z"/><path d="M108 58 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2 Z"/></g>` : '';
+  return `<svg class="wesen ${stimmung}" viewBox="0 0 120 120" aria-hidden="true">${sch}<g class="koerper">${k}</g>${funkeln}</svg>`;
+}
+
+/* Startseite, Reiter „Abenteuer“ */
+function abenteuerInhalt(){
+  abSlotsPruefen();
+  const w = aktuellesWesen(), freund = AB.freunde[w.id];
+  const tag = (k, cls, vor) => `<span class="ab-tag ${cls}">${vor} ${kat(k).emoji} ${k}</span>`;
+  const slots = abSlotEx();
+  const zeilen = Array.from({length:AB_SLOTS}, (_, i) => {
+    const ex = slots[i];
+    if(!ex) return `<div class="slot leer"><div class="thumb"></div><div class="mitte"><b class="muted">Freier Platz</b></div></div>`;
+    const ok = abErlaubt(ex);
+    return `<div class="slot ${ok ? '' : 'aus'}">${thumb(ex)}<div class="mitte"><b>${esc(ex.name)}</b>
+      <span>${ex.kategorien.map(k => kat(k).emoji).join(' ')} · <span class="sterne">${sterne(ex.staerke)}</span>${ok ? '' : ' · passt nicht zu „Womit?“'}</span></div></div>`;
+  }).join('');
+  return `
+    <div class="card ab-karte">
+      <div class="ab-figur">${wesenSvg(w.id, 'grummelig')}</div>
+      <h2>${esc(w.name)}</h2>
+      <p class="info-text" style="margin:0 0 4px">${esc(w.intro)}</p>
+      ${freund ? `<p class="muted" style="font-weight:700;font-size:.82rem;margin:0">💛 Schon ${freund.anzahl}× aufgeheitert</p>` : ''}
+      <div class="ab-tags">${w.mag.map(k => tag(k, 'mag', 'Mag:')).join('')}${w.nein.map(k => tag(k, 'nein', 'Unbeeindruckt von:')).join('')}</div>
+      <button class="link-btn" id="ab-wesen-wahl">Anderes Wesen wählen</button>
+    </div>
+    <div class="card"><h3>Womit? <span class="muted" style="font-weight:600;font-size:.88rem">· ${AB.geraete.length ? 'mehrere möglich' : 'Alle Geräte'}</span></h3>
+      <div class="chips">${['ohne', ...GERAETE.map(g => g.id)].map(g => `<button class="chip ${AB.geraete.includes(g)?'an':''}" data-abgeraet="${g}">${geraet(g).emoji} ${geraetName(g)}</button>`).join('')}</div>
+    </div>
+    <div class="card"><h3 style="display:flex;align-items:center">Deine Angriffe<span style="flex:1"></span><button class="btn klein zweit" id="ab-slots">${I.stift} Bearbeiten</button></h3>
+      <div class="slot-liste">${zeilen}</div>
+    </div>
+    <button class="btn" id="ab-los">${I.play} Los geht’s</button>
+    <button class="btn zweit" id="ab-buch" style="margin-top:10px">📖 Freundebuch</button>`;
+}
+function abenteuerBinden(el){
+  el.querySelector('#ab-wesen-wahl').onclick = wesenWaehlen;
+  el.querySelectorAll('[data-abgeraet]').forEach(b => b.onclick = () => {
+    const g = b.dataset.abgeraet, i = AB.geraete.indexOf(g);
+    i >= 0 ? AB.geraete.splice(i, 1) : AB.geraete.push(g);
+    abSpeichern(); renderHome();
+  });
+  el.querySelector('#ab-slots').onclick = () => navigiere('auswahl', true, {zweck:'slots', vorauswahl:[...AB.slots]});
+  el.querySelector('#ab-los').onclick = starteAbenteuer;
+  el.querySelector('#ab-buch').onclick = () => navigiere('freundebuch');
+}
+function wesenWaehlen(){
+  const n = naechstesWesen();
+  const liste = WESEN.filter(w => AB.freunde[w.id] || (n && w.id === n.id));
+  const akt = aktuellesWesen().id;
+  modal(`<h2>Wen möchtest du aufheitern?</h2>
+    <div class="wesen-liste">${liste.map(w => `<button class="wesen-zeile ${w.id === akt ? 'an' : ''}" data-w="${w.id}"><span class="ab-figur">${wesenSvg(w.id, AB.freunde[w.id] ? 'froehlich' : 'grummelig')}</span>
+      <div><b>${esc(w.name)}</b><span>${AB.freunde[w.id] ? `💛 ${AB.freunde[w.id].anzahl}× aufgeheitert` : '✨ Neu auf deinem Weg'}</span></div></button>`).join('')}</div>
+    <div class="reihe"><button class="btn zweit" data-a="x">Schließen</button></div>`,
+    (e, zu, m) => {
+      const b = e.target.closest('[data-w]');
+      if(b){ AB_WAHL = b.dataset.w; zu(); renderHome(); return; }
+      if(e.target.closest('[data-a]') || e.target === m) zu();
+    });
+}
+
+/* Kampf */
+const AB_PLATZHALTER_ABWEHR = {id:'_abwehr', name:'Bauchspannung halten', kategorien:['Bauch'], bilder:[], einseitig:false, staerke:2,
+  beschreibung:'Bauch fest anspannen, gerade stehen oder liegen und ruhig weiteratmen.'};
+const AB_PLATZHALTER_PUSTE = {id:'_puste', name:'Tief durchatmen und lockern', kategorien:['Abwärmen'], bilder:[], einseitig:false, staerke:1,
+  beschreibung:'Schultern kreisen, Arme ausschütteln und ein paar Mal tief durchatmen.'};
+const zufall = a => a[Math.floor(Math.random() * a.length)];
+function abwehrUebung(){
+  const bauch = poolAktiv().filter(u => abErlaubt(u) && hatKat(u, 'Bauch'));
+  const plank = bauch.filter(u => /plank/i.test(u.name));
+  const kandidaten = (plank.length ? plank : bauch);
+  const beidseitig = kandidaten.filter(u => !u.einseitig);
+  return kandidaten.length ? zufall(beidseitig.length ? beidseitig : kandidaten) : AB_PLATZHALTER_ABWEHR;
+}
+function pusteUebung(){
+  const ab = poolAktiv().filter(u => abErlaubt(u) && hatKat(u, 'Abwärmen') && !u.einseitig);
+  return ab.length ? zufall(ab) : AB_PLATZHALTER_PUSTE;
+}
+// Automatische Wahl: höchster Bonus, bei Gleichstand zufällig, nie zweimal direkt hintereinander (wenn möglich)
+function waehleAngriff(ab = T.ab){
+  let k = ab.slots.length > 1 ? ab.slots.filter(ex => ex.id !== ab.letzter) : ab.slots;
+  const max = Math.max(...k.map(ex => abBonus(ex, ab.wesen)));
+  return zufall(k.filter(ex => abBonus(ex, ab.wesen) === max));
+}
+function angriffPhasen(ex){
+  const e = eintrag(ex), wdh = e.modus === 'wdh';
+  T.ab.letzter = ex.id;
+  const nr = ++T.ab.angriffNr;
+  const basis = {typ:'uebung', angriff:true, ex, dauer: wdh ? e.wert*3 : e.wert, wdh, wert:e.wert, block:'Abenteuer', nr, e, gezaehlt:0, aktiv:0};
+  if(ex.einseitig) return [Object.assign({}, basis, {seite:'Linke Seite'}),
+    {typ:'wechsel', ex, dauer:S.wechsel, seite:'Rechte Seite', block:'Abenteuer', nr, e},
+    Object.assign({}, basis, {seite:'Rechte Seite', gezaehlt:0, aktiv:0, segEnde:true})];
+  return [Object.assign(basis, {segEnde:true})];
+}
+const pausePhase = ex => ({typ:'pause', ex, e:eintrag(ex), dauer:S.pause, block:'Abenteuer', nr:T.ab.angriffNr + 1});
+
+function starteAbenteuer(){
+  abSlotsPruefen();
+  const slots = abSlotEx().filter(abErlaubt);
+  if(!slots.length){ toast(AB.slots.length ? 'Keine deiner Angriffe passt zu dieser Geräteauswahl' : 'Lege zuerst ein paar Übungen an'); return; }
+  const w = aktuellesWesen();
+  PLAN = {art:'abenteuer', bloecke:[], kats:[], zeit:null, pause:S.pause, wesen:w.id};
+  const ab = {wesen:w, laune:0, ziel:w.ziel, energie:AB_ENERGIE, slots, letzter:null, angriffNr:0, angriffe:0, puste:0, stimmung:null, kats:new Set()};
+  const erster = waehleAngriff(ab);
+  starteTimer([{typ:'bereit', ex:erster, e:eintrag(erster), dauer:10, block:'Abenteuer', nr:1}], 0, PLAN, ab);
+}
+
+// Laune live: jede volle Sekunde einer Angriffsphase steigt sie um staerke × bonus (bei Wdh. höchstens bis zur geschätzten Dauer)
+function launeZaehlen(p, sekunden){
+  const ab = T.ab, inc = launeProSek(p.ex, ab.wesen);
+  let n = 0;
+  while(sekunden-- > 0 && p.gezaehlt < p.dauer){ p.gezaehlt++; ab.laune += inc; n++; }
+  if(n){ ab.kats = new Set([...ab.kats, ...p.ex.kategorien]); abenteuerAnzeige(inc); }
+  return ab.laune >= ab.ziel;
+}
+function abenteuerTick(jetzt){
+  const p = T.ph[T.i], ab = T.ab;
+  const dt = Math.min(500, jetzt - (ab.tickZeit || jetzt)); ab.tickZeit = jetzt;
+  if(!p.angriff) return;
+  p.aktiv += dt;
+  if(launeZaehlen(p, Math.floor(p.aktiv / 1000) - p.gezaehlt)) abenteuerSieg();
+}
+// Wird beim Verlassen einer Phase aufgerufen. Hängt bei Bedarf die nächsten Phasen an. Gibt false zurück, wenn der Kampf vorbei ist.
+function abenteuerPhaseEnde(p, uebersprungen){
+  const ab = T.ab;
+  if(p.angriff){
+    if(!uebersprungen && launeZaehlen(p, p.dauer)){ abenteuerSieg(); return false; }   // Rest der Dauer gutschreiben
+    if(p.segEnde) ab.angriffe++;
+  }
+  if(p.typ === 'abwehr') ab.energie = Math.max(0, ab.energie - (uebersprungen ? 25 : 10));
+  if(p.typ === 'puste') ab.energie = 50;
+  if(T.i < T.ph.length - 1) return true;   // weitere Phasen sind schon da (z. B. nach „Zurück“)
+  if(p.typ === 'bereit' || p.typ === 'pause') T.ph.push(...angriffPhasen(p.ex));
+  else if(p.angriff){ const x = abwehrUebung(); T.ph.push({typ:'grummel', ex:x, dauer:AB_GRUMMEL_S, block:'Abenteuer'}, {typ:'abwehr', ex:x, dauer:AB_ABWEHR_S, block:'Abenteuer'}); }
+  else if(p.typ === 'abwehr' && ab.energie <= 0){ ab.puste++; T.ph.push({typ:'puste', ex:pusteUebung(), dauer:AB_PUSTE_S, block:'Abenteuer'}); }
+  else T.ph.push(pausePhase(waehleAngriff()));
+  return true;
+}
+function abenteuerSieg(){
+  const ab = T.ab, w = ab.wesen;
+  const neu = !AB.freunde[w.id];
+  AB.freunde[w.id] = {erstesMal: neu ? Date.now() : AB.freunde[w.id].erstesMal, anzahl: (neu ? 0 : AB.freunde[w.id].anzahl) + 1};
+  abSpeichern(); AB_WAHL = null;
+  ab.laune = ab.ziel; ab.sieg = true; ab.neuerFreund = neu; ab.angriffe = ab.angriffNr;   // der letzte Angriff zählt mit
+  trainingFertig(false);
+}
+// Kopfzeile im Trainings-Screen: Wesen, Laune- und Energie-Balken, Text
+function abenteuerAnzeige(inc){
+  if(!T || !T.ab) return;
+  const ab = T.ab, p = T.ph[T.i], w = ab.wesen;
+  const st = stimmungAus(ab.laune, ab.ziel);
+  if(st !== ab.stimmung){ ab.stimmung = st; $('#ab-wesen').innerHTML = wesenSvg(w.id, st); }
+  $('#ab-laune').style.width = Math.min(100, 100 * ab.laune / ab.ziel).toFixed(1) + '%';
+  $('#ab-laune-zahl').textContent = `${Math.min(ab.ziel, Math.round(ab.laune))} / ${ab.ziel}`;
+  $('#ab-energie').style.width = Math.max(0, ab.energie) + '%';
+  $('#ab-energie-zahl').textContent = Math.max(0, ab.energie);
+  if(inc){
+    const b = abBonus(p.ex, w), plus = $('#ab-plus');
+    plus.textContent = `+${inc}${b === 2 ? ' · Das mag es! ×2' : b === 0.5 ? ' · Unbeeindruckt ×½' : ''}`;
+    plus.classList.remove('hoch'); void plus.offsetWidth; plus.classList.add('hoch');
+  }
+}
+function abenteuerText(p){
+  const w = T.ab.wesen;
+  if(p.typ === 'bereit') return w.intro;
+  if(p.typ === 'grummel') return `${w.mitArtikel} schmollt zurück! Mach dich bereit …`;
+  if(p.typ === 'abwehr') return 'Halte durch! Ganz gehalten kostet es nur wenig Energie.';
+  if(p.typ === 'puste') return 'Puh, ich brauche nur eine kurze Pause, dann komme ich wieder!';
+  if(p.typ === 'pause') return `Kurz verschnaufen. ${w.mitArtikel} schaut schon neugierig.`;
+  if(p.angriff){ const b = abBonus(p.ex, w); return b === 2 ? 'Das mag es besonders! ×2' : b === 0.5 ? `${w.mitArtikel} ist unbeeindruckt … ×½` : 'Weiter so, die Laune steigt!'; }
+  return '';
+}
+function abenteuerRender(p){
+  const ab = T.ab;
+  $('#tr-info').innerHTML = `🌳 ${esc(ab.wesen.name)}<small>${p.typ === 'bereit' ? 'Gleich geht’s los' : `Angriff ${Math.max(1, p.nr || ab.angriffNr)}`}</small>`;
+  if(p.angriff) $('#tr-label').textContent = p.wdh ? '💫 Angriff · in deinem Tempo' : '💫 Angriff';
+  $('#ab-text').textContent = abenteuerText(p);
+  if(p.typ === 'pause' && ab.slots.length > 1){
+    $('#tr-seite').insertAdjacentHTML('beforeend', `<button class="btn klein zweit" id="ab-anderer" style="margin:4px auto 0">🔄 Anderen Angriff wählen</button>`);
+    $('#ab-anderer').onclick = anderenAngriffWaehlen;
+  }
+  abenteuerAnzeige();
+}
+function anderenAngriffWaehlen(){
+  if(!T || !T.ab) return;
+  const p = T.ph[T.i]; if(p.typ !== 'pause') return;
+  const lief = !T.pausiert; if(lief) pauseUmschalten();
+  const w = T.ab.wesen;
+  modal(`<h2>Nächster Angriff</h2><div class="ex-liste">${T.ab.slots.map(ex => {
+      const b = abBonus(ex, w);
+      return `<button class="wahl-item ${ex.id === p.ex.id ? 'an' : ''}" data-ang="${esc(ex.id)}">${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b>
+        <span>${ex.kategorien.map(k => kat(k).emoji).join(' ')} · <span class="sterne">${sterne(ex.staerke)}</span>${b === 2 ? ' · mag es ×2' : b === 0.5 ? ' · ×½' : ''}</span></div></button>`;
+    }).join('')}</div><div class="reihe" style="margin-top:14px"><button class="btn zweit" data-a="x">Abbrechen</button></div>`,
+    (e, zu, m) => {
+      const b = e.target.closest('[data-ang]');
+      if(!b && !e.target.closest('[data-a]') && e.target !== m) return;
+      zu();
+      if(b && T && T.ph[T.i] === p){ const ex = exById(b.dataset.ang); p.ex = ex; p.e = eintrag(ex); renderPhase(); }
+      if(lief && T && T.pausiert) pauseUmschalten();
+    });
+}
+
+/* Freundebuch */
+function renderFreundebuch(){
+  const el = $('#s-freundebuch');
+  const n = Object.keys(AB.freunde).length;
+  el.innerHTML = `
+    <div class="kopf"><button class="icon-btn" id="fb-zur">${I.zurueck}</button><div style="flex:1"><h1>📖 Freundebuch</h1><div class="sub">${n} von ${WESEN.length} Wesen aufgeheitert</div></div></div>
+    <div class="fb-grid">${WESEN.map(w => {
+      const f = AB.freunde[w.id];
+      return f ? `<div class="fb"><div class="ab-figur">${wesenSvg(w.id, 'froehlich')}</div><b>${esc(w.name)}</b>
+          <span>Freund seit ${new Date(f.erstesMal).toLocaleDateString('de-DE')}</span><span>💛 ${f.anzahl}× aufgeheitert</span></div>`
+        : `<div class="fb fremd"><div class="ab-figur silhouette">${wesenSvg(w.id, 'neutral')}<i>?</i></div><b>???</b><span>Noch nicht getroffen</span></div>`;
+    }).join('')}</div>`;
+  el.querySelector('#fb-zur').onclick = zurueck;
 }
 
 /* ---------- Freies Training ---------- */
@@ -1280,14 +1713,17 @@ function freiPauseStopp(still){
 /* ---------- Übungen auswählen (frei / Plan) ---------- */
 let AUSW = null, AUSW_FILTER = 'Alle', AUSW_GERAET = 'Alle';
 function renderAuswahl(arg){
-  if(arg && (!AUSW || AUSW.token !== arg.token)) AUSW = {zweck:arg.zweck, token:arg.token, gewaehlt:[], vorher:new Set(arg.vorauswahl || []), suche:''};
+  if(arg && (!AUSW || AUSW.token !== arg.token)){
+    const slots = arg.zweck === 'slots';   // Abenteuer-Angriffe: Vorauswahl ist bearbeitbar, max. AB_SLOTS
+    AUSW = {zweck:arg.zweck, token:arg.token, gewaehlt: slots ? [...(arg.vorauswahl || [])] : [], vorher:new Set(slots ? [] : arg.vorauswahl || []), suche:''};
+  }
   if(!AUSW) return;
   const el = $('#s-auswahl');
   const plan = AUSW.zweck === 'plan';
   const q = AUSW.suche.toLowerCase();
   const liste = poolAktiv().filter(u => (AUSW_FILTER === 'Alle' || hatKat(u, AUSW_FILTER)) && geraetFilter(u, AUSW_GERAET) && (!q || u.name.toLowerCase().includes(q)));
   el.innerHTML = `
-    <div class="kopf"><button class="icon-btn" id="a-zur">${I.zurueck}</button><div style="flex:1"><h1>Übungen wählen</h1><div class="sub">${AUSW.gewaehlt.length} ausgewählt${plan ? ' · in Tipp-Reihenfolge' : ''}</div></div></div>
+    <div class="kopf"><button class="icon-btn" id="a-zur">${I.zurueck}</button><div style="flex:1"><h1>Übungen wählen</h1><div class="sub">${AUSW.gewaehlt.length}${AUSW.zweck === 'slots' ? ` von ${AB_SLOTS} Angriffen` : ' ausgewählt'}${plan ? ' · in Tipp-Reihenfolge' : ''}</div></div></div>
     <input class="suche" id="a-suche" placeholder="Suchen …" value="${esc(AUSW.suche)}" autocomplete="off">
     <div class="filter">${['Alle', ...KATEGORIEN.map(k => k.id)].map(f => `<button class="chip ${AUSW_FILTER===f?'an':''}" data-f="${f}">${f==='Alle' ? 'Alle' : kat(f).emoji+' '+f}</button>`).join('')}</div>
     <div class="filter">${geraetChips(AUSW_GERAET, 'data-g')}</div>
@@ -1295,7 +1731,7 @@ function renderAuswahl(arg){
       const i = AUSW.gewaehlt.indexOf(ex.id), dabei = AUSW.vorher.has(ex.id);
       return `<button class="wahl-item ${i >= 0 ? 'an' : ''}" data-id="${esc(ex.id)}" ${dabei ? 'style="opacity:.5"' : ''}>${thumb(ex)}<div class="info"><b>${esc(ex.name)}</b><span>${exMeta(ex)} · ${esc(katText(ex))}${geraetEmojis(ex)}${dabei ? ' · schon dabei' : ''}</span></div><span class="haken">${i >= 0 ? (plan ? i+1 : '✓') : ''}</span></button>`;
     }).join('') || `<div class="leer-box"><span class="em">🔍</span>Keine Übungen gefunden</div>`}</div>
-    <div class="unten-leiste"><button class="btn" id="a-ok" ${AUSW.gewaehlt.length ? '' : 'style="opacity:.5"'}>${AUSW.zweck === 'frei' ? `${I.play} Los geht's` : `${I.check} Hinzufügen`} (${AUSW.gewaehlt.length})</button></div>`;
+    <div class="unten-leiste"><button class="btn" id="a-ok" ${AUSW.gewaehlt.length ? '' : 'style="opacity:.5"'}>${AUSW.zweck === 'frei' ? `${I.play} Los geht's` : AUSW.zweck === 'slots' ? `${I.check} Übernehmen` : `${I.check} Hinzufügen`} (${AUSW.gewaehlt.length})</button></div>`;
   el.querySelector('#a-zur').onclick = zurueck;
   const s = el.querySelector('#a-suche');
   s.oninput = e => { AUSW.suche = e.target.value; const pos = e.target.selectionStart; renderAuswahl(); const n = $('#a-suche'); n.focus(); n.setSelectionRange(pos, pos); };
@@ -1303,6 +1739,7 @@ function renderAuswahl(arg){
   el.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { AUSW_GERAET = b.dataset.g; renderAuswahl(); });
   el.querySelectorAll('[data-id]').forEach(b => b.onclick = () => {
     const id = b.dataset.id, i = AUSW.gewaehlt.indexOf(id);
+    if(i < 0 && AUSW.zweck === 'slots' && AUSW.gewaehlt.length >= AB_SLOTS){ toast(`Höchstens ${AB_SLOTS} Angriffe – erst einen abwählen`); return; }
     i >= 0 ? AUSW.gewaehlt.splice(i, 1) : AUSW.gewaehlt.push(id);
     const y = window.scrollY; renderAuswahl(); window.scrollTo(0, y);
   });
@@ -1317,6 +1754,8 @@ function renderAuswahl(arg){
       ids.forEach(id => { if(!FREI.ids.includes(id)) FREI.ids.push(id); }); freiSpeichern(); zurueck();
     } else if(zweck === 'plan'){
       if(PEDIT) ids.forEach(id => PEDIT.items.push({id})); zurueck();
+    } else if(zweck === 'slots'){
+      AB.slots = ids; abSpeichern(); zurueck();
     }
   };
 }
@@ -1396,16 +1835,24 @@ function renderFertig(e){
   const el = $('#s-fertig');
   if(!e){ el.innerHTML = ''; return; }
   const farben = ['#F7CDB6','#E3896A','#C5D8BF','#F6E3A9','#DCD0EC','#F3C6CF'];
+  const w = e.art === 'abenteuer' && e.sieg ? wesenById(e.wesen) : null;   // Sieg im Abenteuer
   el.innerHTML = `
     <div class="konfetti">${Array.from({length:40}, (_, i) => `<i style="left:${Math.random()*100}%;background:${farben[i%6]};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()*0.8}s"></i>`).join('')}</div>
-    <div class="gross-em">🎉</div>
+    ${w ? `<div class="sieg-figur">${wesenSvg(w.id, 'strahlend')}</div>
+    <h1 style="font-size:1.5rem">${esc(w.mitArtikel)} ${e.neuerFreund ? `ist jetzt ${w.freund}!` : 'freut sich, dich wiederzusehen!'}</h1>
+    <p class="muted" style="font-weight:700;margin:0 0 22px">„${esc(w.freude)}“</p>
+    <div class="plan-sum">
+      <div><b>${Math.max(1, Math.round(e.dauer/60))}</b><span>Minuten</span></div>
+      <div><b>${e.uebungen}</b><span>Angriffe</span></div>
+      <div><b>${e.puste || 0}</b><span>Puste-Pausen</span></div>
+    </div>` : `<div class="gross-em">🎉</div>
     <h1>Geschafft, ${esc(PROFIL)}!</h1>
     <p class="muted" style="font-weight:600;margin:0 0 26px">Stark gemacht. Gönn dir einen Schluck Wasser.</p>
     <div class="plan-sum">
       <div><b>${Math.max(1, Math.round(e.dauer/60))}</b><span>Minuten</span></div>
       <div><b>${e.uebungen}</b><span>Übungen</span></div>
       <div><b>${dieseWoche().anzahl}</b><span>diese Woche</span></div>
-    </div>
+    </div>`}
     <p class="muted" style="font-weight:700;margin:0 0 8px">${esc(e.titel || e.kats.join(' · '))}</p>
     ${e.details ? `<p class="muted" style="font-weight:600;margin:0 0 24px;font-size:.88rem">${esc(e.details)}</p>` : '<div style="height:16px"></div>'}
     <button class="btn" id="f-ok">Fertig</button>`;
@@ -1450,8 +1897,8 @@ function renderEdit(arg){
   if(arg && (arg.id || arg.neu) && (!EDIT || EDIT.token !== arg.token)){
     const ex = arg.id ? exById(arg.id) : null;
     const werte = {}; PROFILE.forEach(p => werte[p.id] = ex ? Object.assign({}, ex.werte[p.id]) : {modus:'zeit', wert:null});
-    EDIT = ex ? {id:ex.id, name:ex.name, kategorien:[...ex.kategorien], geraete:[...ex.geraete], profile:[...ex.profile], werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:[...(ex.bilder||[])], quelle:ex.quelle, neu:false, token:arg.token}
-              : {id:null, name:'', kategorien: FILTER !== 'Alle' ? [FILTER] : [], geraete: FILTER_GERAET !== 'Alle' && FILTER_GERAET !== 'ohne' ? [FILTER_GERAET] : [], profile:[FILTER_PROFIL !== 'Alle' ? FILTER_PROFIL : PROFIL], werte, beschreibung:'', einseitig:false, bilder:[], neu:true, token:arg.token};
+    EDIT = ex ? {id:ex.id, name:ex.name, kategorien:[...ex.kategorien], geraete:[...ex.geraete], staerke:ex.staerke, profile:[...ex.profile], werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:[...(ex.bilder||[])], quelle:ex.quelle, neu:false, token:arg.token}
+              : {id:null, name:'', kategorien: FILTER !== 'Alle' ? [FILTER] : [], geraete: FILTER_GERAET !== 'Alle' && FILTER_GERAET !== 'ohne' ? [FILTER_GERAET] : [], staerke:2, profile:[FILTER_PROFIL !== 'Alle' ? FILTER_PROFIL : PROFIL], werte, beschreibung:'', einseitig:false, bilder:[], neu:true, token:arg.token};
   }
   if(!EDIT) return;
   const el = $('#s-edit');
@@ -1462,6 +1909,8 @@ function renderEdit(arg){
     <div class="feld"><label>Kategorien <span class="muted" style="font-weight:600">· eine oder mehrere</span></label><div class="kat-wahl">${KATEGORIEN.map(k => `<button class="kat ${EDIT.kategorien.includes(k.id)?'an':''}" style="--kf:${k.farbe}" data-k="${k.id}"><span class="em">${k.emoji}</span>${k.id}</button>`).join('')}</div></div>
     <div class="feld"><label>Geräte <span class="muted" style="font-weight:600" id="e-geraete-hinweis">${EDIT.geraete.length ? '· eines oder mehrere' : '· keine Auswahl = Ohne Gerät 🤸'}</span></label>
       <div class="chips">${GERAETE.map(g => `<button class="chip ${EDIT.geraete.includes(g.id)?'an':''}" data-ger="${g.id}">${g.emoji} ${g.id}</button>`).join('')}</div></div>
+    <div class="feld"><label>Stärke im Abenteuer <span class="muted" style="font-weight:600">· Wie anstrengend ist die Übung?</span></label>
+      <div class="stern-wahl">${[1, 2, 3].map(n => `<button class="${EDIT.staerke >= n ? 'an' : ''}" data-stern="${n}" aria-label="${n} Sterne">★</button>`).join('')}</div></div>
     <div class="feld"><label>Für wen?</label><div class="profil-schalter">${PROFILE.map(p => `<button class="${EDIT.profile.includes(p.id)?'an':''}" data-p="${p.id}">${p.emoji} ${p.id}</button>`).join('')}</div></div>
     <div class="feld"><label>Vorgabe pro Profil</label><div id="e-werte"></div></div>
     ${li ? `<div class="feld"><label>Deine Werte (${esc(PROFIL)})</label><div class="card" style="padding:14px;margin:0">
@@ -1488,6 +1937,10 @@ function renderEdit(arg){
     i >= 0 ? EDIT.geraete.splice(i, 1) : EDIT.geraete.push(g);
     b.classList.toggle('an', i < 0);
     el.querySelector('#e-geraete-hinweis').textContent = EDIT.geraete.length ? '· eines oder mehrere' : '· keine Auswahl = Ohne Gerät 🤸';
+  });
+  el.querySelectorAll('[data-stern]').forEach(b => b.onclick = () => {
+    EDIT.staerke = +b.dataset.stern;
+    el.querySelectorAll('[data-stern]').forEach(x => x.classList.toggle('an', +x.dataset.stern <= EDIT.staerke));
   });
   el.querySelectorAll('[data-p]').forEach(b => b.onclick = () => {
     const p = b.dataset.p, i = EDIT.profile.indexOf(p);
@@ -1630,7 +2083,7 @@ async function speichereEdit(){
   if(!EDIT.profile.length){ toast('Bitte mindestens ein Profil wählen'); return; }
   const reihe = k => KATEGORIEN.findIndex(x => x.id === k);
   const rec = {id: EDIT.id || neueId(), name:EDIT.name.trim(), kategorien:[...EDIT.kategorien].sort((a, b) => reihe(a) - reihe(b)),
-               geraete:GERAETE.map(g => g.id).filter(g => EDIT.geraete.includes(g)),
+               geraete:GERAETE.map(g => g.id).filter(g => EDIT.geraete.includes(g)), staerke:EDIT.staerke,
                profile:PROFILE.map(p => p.id).filter(p => EDIT.profile.includes(p)), werte:EDIT.werte, beschreibung:EDIT.beschreibung.trim(),
                einseitig:!!EDIT.einseitig, bilder:EDIT.bilder, geaendert:Date.now()};
   await DB.put(rec); await bauePool();
@@ -1683,7 +2136,7 @@ async function exportieren(){
         files.push({name:pfad, data:new Uint8Array(await blob.arrayBuffer())}); pfade.push(pfad);
       }catch(err){ console.warn('Datei fehlt', b, err); }
     }
-    liste.push({id:ex.id, name:ex.name, kategorien:ex.kategorien, geraete:ex.geraete, profile:ex.profile, werte:ex.werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:pfade, geaendert:ex.geaendert||0});
+    liste.push({id:ex.id, name:ex.name, kategorien:ex.kategorien, geraete:ex.geraete, staerke:ex.staerke, profile:ex.profile, werte:ex.werte, beschreibung:ex.beschreibung||'', einseitig:!!ex.einseitig, bilder:pfade, geaendert:ex.geaendert||0});
   }
   const plaene = PLAENE.map(p => ({id:p.id, name:p.name, profil:p.profil, runden:p.runden, pause:p.pause, items:p.items, geaendert:p.geaendert||0}));
   const json = {app:'FlivFit', stand:new Date().toISOString(), uebungen:liste, plaene};
@@ -1724,7 +2177,7 @@ function renderVerlauf(){
   const maxM = Math.max(15, ...min), w = dieseWoche();
   const gesamtMin = Math.round(VERLAUF.reduce((s, v) => s + v.dauer, 0)/60);
   let serie = 0; { const x = new Date(ws); for(;;){ const a = x.getTime(), b = a + 7*864e5; if(VERLAUF.some(v => { const t = new Date(v.datum).getTime(); return t >= a && t < b; })){ serie++; x.setDate(x.getDate()-7); } else break; } }
-  const artIcon = v => v.art === 'frei' ? '✍️ ' : v.art === 'plan' ? '📋 ' : '';
+  const artIcon = v => v.art === 'frei' ? '✍️ ' : v.art === 'plan' ? '📋 ' : '';   // Abenteuer: 🌳 steht schon im Titel
   el.innerHTML = `
     <div class="kopf"><div style="flex:1"><h1>Verlauf</h1><div class="sub">Trainings von ${esc(PROFIL)} ${profilInfo(PROFIL).emoji}</div></div></div>
     <div class="card"><h3>Diese Woche</h3>
@@ -1739,7 +2192,7 @@ function renderVerlauf(){
       ${VERLAUF.length ? VERLAUF.slice(0, 100).map((v, i) => {
         const d = new Date(v.datum);
         return `<div class="eintrag"><div class="tag ${v.vollstaendig?'':'halb'}">${d.getDate()}<small>${d.toLocaleDateString('de-DE',{month:'short'})}</small></div>
-          <div class="info"><b>${artIcon(v)}${Math.max(1, Math.round(v.dauer/60))} Min · ${v.uebungen} Übungen</b><span>${d.toLocaleDateString('de-DE',{weekday:'short'})}, ${d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})} · ${esc(v.titel || (v.kats||[]).join(', '))}${v.vollstaendig ? '' : ' · abgebrochen'}</span>
+          <div class="info"><b>${artIcon(v)}${Math.max(1, Math.round(v.dauer/60))} Min · ${v.uebungen} ${v.art === 'abenteuer' ? (v.uebungen === 1 ? 'Angriff' : 'Angriffe') : 'Übungen'}</b><span>${d.toLocaleDateString('de-DE',{weekday:'short'})}, ${d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})} · ${esc(v.titel || (v.kats||[]).join(', '))}${v.vollstaendig ? '' : ' · abgebrochen'}</span>
           ${v.details ? `<span class="details">${esc(v.details)}</span>` : ''}</div>
           <button class="weg" data-weg="${i}" aria-label="Eintrag löschen">${I.x}</button></div>`;
       }).join('') : `<div class="leer-box"><span class="em">🌱</span>Noch keine Trainings. Dein erstes wartet!</div>`}
@@ -1806,7 +2259,7 @@ function renderEinstellungen(){
 
 /* ---------- Start ---------- */
 const RENDER = {home:renderHome, plan:renderPlan, fertig:renderFertig, uebungen:renderUebungen, edit:renderEdit, verlauf:renderVerlauf,
-                einstellungen:renderEinstellungen, auswahl:renderAuswahl, frei:renderFrei, planedit:renderPlanEdit};
+                einstellungen:renderEinstellungen, auswahl:renderAuswahl, frei:renderFrei, planedit:renderPlanEdit, freundebuch:renderFreundebuch};
 document.querySelectorAll('.nav button').forEach(b => {
   const k = b.dataset.nav;
   b.innerHTML = {home:I.home + 'Training', uebungen:I.liste + 'Übungen', verlauf:I.verlauf + 'Verlauf'}[k];
