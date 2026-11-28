@@ -1,6 +1,6 @@
 // FlivFit Service Worker
 // Bei jeder neuen Version die Versionsnummer hochzählen, damit Handys das Update laden.
-const VERSION = 'flivfit-1.4.0';
+const VERSION = 'flivfit-1.5.0';
 
 const SHELL = [
   './',
@@ -27,6 +27,15 @@ self.addEventListener('activate', (e) => {
       .then(() => self.clients.claim())
   );
 });
+
+// Bilder/Videos werden mit ?v=<geaendert> abgefragt. Ältere Fassungen derselben Datei aus dem Cache entfernen.
+function alteFassungenWeg(c, url) {
+  if (!url.pathname.includes('/data/bilder/')) return;
+  c.keys().then((keys) => keys.forEach((k) => {
+    const u = new URL(k.url);
+    if (u.pathname === url.pathname && u.search !== url.search) c.delete(k);
+  }));
+}
 
 // App-Seite und Übungsliste: erst Netz (damit Updates ankommen), sonst Cache.
 // Beim Netz-Abruf den Browser-Cache umgehen ('no-cache'), sonst liefert er bis zu 10 Min. alte Dateien von GitHub Pages.
@@ -56,13 +65,14 @@ self.addEventListener('fetch', (e) => {
   // Videos: Der Browser fragt sie in Teilen an (Range). Immer die ganze Datei laden und cachen,
   // damit sie auch offline laufen.
   if (/\.(mp4|webm|mov|m4v)$/i.test(url.pathname)) {
+    const ziel = url.href.split('#')[0];
     e.respondWith(
-      caches.match(url.href, { ignoreVary: true }).then((r) =>
+      caches.match(ziel, { ignoreVary: true }).then((r) =>
         r ||
-        fetch(url.href).then((res) => {
+        fetch(ziel).then((res) => {
           if (res.status === 200) {
             const kopie = res.clone();
-            caches.open(VERSION).then((c) => c.put(url.href, kopie));
+            caches.open(VERSION).then((c) => c.put(ziel, kopie).then(() => alteFassungenWeg(c, url)));
           }
           return res;
         })
@@ -75,9 +85,9 @@ self.addEventListener('fetch', (e) => {
     caches.match(req).then((r) =>
       r ||
       fetch(req).then((res) => {
-        if (res.ok) {
+        if (res.status === 200) {
           const kopie = res.clone();
-          caches.open(VERSION).then((c) => c.put(req, kopie));
+          caches.open(VERSION).then((c) => c.put(req, kopie).then(() => alteFassungenWeg(c, url)));
         }
         return res;
       })

@@ -30,7 +30,10 @@ Bei jeder Änderung beide Stellen anpassen, sonst laden die Handys das Update ni
   `{id, name, kategorien[], geraete[], profile[], werte:{Fliv:{modus:'zeit'|'wdh', wert}, Flivi:{…}}, beschreibung, einseitig, bilder[], geaendert}`
   - `wert: null` bei Zeit = Standarddauer aus den Einstellungen.
   - `bilder[]` enthält Fotos **und Videos** gemischt (Blob lokal, Pfad auf GitHub; erkannt über `istVideo()`).
-    Fotos werden auf 1200 px verkleinert, Videos nicht, aber auf max. 20 MB begrenzt (`VIDEO_MAX_MB`).
+    Fotos werden auf 1200 px verkleinert. Videos werden beim Hinzufügen komprimiert (`komprimiereVideo()`: Canvas + MediaRecorder,
+    720p, ca. 1,5 Mbit/s, ohne Ton, WebM; dauert so lange wie das Video). Ist das Ergebnis nicht kleiner oder klappt es nicht, wird das Original genommen.
+    Limit danach max. 20 MB (`VIDEO_MAX_MB`).
+    Pfade vom GitHub-Stand bekommen in `norm()` ein `?v=<geaendert>` angehängt, damit ersetzte Dateien gleichen Namens neu geladen werden.
     Im Training: Fotos wechseln alle 2,5 s, Videos laufen stumm bis zum Ende (einziges Medium: in Schleife), siehe `zeigeMedium()`.
     Der Service Worker lädt Videos immer komplett und cacht sie, damit sie offline laufen.
   - Ältere Felder (`kategorie`, `dauer`) werden in `norm()` automatisch umgewandelt.

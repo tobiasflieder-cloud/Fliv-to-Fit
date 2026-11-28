@@ -133,6 +133,8 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 .bild .nr{position:absolute;left:6px;top:6px;background:rgba(255,255,255,.9);border-radius:999px;font-size:.72rem;font-weight:800;padding:2px 7px}
 .bild .akt{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:4px}
 .bild .akt button{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);font-weight:800;font-size:.85rem;display:grid;place-items:center}
+.fortschritt{height:12px;border-radius:999px;background:#F1E6DC;overflow:hidden;margin:6px 0 10px}
+.fortschritt div{height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .3s}
 .bild-neu{aspect-ratio:1;border-radius:16px;border:2px dashed #E3CDBE;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--accent-d);font-weight:800;font-size:.8rem;background:#FFF8F3}
 .bild-neu svg{width:28px;height:28px}
 
@@ -377,7 +379,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 
 <script>
 'use strict';
-const APP_VERSION = '1.4.0';
+const APP_VERSION = '1.5.0';
 const $ = s => document.querySelector(s);
 
 /* ---------- Icons ---------- */
@@ -557,6 +559,9 @@ function norm(ex){
   }
   ex.werte = w;
   if(!Array.isArray(ex.geraete)) ex.geraete = (STD_GERAETE[ex.id] || []).slice();
+  // Bilder/Videos vom GitHub-Stand mit ?v=<geaendert> laden: Wird eine Datei gleichen Namens ersetzt (Übung geändert),
+  // ist die URL neu und das Handy lädt sie frisch statt aus dem Zwischenspeicher.
+  if(Array.isArray(ex.bilder) && ex.geaendert) ex.bilder = ex.bilder.map(b => typeof b === 'string' && !b.includes('?') ? `${b}?v=${ex.geaendert}` : b);
   delete ex.kategorie; delete ex.dauer;
   return ex;
 }
@@ -609,9 +614,9 @@ function bildUrl(b){
 }
 // Medien einer Übung (Feld bilder[]): Fotos und Videos gemischt, als Blob (lokal) oder Pfad (GitHub)
 const VIDEO_MAX_MB = 20;
-const istVideo = b => typeof b === 'string' ? /\.(mp4|webm|mov|m4v)$/i.test(b) : !!(b && b.type && b.type.startsWith('video/'));
+const istVideo = b => typeof b === 'string' ? /\.(mp4|webm|mov|m4v)(\?|$)/i.test(b) : !!(b && b.type && b.type.startsWith('video/'));
 function videoEndung(b){
-  if(typeof b === 'string') return (b.match(/\.(\w+)$/) || [, 'mp4'])[1].toLowerCase();
+  if(typeof b === 'string') return (b.match(/\.(\w+)(\?|$)/) || [, 'mp4'])[1].toLowerCase();
   return b.type.includes('webm') ? 'webm' : b.type.includes('quicktime') ? 'mov' : 'mp4';
 }
 // Video-Tag; '#t=0.1' zeigt am Handy direkt ein Standbild statt einer schwarzen Fläche
@@ -1538,14 +1543,82 @@ async function verkleinere(file){
     return await new Promise(r => c.toBlob(r, 'image/jpeg', 0.82));
   } finally { URL.revokeObjectURL(url); }
 }
+/* Video verkleinern: im Hintergrund abspielen, Bild für Bild auf ein Canvas zeichnen und mit MediaRecorder
+   neu aufnehmen (720p, ca. 1,5 Mbit/s, ohne Ton, WebM). Dauert so lange wie das Video. Gibt null zurück, wenn es nicht geht. */
+const VIDEO_KANTE = 1280, VIDEO_BITRATE = 1500000;
+async function komprimiereVideo(file, fortschritt){
+  if(!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) return null;
+  const typ = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find(t => MediaRecorder.isTypeSupported(t));
+  if(!typ) return null;
+  const url = URL.createObjectURL(file);
+  const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.preload = 'auto'; v.src = url;
+  let stream = null, laeuft = false;
+  try{
+    await new Promise((res, rej) => { v.onloadedmetadata = res; v.onerror = () => rej(v.error); });
+    if(!v.videoWidth) return null;
+    const f = Math.min(1, VIDEO_KANTE / Math.max(v.videoWidth, v.videoHeight));
+    const w = Math.round(v.videoWidth*f/2)*2, h = Math.round(v.videoHeight*f/2)*2;
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    stream = c.captureStream(30);
+    const rec = new MediaRecorder(stream, {mimeType:typ, videoBitsPerSecond:VIDEO_BITRATE});
+    const teile = []; rec.ondataavailable = e => { if(e.data && e.data.size) teile.push(e.data); };
+    const gestoppt = new Promise(res => rec.onstop = res);
+    const dauer = isFinite(v.duration) && v.duration > 0 ? v.duration : 0;
+    const zeichne = () => {
+      if(!laeuft) return;
+      ctx.drawImage(v, 0, 0, w, h);
+      if(dauer) fortschritt(Math.min(1, v.currentTime / dauer));
+      v.requestVideoFrameCallback ? v.requestVideoFrameCallback(zeichne) : requestAnimationFrame(zeichne);
+    };
+    ctx.drawImage(v, 0, 0, w, h);
+    rec.start(1000); laeuft = true;
+    await v.play();
+    zeichne();
+    // Ende abwarten; Sicherheitsgrenze, falls das Video hängen bleibt
+    const ok = await new Promise(res => {
+      v.onended = () => res(true); v.onerror = () => res(false);
+      setTimeout(() => res(false), ((dauer || 60) * 2 + 15) * 1000);
+    });
+    laeuft = false; rec.stop(); await gestoppt;
+    if(!ok || !teile.length) return null;
+    return new Blob(teile, {type:'video/webm'});
+  }catch(err){ console.warn('Komprimierung fehlgeschlagen', err); return null; }
+  finally{
+    laeuft = false; v.pause(); v.removeAttribute('src'); v.load();
+    if(stream) stream.getTracks().forEach(t => t.stop());
+    URL.revokeObjectURL(url);
+  }
+}
+// Fortschrittsanzeige während der Komprimierung (lässt sich nicht wegtippen)
+function fortschrittModal(titel){
+  modal(`<h2>🎬 ${titel}</h2><p>Das Video wird verkleinert, das dauert so lange wie das Video. Bitte die App offen lassen.</p>
+    <div class="fortschritt"><div id="komp-balken"></div></div><p id="komp-text" style="text-align:center;margin:0">0 %</p>`, () => {});
+  return {
+    setze: x => { const b = $('#komp-balken'), t = $('#komp-text'); if(b) b.style.width = Math.round(x*100) + '%'; if(t) t.textContent = Math.round(x*100) + ' %'; },
+    zu: () => { const m = $('#modal'); m.classList.remove('offen'); m.onclick = null; },
+  };
+}
 $('#datei').onchange = async e => {
   const files = [...e.target.files]; if(!files.length || !EDIT) return;
-  toast(files.length > 1 ? `${files.length} Dateien werden geladen …` : 'Wird geladen …');
+  const videos = files.filter(f => f.type.startsWith('video/')).length;
+  if(files.length > videos) toast(files.length - videos > 1 ? `${files.length - videos} Bilder werden geladen …` : 'Bild wird geladen …');
+  let vNr = 0;
   for(const f of files){
     if(f.type.startsWith('video/')){
-      // Videos werden nicht verkleinert, nur auf die Größe geprüft (GitHub-Upload über die Website: max. 25 MB)
-      if(f.size > VIDEO_MAX_MB * 1024 * 1024){ toast(`Video zu groß (${Math.round(f.size/1048576)} MB, max. ${VIDEO_MAX_MB} MB) – bitte kürzer aufnehmen, ca. 10–15 s`); continue; }
-      EDIT.bilder.push(new Blob([f], {type:f.type})); continue;
+      vNr++;
+      const fm = fortschrittModal(videos > 1 ? `Video ${vNr} von ${videos}` : 'Video wird verkleinert');
+      await wachHalten();
+      const klein = await komprimiereVideo(f, fm.setze);
+      if(!T) wachLoslassen();
+      fm.zu();
+      // Kleineres Ergebnis nehmen, sonst das Original
+      const b = klein && klein.size < f.size ? klein : new Blob([f], {type:f.type});
+      // Limit wegen GitHub-Upload über die Website (max. 25 MB pro Datei)
+      if(b.size > VIDEO_MAX_MB * 1024 * 1024){ toast(`Video zu groß (${Math.round(b.size/1048576)} MB, max. ${VIDEO_MAX_MB} MB) – bitte kürzer aufnehmen`); continue; }
+      EDIT.bilder.push(b);
+      toast(b === klein ? `Video verkleinert: ${(f.size/1048576).toFixed(1)} → ${(b.size/1048576).toFixed(1)} MB` : 'Video übernommen (nicht verkleinert)');
+      continue;
     }
     try{ const b = await verkleinere(f); if(b) EDIT.bilder.push(b); }catch(err){ toast('Ein Bild konnte nicht geladen werden'); }
   }
@@ -1715,7 +1788,7 @@ function renderEinstellungen(){
       <p class="muted" style="font-weight:600;margin:0 0 12px;font-size:.9rem">${LOKAL ? `${LOKAL} ${LOKAL===1?'Änderung ist':'Änderungen sind'} bisher nur auf diesem Handy.` : 'Alles auf dem GitHub-Stand.'} Der Export enthält den ganzen Übungspool mit Bildern und alle Pläne für GitHub.</p>
       <button class="btn ${LOKAL?'':'zweit'}" id="s-exp">${I.export} Für GitHub exportieren</button>
     </div>
-    <div class="version">FlivFit v${APP_VERSION}${REPO.stand ? ` · Übungsstand ${new Date(REPO.stand).toLocaleDateString('de-DE')}` : ''}</div>`;
+    <div class="version">FlivFit v${APP_VERSION}${REPO.stand ? ` · Übungsstand ${new Date(REPO.stand).toLocaleDateString('de-DE')}, ${new Date(REPO.stand).toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'})}` : ''}</div>`;
   el.querySelector('#s-zur').onclick = zurueck;
   el.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
     const k = b.dataset.s; S[k] = Math.min(+b.dataset.max, Math.max(+b.dataset.min, S[k] + (+b.dataset.d)));
