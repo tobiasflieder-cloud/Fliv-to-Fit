@@ -391,6 +391,68 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 #s-training[data-phase=abwehr] .ring .vg{stroke:var(--accent-d)}
 #s-training[data-phase=puste] .ring .vg{stroke:var(--sage-d)}
 .sieg-figur{width:170px;height:170px;margin:0 auto}
+/* ===== Abenteuer v1.7: Karte, Level, Animationen ===== */
+.ab-status{padding:14px 16px}
+.ab-lvl{font-size:1.05rem;color:var(--ink)}
+.ab-bar.ep i{background:linear-gradient(90deg,#D6C8EE,#9B83C4)}
+.ab-kartenkarte{padding:14px}
+.ab-kartenkarte h3{margin:2px 4px 10px}
+.karte-box{height:390px;overflow-y:auto;border-radius:18px;scrollbar-width:none;background:#E4EEDA}
+.karte-box::-webkit-scrollbar{display:none}
+.karte-svg{display:block;width:100%;height:auto}
+.karte-svg .st-name{font:800 10px Nunito,sans-serif;fill:#6B5A52}
+.karte-svg .station.blass{opacity:.42}
+.karte-svg .station.blass .st-name{fill:#9C8981}
+.figur-bob{animation:bob 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.ab-ziel{text-align:center;padding:12px 4px 10px;display:flex;flex-direction:column;gap:2px}
+.ab-ziel b{font-size:1.15rem}
+.slot.gesperrt .thumb{background:#F1E6DC;font-size:1rem;display:grid;place-items:center}
+.slot.gesperrt{opacity:.6}
+/* Trainings-Kopf */
+.ab-minikarte{flex:1;min-width:0;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.ab-minikarte{background:#E8F0DE}
+.ab-minikarte .karte-svg{height:118px}
+.ab-kopf.karte{flex-direction:column;align-items:stretch;gap:4px}
+.ab-kopf.karte .ab-bar{margin-bottom:2px}
+.ab-wesen{width:72px;height:72px;flex:none;position:relative}
+.ab-wesen-svg{width:100%;height:100%}
+.ab-wesen-svg.kichert{animation:kichern .5s ease}
+.ab-wesen-svg.lacht{animation:lachen .9s ease}
+.ab-wesen-svg.plopp{animation:plopp .5s ease}
+.ab-wesen-svg.pustet{animation:pusten 1s ease}
+@keyframes kichern{0%,100%{transform:none}30%{transform:scale(1.08,.9) translateY(3px)}60%{transform:scale(.95,1.08) translateY(-4px)}}
+@keyframes lachen{0%,100%{transform:none}15%{transform:rotate(-9deg) scale(1.08)}30%{transform:rotate(8deg) scale(1.1,.94)}45%{transform:rotate(-7deg)}60%{transform:rotate(6deg) translateY(-5px)}80%{transform:rotate(-3deg)}}
+@keyframes plopp{0%{transform:scale(1)}40%{transform:scale(1.25)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes pusten{0%,100%{transform:none}30%,60%{transform:scale(1.18,1.1)}75%{transform:scale(.92,1.04) translateX(4px)}}
+.ab-effekte{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.partikel{position:absolute;bottom:40%;font-size:.95rem;font-weight:800;animation:steigen 1.2s ease-out forwards;opacity:0;filter:saturate(2.2) brightness(.9);text-shadow:0 0 2px #fff}
+.partikel.gross{font-size:1.3rem;animation-duration:1.5s}
+@keyframes steigen{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:1;transform:translate(calc(var(--dx)*.3),-14px) scale(1)}100%{opacity:0;transform:translate(var(--dx),-58px) scale(.8)}}
+.ab-pop{position:absolute;left:2px;top:-8px;white-space:nowrap;font-weight:800;font-size:1.15rem;color:var(--accent-d);opacity:0;pointer-events:none;text-shadow:0 2px 0 #fff}
+.ab-pop.an{animation:aufploppen 1.4s ease forwards}
+@keyframes aufploppen{0%{opacity:0;transform:translateY(8px) scale(.5)}20%{opacity:1;transform:translateY(-6px) scale(1.2)}70%{opacity:1;transform:translateY(-10px) scale(1.08)}100%{opacity:0;transform:translateY(-18px) scale(1)}}
+.ab-pop{transform-origin:left center;z-index:2}
+.grummelwolke{position:absolute;left:55%;top:20%;font-size:1.6rem;color:#A99FB8;animation:wolkeFliegt 1.3s ease-in forwards}
+@keyframes wolkeFliegt{0%{opacity:0;transform:scale(.4)}25%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:translate(150px,38px) scale(.6)}}
+.ab-bar.wackel{animation:wackeln .5s ease}
+@keyframes wackeln{0%,100%{transform:none}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+#s-training[data-phase=wandern]{background:linear-gradient(180deg,#E3EFDA,#FBF4EC 70%)}
+#s-training[data-phase=rast]{background:linear-gradient(180deg,#F6E7C8,#FBF4EC 70%)}
+#s-training[data-phase=wandern] .ring .vg{stroke:var(--sage-d)}
+#s-training[data-phase=rast] .ring .vg{stroke:#D9A93A}
+/* Sieg & Level */
+.ep-gewinn{font-size:2rem;font-weight:800;color:#8A6FBF}
+.konfetti i.bluete{width:12px;height:12px;border-radius:70% 0 70% 0;animation-name:bluetenfall;animation-timing-function:ease-in-out;box-shadow:0 0 0 1px rgba(243,198,207,.4)}
+@keyframes bluetenfall{0%{transform:translate(0,0) rotate(var(--dreh))}25%{transform:translate(18px,28vh) rotate(calc(var(--dreh) + 90deg))}50%{transform:translate(-14px,55vh) rotate(calc(var(--dreh) + 180deg))}75%{transform:translate(16px,82vh) rotate(calc(var(--dreh) + 270deg))}100%{transform:translate(0,110vh) rotate(calc(var(--dreh) + 360deg))}}
+.levelup{text-align:center}
+.levelup .lu-stern{font-size:3rem;animation:hops 1s ease}
+.levelup h2{font-size:1.7rem;color:#8A6FBF}
+.levelup ul{text-align:left;display:inline-block;margin:0 0 16px;padding-left:20px;font-weight:700}
+@media (prefers-reduced-motion: reduce){
+  .wesen .koerper,.figur-bob,.ab-wesen-svg,.partikel,.grummelwolke,.ab-pop.an,.ab-bar.wackel,.konfetti i,.levelup .lu-stern,#s-fertig .gross-em{animation:none !important}
+  .partikel,.grummelwolke,.konfetti{display:none}
+}
 </style>
 </head>
 <body data-screen="home">
@@ -404,10 +466,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
     <button class="icon-btn" id="tr-ton" aria-label="Ton an/aus"></button>
   </div>
   <div class="tr-prog"><div id="tr-prog"></div></div>
-  <div class="ab-kopf"><div class="ab-wesen" id="ab-wesen"></div><div class="ab-balken">
-    <div class="ab-zeile"><span>😊 Laune</span><span class="ab-plus" id="ab-plus"></span><b id="ab-laune-zahl"></b></div><div class="ab-bar laune"><i id="ab-laune"></i></div>
-    <div class="ab-zeile"><span>⚡ Energie</span><b id="ab-energie-zahl"></b></div><div class="ab-bar energie"><i id="ab-energie"></i></div>
-  </div></div>
+  <div class="ab-kopf" id="ab-kopf"></div>
   <div class="ab-text" id="ab-text"></div>
   <div class="tr-label" id="tr-label"></div>
   <div class="tr-bild" id="tr-bild"></div>
@@ -450,7 +509,7 @@ body[data-screen=home] .nav,body[data-screen=uebungen] .nav,body[data-screen=ver
 
 <script>
 'use strict';
-const APP_VERSION = '1.6.0';
+const APP_VERSION = '1.7.0';
 const $ = s => document.querySelector(s);
 
 /* ---------- Icons ---------- */
@@ -1046,7 +1105,7 @@ function renderPlan(){
 /* ---------- Timer-Training ---------- */
 let T = null, KARUSSELL = null;
 const PHASE_TEXT = {uebung:'💪 Übung', pause:'🍃 Pause', wechsel:'🔄 Seite wechseln', bereit:'✨ Gleich geht’s los',
-                    grummel:'😤 Grummel-Angriff', abwehr:'🛡️ Abwehr – halten!', puste:'🍃 Puste-Pause'};
+                    grummel:'😤 Grummel-Angriff', abwehr:'🛡️ Abwehr – halten!', puste:'🍃 Puste-Pause', wandern:'🥾 Wandern', rast:'🏕️ Rast'};
 const phaseEnde = (p, ab) => p.wdh ? Infinity : ab + p.dauer*1000;
 
 function bauePhasen(plan){
@@ -1101,8 +1160,8 @@ function naechstePhase(ab, uebersprungen){
   if(T.i >= T.ph.length){ trainingFertig(false); return false; }
   const p = T.ph[T.i];
   T.ende = phaseEnde(p, ab); T.letzterBeep = null;
-  if(p.typ === 'uebung' || p.typ === 'abwehr'){ ton(2300, 0.5); vib(350); }
-  else if(p.typ === 'pause' || p.typ === 'puste'){ ton(1500, 0.2); ton(1100, 0.4, 0.22); vib([120, 80, 120]); }
+  if(p.typ === 'uebung' || p.typ === 'abwehr' || p.typ === 'wandern'){ ton(2300, 0.5); vib(350); }
+  else if(p.typ === 'pause' || p.typ === 'puste' || p.typ === 'rast'){ ton(1500, 0.2); ton(1100, 0.4, 0.22); vib([120, 80, 120]); }
   else if(p.typ === 'wechsel' || p.typ === 'grummel'){ ton(1700, 0.15); ton(1700, 0.15, 0.2); vib(180); }
   renderPhase();
   return true;
@@ -1151,7 +1210,8 @@ async function beendenFragen(){
   if(!T) return;
   const war = T.pausiert;
   if(!war && !T.ph[T.i].wdh) pauseUmschalten();
-  const ja = await frage('Training beenden?', 'Dein bisheriges Training wird im Verlauf gespeichert, wenn es länger als eine Minute ging.', 'Beenden', 'Weitermachen', true);
+  const ja = T.ab ? await frage('Abenteuer beenden?', 'Dein Weg auf der Karte und deine Freunde bleiben erhalten. Die Laune eines halb aufgeheiterten Wesens nicht.', 'Beenden', 'Weitermachen', true)
+                 : await frage('Training beenden?', 'Dein bisheriges Training wird im Verlauf gespeichert, wenn es länger als eine Minute ging.', 'Beenden', 'Weitermachen', true);
   if(!T) return;
   if(ja) trainingFertig(true);
   else if(!war && T.pausiert) pauseUmschalten();
@@ -1162,6 +1222,7 @@ function detailText(logs){
   return [...g].map(([n, v]) => `${n} ${v.join('·')}`).join(', ');
 }
 function trainingFertig(abgebrochen){
+  if(T.ab){ abenteuerAbbruch(); return; }   // Abenteuer: Sitzung buchen (Sieg läuft über abenteuerSieg)
   clearInterval(T.interval); stoppeKarussell();
   wachLoslassen();
   const jetzt = Date.now();
@@ -1169,11 +1230,6 @@ function trainingFertig(abgebrochen){
   const erledigt = new Set(T.ph.slice(0, abgebrochen ? T.i : T.ph.length).filter(p => p.typ === 'uebung').map(p => p.nr)).size;
   const e = {datum:new Date().toISOString(), art:T.plan.art, titel: T.plan.art === 'plan' ? T.plan.name : null, dauer:sek, geplant:T.plan.zeit,
              kats:T.plan.kats, uebungen:erledigt, vollstaendig:!abgebrochen, details: detailText(T.logs) || undefined};
-  if(T.ab){   // Abenteuer: Angriffe statt Übungen, Wesen und Puste-Pausen merken
-    const ab = T.ab;
-    Object.assign(e, {titel:`🌳 Abenteuer: ${ab.wesen.name}`, kats:[...ab.kats], uebungen:ab.angriffe, wesen:ab.wesen.id, puste:ab.puste,
-                      sieg:!!ab.sieg, neuerFreund:!!ab.neuerFreund});
-  }
   if(!abgebrochen || sek >= 60){ VERLAUF.unshift(e); vSpeichern(); }
   T = null;
   if(abgebrochen){ history.replaceState({s:'home'}, ''); zeige('home'); toast(sek >= 60 ? 'Training gespeichert' : 'Training beendet'); return; }
@@ -1267,39 +1323,106 @@ function initTrainingSteuerung(){
   $('#tr-besch').onclick = e => e.currentTarget.classList.toggle('offen');
 }
 
-/* ---------- Abenteuer (Teil 1: Kampf-Kern) ----------
-   Man heitert grummelige Wesen auf: Übungen sind Angriffe, die Kategorie ist die Angriffsart.
-   Der Kampf läuft über die Timer-Engine (T.ab ist gesetzt). Phasen werden fortlaufend angehängt (abenteuerPhaseEnde),
-   bis der Laune-Balken voll ist. Man kann nicht verlieren.
-   Erweiterungspunkte für später: Erfahrungspunkte/Level (in abenteuerSieg), Items/Equipment (Bonus in abBonus/launeProSek),
-   Weltkarte mit Etappen und Bossen (WESEN um Etappe/Bedingung ergänzen), echte Grafiken (wesenSvg). */
+/* ---------- Abenteuer ----------
+   Teil 1 (v1.6): Kampf-Kern – grummelige Wesen werden aufgeheitert (Laune-Balken), Übungen sind Angriffe, man kann nicht verlieren.
+   Teil 2 (v1.7): Karte mit Stationen, Sitzungen (Wandern → Station → …), Energie über Kämpfe hinweg, Level & EP, Animationen.
+   Der Kampf läuft über die Timer-Engine (T.ab ist gesetzt); abenteuerPhaseEnde() hängt die Phasen fortlaufend an.
+   Erweiterungspunkte für später: Items/Equipment (Bonus in abBonus/launeProSek), weitere Gebiete und Bosse (KARTE),
+   Bedingungen (Felder in WESEN/KARTE), echte Grafiken (wesenSvg, karteSvg). */
 const WESEN = [
-  {id:'pilz', name:'Grummelpilz', mitArtikel:'Der Grummelpilz', freund:'dein Freund', ziel:200, mag:['Beine'], nein:['Arme'], farbe:'#F7CDB6',
+  {id:'pilz', name:'Grummelpilz', kurz:'Grummelpilz', mitArtikel:'Der Grummelpilz', freund:'dein Freund', ziel:200, mag:['Beine'], nein:['Arme'], farbe:'#F7CDB6',
    intro:'Der Grummelpilz hat schlechte Laune. Seit Tagen hat es nicht geregnet, und keiner bewundert seinen Hut.',
    freude:'Hihi, das hat gutgetan! Mein Hut kribbelt vor Freude.'},
-  {id:'igel', name:'Mürrischer Igel', mitArtikel:'Der Mürrische Igel', freund:'dein Freund', ziel:240, mag:['Bauch'], nein:['Rücken'], farbe:'#F6E3A9',
+  {id:'igel', name:'Mürrischer Igel', kurz:'Igel', mitArtikel:'Der Mürrische Igel', freund:'dein Freund', ziel:240, mag:['Bauch'], nein:['Rücken'], farbe:'#F6E3A9',
    intro:'Der Mürrische Igel hat sich zu einer stacheligen Kugel eingerollt und brummt vor sich hin.',
    freude:'Oh! Meine Stacheln sind ganz weich geworden. Danke dir!'},
-  {id:'schnecke', name:'Nebelschnecke', mitArtikel:'Die Nebelschnecke', freund:'deine Freundin', ziel:260, mag:['Schulter'], nein:['Beine'], farbe:'#DCD0EC',
+  {id:'schnecke', name:'Nebelschnecke', kurz:'Nebelschnecke', mitArtikel:'Die Nebelschnecke', freund:'deine Freundin', ziel:260, mag:['Schulter'], nein:['Beine'], farbe:'#DCD0EC',
    intro:'Die Nebelschnecke hat sich im Morgennebel verlaufen und ist sehr, sehr langsam schlecht gelaunt.',
    freude:'Der Nebel ist weg! Ich sehe endlich wieder die Sonne.'},
-  {id:'kraehe', name:'Brummelkrähe', mitArtikel:'Die Brummelkrähe', freund:'deine Freundin', ziel:290, mag:['Rücken'], nein:['Bauch'], farbe:'#CBDFEC',
+  {id:'kraehe', name:'Brummelkrähe', kurz:'Brummelkrähe', mitArtikel:'Die Brummelkrähe', freund:'deine Freundin', ziel:290, mag:['Rücken'], nein:['Bauch'], farbe:'#CBDFEC',
    intro:'Die Brummelkrähe sitzt auf ihrem Ast und krächzt jeden an, der vorbeikommt.',
    freude:'Kraah-haha! So gut gelaunt war ich seit Jahren nicht!'},
-  {id:'moosriese', name:'Moosriese', mitArtikel:'Der Moosriese', freund:'dein Freund', ziel:360, mag:['Po', 'Hüfte'], nein:['Schulter'], farbe:'#C5D8BF',
+  {id:'moosriese', name:'Moosriese', kurz:'Moosriese', mitArtikel:'Der Moosriese', freund:'dein Freund', ziel:360, mag:['Po', 'Hüfte'], nein:['Schulter'], farbe:'#C5D8BF',
    intro:'Der Moosriese ist uralt, sehr groß und sehr grummelig. Seit hundert Jahren hat er nicht gelacht.',
    freude:'Ho ho ho! Das Moos auf meinem Rücken blüht wieder!'},
 ];
 const wesenById = id => WESEN.find(w => w.id === id) || WESEN[0];
-const AB_SLOTS = 6, AB_ENERGIE = 100, AB_ABWEHR_S = 15, AB_GRUMMEL_S = 5, AB_PUSTE_S = 30;
+const AB_GRUNDSLOTS = 6, AB_ABWEHR_S = 15, AB_GRUMMEL_S = 5, AB_PUSTE_S = 30, AB_WANDERN_S = 30, AB_RAST_S = 30;
+const AB_EP_MINUTE = 10, AB_EP_RAST = 30, AB_EP_GEBIET = 150;
 
-// Speicher pro Profil: {slots:[übungs-id], geraete:[], freunde:{<wesen-id>:{erstesMal, anzahl}}}
-let AB = null, AB_WAHL = null;   // AB_WAHL: per „Anderes Wesen wählen“ gewähltes Wesen (nur bis zum nächsten Sieg)
-function abLaden(){ AB = Object.assign({slots:[], geraete:[], freunde:{}}, laden('abenteuer.'+PROFIL, {})); AB_WAHL = null; }
+/* Karte: Gebiete mit Stationen in Wegreihenfolge. Weitere Gebiete später einfach anhängen. */
+const KARTE = [
+  {id:'pilzwald', name:'Pilzwald', emoji:'🍄',
+   stationen:[{typ:'start'}, {typ:'wesen', id:'pilz'}, {typ:'rast'}, {typ:'wesen', id:'igel'}, {typ:'wesen', id:'schnecke'},
+              {typ:'rast'}, {typ:'wesen', id:'kraehe'}, {typ:'wesen', id:'moosriese'}],
+   weiter:{level:5, wesen:'moosriese'}},   // Bedingung für das nächste Gebiet (Gebiet 2 gibt es noch nicht)
+];
+const GEBIET = KARTE[0];
+const station = i => GEBIET.stationen[i];
+const letzteStation = () => GEBIET.stationen.length - 1;
+const stationName = s => s.typ === 'wesen' ? wesenById(s.id).name : s.typ === 'rast' ? 'Rastplatz' : 'Start';
+const stationEmoji = s => s.typ === 'rast' ? '🏕️' : s.typ === 'start' ? '🚩' : '';
+
+/* Level & EP: Aufstieg von Level n auf n+1 braucht 100 × n EP */
+function levelInfo(ep){
+  let level = 1, rest = Math.max(0, Math.floor(ep || 0));
+  while(rest >= 100 * level){ rest -= 100 * level; level++; }
+  return {level, rest, bedarf:100 * level};
+}
+const abLevel = () => levelInfo(AB.ep).level;
+const maxEnergie = (l = abLevel()) => 100 + 5 * (l - 1);
+const slotAnzahl = (l = abLevel()) => AB_GRUNDSLOTS + (l >= 3 ? 1 : 0) + (l >= 6 ? 1 : 0);
+const levelFaktor = (l = abLevel()) => 1 + 0.05 * (l - 1);
+function levelNeues(l){
+  const n = ['+5 maximale Energie', 'Aufheitern wirkt 5 % stärker'];
+  if(l === 3) n.push('7. Angriffs-Slot frei');
+  if(l === 6) n.push('8. Angriffs-Slot frei');
+  if(l === GEBIET.weiter.level) n.push('Gebiet 2 öffnet sich, sobald der Moosriese dein Freund ist (kommt bald)');
+  return n;
+}
+
+/* Speicher pro Profil (flivfit.abenteuer.<Profil>):
+   {slots:[id], geraete:[], freunde:{<wesen-id>:{erstesMal, anzahl}}, position, energie, energieDatum, ep, uebernahmeV17} */
+let AB = null, AB_LEVELUPS = [], SITZUNG = null;
 const abSpeichern = () => speichern('abenteuer.'+PROFIL, AB);
+const heuteText = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+function abLaden(){
+  AB = Object.assign({slots:[], geraete:[], freunde:{}, position:0, energie:null, energieDatum:null, ep:0, uebernahmeV17:false}, laden('abenteuer.'+PROFIL, {}));
+  AB_LEVELUPS = []; SITZUNG = null;
+  if(!AB.uebernahmeV17) abUebernahme();
+}
+// Einmalig beim ersten Start von v1.7: EP aus Verlauf und Freundebuch, Position nach dem letzten befreundeten Wesen
+function abUebernahme(){
+  let ep = 0;
+  VERLAUF.filter(v => v.art === 'abenteuer').forEach(v => ep += Math.round(v.dauer / 60 * AB_EP_MINUTE));
+  for(const [id, f] of Object.entries(AB.freunde)){
+    const w = WESEN.find(x => x.id === id); if(!w) continue;
+    ep += w.ziel + Math.max(0, (f.anzahl || 1) - 1) * w.ziel / 2 + (id === 'moosriese' ? AB_EP_GEBIET : 0);
+  }
+  AB.ep = Math.round(ep);
+  let pos = 0;
+  GEBIET.stationen.forEach((s, i) => { if(s.typ === 'wesen' && AB.freunde[s.id]) pos = Math.min(i + 1, letzteStation()); });
+  AB.position = pos;
+  AB.energie = maxEnergie(); AB.energieDatum = heuteText();
+  AB.uebernahmeV17 = true; abSpeichern();
+}
 abLaden();
-const naechstesWesen = () => WESEN.find(w => !AB.freunde[w.id]) || null;
-const aktuellesWesen = () => wesenById(AB_WAHL || (naechstesWesen() || WESEN[0]).id);
+// Neuer Tag seit dem letzten Abenteuer → Energie voll
+function energieAuffrischen(){
+  const t = heuteText();
+  if(AB.energie == null || AB.energieDatum !== t){ AB.energie = maxEnergie(); AB.energieDatum = t; abSpeichern(); }
+  AB.energie = Math.min(AB.energie, maxEnergie());
+}
+function energieSetzen(wert){ AB.energie = Math.max(0, Math.min(maxEnergie(), Math.round(wert))); AB.energieDatum = heuteText(); abSpeichern(); }
+// EP gutschreiben; Level-ups werden für das Overlay gesammelt (AB_LEVELUPS)
+function epDazu(n){
+  n = Math.round(n); if(n <= 0) return false;
+  const vor = abLevel(); AB.ep += n; const nach = abLevel();
+  for(let l = vor + 1; l <= nach; l++) AB_LEVELUPS.push(l);
+  if(nach > vor) AB.energie = Math.min(maxEnergie(nach), (AB.energie || 0) + 5 * (nach - vor));
+  abSpeichern();
+  return nach > vor;
+}
 
 // Bonus einer Übung gegen ein Wesen: ×2 bei Schwäche, ×0,5 wenn alle Kategorien unbeeindruckt, sonst ×1
 function abBonus(ex, w){
@@ -1307,22 +1430,23 @@ function abBonus(ex, w){
   if(ex.kategorien.every(k => w.nein.includes(k))) return 0.5;
   return 1;
 }
-const launeProSek = (ex, w) => (ex.staerke || 2) * abBonus(ex, w);
+const launeProSek = (ex, w) => (ex.staerke || 2) * abBonus(ex, w) * levelFaktor();
 const abErlaubt = ex => geraetErlaubt(ex, new Set(AB.geraete));
 const abSlotEx = () => AB.slots.map(exById).filter(ex => ex && ex.profile.includes(PROFIL));
+const zahlText = n => String(Math.round(n * 10) / 10).replace('.', ',');
 
 // Slots aufräumen; sind keine belegt: 6 Übungen aus möglichst verschiedenen Kategorien vorbelegen
 function abSlotsPruefen(){
   const vorher = AB.slots.join();
-  AB.slots = abSlotEx().map(ex => ex.id).slice(0, AB_SLOTS);
+  AB.slots = abSlotEx().map(ex => ex.id).slice(0, slotAnzahl());
   if(!AB.slots.length){
     const pool = poolAktiv(), gewaehlt = [];
     const gruppen = HAUPT.map(k => mischen(pool.filter(u => hatKat(u, k.id)))
       .sort((a, b) => abErlaubt(b) - abErlaubt(a))).filter(g => g.length);
-    for(let runde = 0; gewaehlt.length < AB_SLOTS && runde < 10; runde++){
+    for(let runde = 0; gewaehlt.length < AB_GRUNDSLOTS && runde < 10; runde++){
       for(const g of gruppen){
         const ex = g.find(u => !gewaehlt.includes(u.id));
-        if(ex && gewaehlt.length < AB_SLOTS) gewaehlt.push(ex.id);
+        if(ex && gewaehlt.length < AB_GRUNDSLOTS) gewaehlt.push(ex.id);
       }
     }
     AB.slots = gewaehlt;
@@ -1332,7 +1456,7 @@ function abSlotsPruefen(){
 const sterne = n => '★'.repeat(n) + '☆'.repeat(3 - n);
 
 /* Platzhalter-Grafiken (SVG). Später durch Bilddateien ersetzbar: wesenSvg() liefert nur das Markup für eine Fläche.
-   stimmung: 'grummelig' | 'neutral' | 'froehlich' | 'strahlend' */
+   stimmung: grummelig | neutral | froehlich | strahlend | skeptisch (kurz bei Resistenz) */
 const stimmungAus = (laune, ziel) => { const q = laune / ziel; return q >= 1 ? 'strahlend' : q > 0.66 ? 'froehlich' : q >= 0.33 ? 'neutral' : 'grummelig'; };
 function gesicht(x, y, s, stimmung, mund = true){
   const st = 'stroke="#4A3B36" stroke-width="2.6" stroke-linecap="round" fill="none"';
@@ -1340,10 +1464,12 @@ function gesicht(x, y, s, stimmung, mund = true){
   if(stimmung === 'strahlend') g += `<path d="M-14 1 Q-10 -6 -6 1 M6 1 Q10 -6 14 1" ${st}/>`;
   else g += `<circle cx="-10" cy="0" r="3.3" fill="#4A3B36"/><circle cx="10" cy="0" r="3.3" fill="#4A3B36"/><circle cx="-9" cy="-1.2" r="1" fill="#fff"/><circle cx="11" cy="-1.2" r="1" fill="#fff"/>`;
   if(stimmung === 'grummelig') g += `<path d="M-16 -9 L-5 -5 M16 -9 L5 -5" ${st}/>`;
+  if(stimmung === 'skeptisch') g += `<path d="M-16 -8 L-5 -8 M5 -12 Q10 -16 16 -11" ${st}/>`;
   if(stimmung === 'froehlich' || stimmung === 'strahlend') g += `<circle cx="-17" cy="7" r="4.2" fill="#F39A9A" opacity=".45"/><circle cx="17" cy="7" r="4.2" fill="#F39A9A" opacity=".45"/>`;
   if(mund){
     if(stimmung === 'grummelig') g += `<path d="M-7 13 Q0 7 7 13" ${st}/>`;
     else if(stimmung === 'neutral') g += `<path d="M-6 11 L6 11" ${st}/>`;
+    else if(stimmung === 'skeptisch') g += `<path d="M-6 12 Q0 9 7 10" ${st}/>`;
     else if(stimmung === 'froehlich') g += `<path d="M-8 8 Q0 16 8 8" ${st}/>`;
     else g += `<path d="M-9 7 Q0 21 9 7 Z" fill="#C9704F" stroke="#4A3B36" stroke-width="2.2" stroke-linejoin="round"/>`;
   }
@@ -1396,13 +1522,136 @@ function wesenSvg(id, stimmung = 'grummelig'){
   return `<svg class="wesen ${stimmung}" viewBox="0 0 120 120" aria-hidden="true">${sch}<g class="koerper">${k}</g>${funkeln}</svg>`;
 }
 
+// Wesen-Grafik in ein anderes SVG einsetzen (Karte)
+const svgIn = (svg, x, y, w, h) => svg.replace('<svg ', `<svg x="${x}" y="${y}" width="${w}" height="${h}" `);
+
+/* Karte als SVG-Platzhalter: geschwungener Weg von unten nach oben durch eine weiche Waldlandschaft */
+const KARTE_W = 300, KARTE_ABSTAND = 100;
+const karteH = () => 70 + letzteStation() * KARTE_ABSTAND + 80;
+function stationPunkt(i){ return {x: Math.round(150 + 80 * Math.sin(i * 1.35)), y: karteH() - 60 - i * KARTE_ABSTAND}; }
+function wegStueck(a, b, nurKurve){
+  const p = stationPunkt(a), q = stationPunkt(b), h = KARTE_ABSTAND / 2;
+  return (nurKurve ? '' : `M${p.x} ${p.y} `) + `C${p.x} ${p.y - h} ${q.x} ${q.y + h} ${q.x} ${q.y}`;
+}
+function wegPfad(von, bis){
+  let d = '';
+  for(let i = von; i < bis; i++) d += wegStueck(i, i + 1, i > von) + ' ';
+  return d.trim();
+}
+let KARTE_DEKO = null;
+function karteDeko(){
+  if(KARTE_DEKO) return KARTE_DEKO;
+  const H = karteH(); let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  // Punkte auf dem Weg, um Abstand zu halten
+  const weg = [];
+  for(let i = 0; i < letzteStation(); i++){
+    const p = stationPunkt(i), q = stationPunkt(i + 1), h = KARTE_ABSTAND / 2;
+    for(let t = 0; t <= 1; t += 0.1){
+      const u = 1 - t;
+      weg.push({x: u*u*u*p.x + 3*u*u*t*p.x + 3*u*t*t*q.x + t*t*t*q.x, y: u*u*u*p.y + 3*u*u*t*(p.y - h) + 3*u*t*t*(q.y + h) + t*t*t*q.y});
+    }
+  }
+  const teile = [];
+  const baum = ['#A9C9A0', '#93B98C', '#B9D3AE', '#8FB58F'];
+  for(let n = 0; n < 160 && teile.length < 46; n++){
+    const x = 14 + rnd() * (KARTE_W - 28), y = 24 + rnd() * (H - 40);
+    if(weg.some(w => Math.hypot(w.x - x, w.y - y) < 40)) continue;
+    if(teile.some(t => Math.hypot(t.x - x, t.y - y) < 26)) continue;
+    const art = rnd();
+    teile.push({x, y, art});
+  }
+  teile.sort((a, b) => a.y - b.y);
+  KARTE_DEKO = teile.map(({x, y, art}) => {
+    x = Math.round(x); y = Math.round(y);
+    if(art < 0.6){
+      const f = baum[Math.floor(art * 100) % baum.length], s = 0.8 + (art * 7 % 1) * 0.5;
+      return `<g transform="translate(${x} ${y}) scale(${s.toFixed(2)})"><ellipse cx="0" cy="13" rx="11" ry="3" fill="#4A3B36" opacity=".06"/><rect x="-2.5" y="2" width="5" height="11" rx="2" fill="#C2A285"/>
+        <circle cx="0" cy="-6" r="11" fill="${f}"/><circle cx="-7" cy="0" r="7.5" fill="${f}"/><circle cx="7" cy="0" r="7.5" fill="${f}"/></g>`;
+    }
+    if(art < 0.78) return `<g transform="translate(${x} ${y})"><rect x="-2" y="-1" width="4" height="7" rx="2" fill="#FFF4E8"/><path d="M-7 0 Q-7 -8 0 -8 Q7 -8 7 0 Z" fill="#EFA98A"/><circle cx="-2" cy="-4" r="1.3" fill="#FFF4E8"/></g>`;
+    const bf = ['#F3C6CF', '#F6E3A9', '#DCD0EC', '#fff'][Math.floor(art * 40) % 4];
+    return `<g transform="translate(${x} ${y})"><circle cx="-4" cy="0" r="2.2" fill="${bf}"/><circle cx="3" cy="-2" r="2.2" fill="${bf}"/><circle cx="1" cy="4" r="2.2" fill="${bf}"/></g>`;
+  }).join('');
+  return KARTE_DEKO;
+}
+const figurSvg = (x, y, id = 'figur', gr = 1) => `<g id="${id}" transform="translate(${x} ${y})"><g transform="scale(${gr})"><ellipse cx="0" cy="17" rx="11" ry="3" fill="#4A3B36" opacity=".12"/>
+  <g class="figur-bob"><circle r="15" fill="#FFFCF8" stroke="#E3896A" stroke-width="3"/><text y="5.5" text-anchor="middle" font-size="15">${profilInfo(PROFIL).emoji}</text></g></g></g>`;
+// opts: {mini, von, nach} – mini zeigt nur den Ausschnitt eines Wegstücks (für das Wandern im Trainings-Screen)
+function karteSvg(opts = {}){
+  const H = karteH(), pos = AB.position;
+  const stationen = GEBIET.stationen.map((s, i) => {
+    const p = stationPunkt(i), freund = s.typ === 'wesen' && AB.freunde[s.id], erreicht = i <= pos || freund;
+    const name = `<text x="${p.x}" y="${p.y + 38}" text-anchor="middle" class="st-name">${esc(stationName(s))}</text>`;
+    let inhalt;
+    if(s.typ === 'wesen'){
+      const w = wesenById(s.id);
+      inhalt = `<circle cx="${p.x}" cy="${p.y}" r="25" fill="#FFFCF8" stroke="${w.farbe}" stroke-width="4"/>${svgIn(wesenSvg(s.id, freund ? 'froehlich' : 'grummelig'), p.x - 21, p.y - 23, 42, 42)}
+        ${freund ? `<text x="${p.x + 19}" y="${p.y - 15}" font-size="12">💛</text>` : ''}`;
+    } else {
+      inhalt = `<circle cx="${p.x}" cy="${p.y}" r="${s.typ === 'rast' ? 21 : 17}" fill="#FFFCF8" stroke="${s.typ === 'rast' ? '#E8C79F' : '#E6D9CD'}" stroke-width="4"/>
+        <text x="${p.x}" y="${p.y + 7}" text-anchor="middle" font-size="${s.typ === 'rast' ? 20 : 16}">${stationEmoji(s)}</text>`;
+    }
+    return `<g class="station ${erreicht ? '' : 'blass'}">${inhalt}${opts.mini ? '' : name}</g>`;
+  }).join('');
+  let viewBox = `0 0 ${KARTE_W} ${H}`, figur, extra = '';
+  if(opts.mini){
+    const a = stationPunkt(opts.von), b = stationPunkt(opts.nach), mitte = (a.y + b.y) / 2;
+    viewBox = `-85 ${Math.round(mitte - 85)} ${KARTE_W + 170} 170`;   // breiter Ausschnitt, damit beide Stationen ganz sichtbar sind
+    extra = `<path id="mk-weg" d="${wegStueck(opts.von, opts.nach)}" fill="none" stroke="none"/>`;
+    figur = figurSvg(a.x, a.y - 18, 'mk-figur', 1.35);
+  } else {
+    const p = stationPunkt(pos);
+    figur = figurSvg(p.x, p.y - 42);
+  }
+  return `<svg class="karte-svg" viewBox="${viewBox}" preserveAspectRatio="xMidYMid ${opts.mini ? 'meet' : 'slice'}" aria-hidden="true">
+    <defs><linearGradient id="wiese${opts.mini ? 'm' : ''}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4EEDA"/><stop offset="1" stop-color="#F3EEDC"/></linearGradient></defs>
+    <rect x="-300" y="-100" width="${KARTE_W + 600}" height="${H + 200}" fill="url(#wiese${opts.mini ? 'm' : ''})"/>
+    <ellipse cx="60" cy="${Math.round(H * 0.3)}" rx="70" ry="40" fill="#fff" opacity=".25"/><ellipse cx="250" cy="${Math.round(H * 0.7)}" rx="80" ry="46" fill="#fff" opacity=".22"/>
+    ${karteDeko()}
+    <path d="${wegPfad(0, letzteStation())}" fill="none" stroke="#EADBC6" stroke-width="12" stroke-linecap="round"/>
+    <path d="${wegPfad(0, letzteStation())}" fill="none" stroke="#F6EEE2" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 11"/>
+    ${pos > 0 ? `<path d="${wegPfad(0, pos)}" fill="none" stroke="#F2C3A5" stroke-width="6" stroke-linecap="round"/>` : ''}
+    ${extra}${stationen}${figur}
+  </svg>`;
+}
+// Figur im Mini-Ausschnitt entlang des Wegstücks bewegen (anteil 0…1)
+function figurBewegen(anteil){
+  const weg = document.getElementById('mk-weg'), fig = document.getElementById('mk-figur');
+  if(!weg || !fig || !weg.getTotalLength) return;
+  const pt = weg.getPointAtLength(weg.getTotalLength() * Math.max(0, Math.min(1, anteil)));
+  fig.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${(pt.y - 18).toFixed(1)})`);
+}
+
 /* Startseite, Reiter „Abenteuer“ */
+function naechstesZiel(){
+  const s = station(AB.position);
+  if(s.typ === 'wesen' && !AB.freunde[s.id]) return {hier:true, s, i:AB.position};   // Kampf an der aktuellen Station steht noch aus
+  if(AB.position < letzteStation()) return {hier:false, s:station(AB.position + 1), i:AB.position + 1};
+  return null;
+}
 function abenteuerInhalt(){
-  abSlotsPruefen();
-  const w = aktuellesWesen(), freund = AB.freunde[w.id];
+  abSlotsPruefen(); energieAuffrischen();
+  const li = levelInfo(AB.ep), max = maxEnergie(li.level), ziel = naechstesZiel();
   const tag = (k, cls, vor) => `<span class="ab-tag ${cls}">${vor} ${kat(k).emoji} ${k}</span>`;
-  const slots = abSlotEx();
-  const zeilen = Array.from({length:AB_SLOTS}, (_, i) => {
+  let zielHtml;
+  if(ziel){
+    const s = ziel.s, w = s.typ === 'wesen' ? wesenById(s.id) : null;
+    zielHtml = `<div class="ab-ziel">
+        <span class="muted">${ziel.hier ? 'Du stehst bei' : 'Nächstes Ziel'}</span>
+        <b>${w ? esc(w.name) : `${stationEmoji(s)} ${stationName(s)}`}</b>
+        ${w ? `<div class="ab-tags">${w.mag.map(k => tag(k, 'mag', 'Mag:')).join('')}${w.nein.map(k => tag(k, 'nein', 'Unbeeindruckt von:')).join('')}</div>`
+            : '<span class="muted" style="font-size:.85rem">Energie wieder voll, kurz dehnen, +30 EP</span>'}
+      </div>
+      <button class="btn" id="ab-los">${ziel.hier ? `${I.play} ${esc(w.name)} aufheitern` : '🥾 Weiter wandern'}</button>`;
+  } else {
+    const bed = GEBIET.weiter, ok = li.level >= bed.level && AB.freunde[bed.wesen];
+    zielHtml = `<div class="ab-ziel"><b>Du hast den ${GEBIET.name} durchwandert! 🎉</b>
+      <span class="muted" style="font-size:.88rem">Gebiet 2 kommt bald. Es öffnet sich ab Level ${bed.level}, wenn der Moosriese dein Freund ist${ok ? ' – das hast du schon geschafft!' : ` (du bist Level ${li.level})`}.</span></div>`;
+  }
+  const n = slotAnzahl(li.level), slots = abSlotEx();
+  const zeilen = Array.from({length:AB_GRUNDSLOTS + 2}, (_, i) => {
+    if(i >= n) return `<div class="slot gesperrt"><div class="thumb">🔒</div><div class="mitte"><b class="muted">Gesperrt</b><span>ab Level ${i === AB_GRUNDSLOTS ? 3 : 6}</span></div></div>`;
     const ex = slots[i];
     if(!ex) return `<div class="slot leer"><div class="thumb"></div><div class="mitte"><b class="muted">Freier Platz</b></div></div>`;
     const ok = abErlaubt(ex);
@@ -1410,13 +1659,16 @@ function abenteuerInhalt(){
       <span>${ex.kategorien.map(k => kat(k).emoji).join(' ')} · <span class="sterne">${sterne(ex.staerke)}</span>${ok ? '' : ' · passt nicht zu „Womit?“'}</span></div></div>`;
   }).join('');
   return `
-    <div class="card ab-karte">
-      <div class="ab-figur">${wesenSvg(w.id, 'grummelig')}</div>
-      <h2>${esc(w.name)}</h2>
-      <p class="info-text" style="margin:0 0 4px">${esc(w.intro)}</p>
-      ${freund ? `<p class="muted" style="font-weight:700;font-size:.82rem;margin:0">💛 Schon ${freund.anzahl}× aufgeheitert</p>` : ''}
-      <div class="ab-tags">${w.mag.map(k => tag(k, 'mag', 'Mag:')).join('')}${w.nein.map(k => tag(k, 'nein', 'Unbeeindruckt von:')).join('')}</div>
-      <button class="link-btn" id="ab-wesen-wahl">Anderes Wesen wählen</button>
+    <div class="card ab-status">
+      <div class="ab-zeile"><b class="ab-lvl">Level ${li.level}</b><span>${li.rest} / ${li.bedarf} EP</span></div>
+      <div class="ab-bar ep"><i style="width:${(100 * li.rest / li.bedarf).toFixed(1)}%"></i></div>
+      <div class="ab-zeile"><span>⚡ Energie</span><b>${AB.energie} / ${max}</b></div>
+      <div class="ab-bar energie"><i style="width:${(100 * AB.energie / max).toFixed(1)}%"></i></div>
+    </div>
+    <div class="card ab-kartenkarte">
+      <h3>${GEBIET.emoji} ${GEBIET.name}</h3>
+      <div class="karte-box" id="karte-box">${karteSvg()}</div>
+      ${zielHtml}
     </div>
     <div class="card"><h3>Womit? <span class="muted" style="font-weight:600;font-size:.88rem">· ${AB.geraete.length ? 'mehrere möglich' : 'Alle Geräte'}</span></h3>
       <div class="chips">${['ohne', ...GERAETE.map(g => g.id)].map(g => `<button class="chip ${AB.geraete.includes(g)?'an':''}" data-abgeraet="${g}">${geraet(g).emoji} ${geraetName(g)}</button>`).join('')}</div>
@@ -1424,58 +1676,56 @@ function abenteuerInhalt(){
     <div class="card"><h3 style="display:flex;align-items:center">Deine Angriffe<span style="flex:1"></span><button class="btn klein zweit" id="ab-slots">${I.stift} Bearbeiten</button></h3>
       <div class="slot-liste">${zeilen}</div>
     </div>
-    <button class="btn" id="ab-los">${I.play} Los geht’s</button>
-    <button class="btn zweit" id="ab-buch" style="margin-top:10px">📖 Freundebuch</button>`;
+    <button class="btn zweit" id="ab-buch">📖 Freundebuch</button>`;
 }
 function abenteuerBinden(el){
-  el.querySelector('#ab-wesen-wahl').onclick = wesenWaehlen;
   el.querySelectorAll('[data-abgeraet]').forEach(b => b.onclick = () => {
     const g = b.dataset.abgeraet, i = AB.geraete.indexOf(g);
     i >= 0 ? AB.geraete.splice(i, 1) : AB.geraete.push(g);
     abSpeichern(); renderHome();
   });
   el.querySelector('#ab-slots').onclick = () => navigiere('auswahl', true, {zweck:'slots', vorauswahl:[...AB.slots]});
-  el.querySelector('#ab-los').onclick = starteAbenteuer;
+  const los = el.querySelector('#ab-los'); if(los) los.onclick = () => abenteuerStarten({});
   el.querySelector('#ab-buch').onclick = () => navigiere('freundebuch');
-}
-function wesenWaehlen(){
-  const n = naechstesWesen();
-  const liste = WESEN.filter(w => AB.freunde[w.id] || (n && w.id === n.id));
-  const akt = aktuellesWesen().id;
-  modal(`<h2>Wen möchtest du aufheitern?</h2>
-    <div class="wesen-liste">${liste.map(w => `<button class="wesen-zeile ${w.id === akt ? 'an' : ''}" data-w="${w.id}"><span class="ab-figur">${wesenSvg(w.id, AB.freunde[w.id] ? 'froehlich' : 'grummelig')}</span>
-      <div><b>${esc(w.name)}</b><span>${AB.freunde[w.id] ? `💛 ${AB.freunde[w.id].anzahl}× aufgeheitert` : '✨ Neu auf deinem Weg'}</span></div></button>`).join('')}</div>
-    <div class="reihe"><button class="btn zweit" data-a="x">Schließen</button></div>`,
-    (e, zu, m) => {
-      const b = e.target.closest('[data-w]');
-      if(b){ AB_WAHL = b.dataset.w; zu(); renderHome(); return; }
-      if(e.target.closest('[data-a]') || e.target === m) zu();
-    });
+  // Karte so scrollen, dass die Figur sichtbar ist
+  const box = el.querySelector('#karte-box');
+  if(box) requestAnimationFrame(() => {
+    const anteil = stationPunkt(AB.position).y / karteH();
+    box.scrollTop = Math.max(0, anteil * box.scrollHeight - box.clientHeight * 0.55);
+  });
+  if(AB_LEVELUPS.length) setTimeout(levelUpZeigen, 300);
 }
 
-/* Kampf */
-const AB_PLATZHALTER_ABWEHR = {id:'_abwehr', name:'Bauchspannung halten', kategorien:['Bauch'], bilder:[], einseitig:false, staerke:2,
-  beschreibung:'Bauch fest anspannen, gerade stehen oder liegen und ruhig weiteratmen.'};
-const AB_PLATZHALTER_PUSTE = {id:'_puste', name:'Tief durchatmen und lockern', kategorien:['Abwärmen'], bilder:[], einseitig:false, staerke:1,
-  beschreibung:'Schultern kreisen, Arme ausschütteln und ein paar Mal tief durchatmen.'};
+/* Sitzung & Kampf */
+const AB_PLATZHALTER = {
+  abwehr:{id:'_abwehr', name:'Bauchspannung halten', kategorien:['Bauch'], bilder:[], einseitig:false, staerke:2,
+          beschreibung:'Bauch fest anspannen, gerade stehen oder liegen und ruhig weiteratmen.'},
+  puste:{id:'_puste', name:'Tief durchatmen und lockern', kategorien:['Abwärmen'], bilder:[], einseitig:false, staerke:1,
+         beschreibung:'Schultern kreisen, Arme ausschütteln und ein paar Mal tief durchatmen.'},
+  wandern:{id:'_wandern', name:'Auf der Stelle laufen', kategorien:['Aufwärmen'], bilder:[], einseitig:false, staerke:1,
+           beschreibung:'Locker auf der Stelle laufen und die Arme mitschwingen lassen.'},
+  rast:{id:'_rast', name:'Locker dehnen und durchatmen', kategorien:['Abwärmen'], bilder:[], einseitig:false, staerke:1,
+        beschreibung:'Ruhig dehnen, was sich gut anfühlt, und tief durchatmen.'},
+};
 const zufall = a => a[Math.floor(Math.random() * a.length)];
-function abwehrUebung(){
-  const bauch = poolAktiv().filter(u => abErlaubt(u) && hatKat(u, 'Bauch'));
-  const plank = bauch.filter(u => /plank/i.test(u.name));
-  const kandidaten = (plank.length ? plank : bauch);
-  const beidseitig = kandidaten.filter(u => !u.einseitig);
-  return kandidaten.length ? zufall(beidseitig.length ? beidseitig : kandidaten) : AB_PLATZHALTER_ABWEHR;
+// Übung aus einer Kategorie (Geräteauswahl beachten, beidseitige bevorzugt), sonst Platzhalter
+function abUebungAus(kategorie, platzhalter, bevorzugt){
+  let k = poolAktiv().filter(u => abErlaubt(u) && hatKat(u, kategorie));
+  if(bevorzugt){ const b = k.filter(bevorzugt); if(b.length) k = b; }
+  const beidseitig = k.filter(u => !u.einseitig);
+  return k.length ? zufall(beidseitig.length ? beidseitig : k) : AB_PLATZHALTER[platzhalter];
 }
-function pusteUebung(){
-  const ab = poolAktiv().filter(u => abErlaubt(u) && hatKat(u, 'Abwärmen') && !u.einseitig);
-  return ab.length ? zufall(ab) : AB_PLATZHALTER_PUSTE;
-}
+const abwehrUebung = () => abUebungAus('Bauch', 'abwehr', u => /plank/i.test(u.name));
+const pusteUebung = () => abUebungAus('Abwärmen', 'puste');
+const wanderUebung = () => abUebungAus('Aufwärmen', 'wandern');
+const rastUebung = () => abUebungAus('Abwärmen', 'rast');
 // Automatische Wahl: höchster Bonus, bei Gleichstand zufällig, nie zweimal direkt hintereinander (wenn möglich)
 function waehleAngriff(ab = T.ab){
-  let k = ab.slots.length > 1 ? ab.slots.filter(ex => ex.id !== ab.letzter) : ab.slots;
+  const k = ab.slots.length > 1 ? ab.slots.filter(ex => ex.id !== ab.letzter) : ab.slots;
   const max = Math.max(...k.map(ex => abBonus(ex, ab.wesen)));
   return zufall(k.filter(ex => abBonus(ex, ab.wesen) === max));
 }
+function kampfBeginnen(ab, w){ Object.assign(ab, {wesen:w, laune:0, ziel:w.ziel, letzter:null, angriffNr:0, stimmung:null, trefferIn:2}); }
 function angriffPhasen(ex){
   const e = eintrag(ex), wdh = e.modus === 'wdh';
   T.ab.letzter = ex.id;
@@ -1487,75 +1737,223 @@ function angriffPhasen(ex){
   return [Object.assign(basis, {segEnde:true})];
 }
 const pausePhase = ex => ({typ:'pause', ex, e:eintrag(ex), dauer:S.pause, block:'Abenteuer', nr:T.ab.angriffNr + 1});
+const wanderPhase = ex => ({typ:'wandern', ex, dauer:AB_WANDERN_S, block:'Abenteuer', von:AB.position, nach:AB.position + 1});
 
-function starteAbenteuer(){
-  abSlotsPruefen();
+function neueSitzung(){ SITZUNG = {id:neueId('a'), start:Date.now(), sek:0, angriffe:0, puste:0, wesen:[], kats:[], ep:0, epMin:0}; }
+// Startet eine Abenteuer-Sitzung: {wesen} = Freund erneut besuchen (ohne Wanderung), {fortsetzen} = gleiche Sitzung (nach einem Sieg)
+function abenteuerStarten({wesen, fortsetzen} = {}){
+  abSlotsPruefen(); energieAuffrischen();
   const slots = abSlotEx().filter(abErlaubt);
   if(!slots.length){ toast(AB.slots.length ? 'Keine deiner Angriffe passt zu dieser Geräteauswahl' : 'Lege zuerst ein paar Übungen an'); return; }
-  const w = aktuellesWesen();
-  PLAN = {art:'abenteuer', bloecke:[], kats:[], zeit:null, pause:S.pause, wesen:w.id};
-  const ab = {wesen:w, laune:0, ziel:w.ziel, energie:AB_ENERGIE, slots, letzter:null, angriffNr:0, angriffe:0, puste:0, stimmung:null, kats:new Set()};
-  const erster = waehleAngriff(ab);
-  starteTimer([{typ:'bereit', ex:erster, e:eintrag(erster), dauer:10, block:'Abenteuer', nr:1}], 0, PLAN, ab);
+  const ziel = naechstesZiel();
+  if(!wesen && !ziel){ toast('Hier endet der Weg – Gebiet 2 kommt bald'); return; }
+  if(!fortsetzen || !SITZUNG) neueSitzung();
+  const ab = {slots, wesen:null, kats:new Set(SITZUNG.kats)};
+  const kampfWesen = wesen ? wesenById(wesen) : ziel.hier ? wesenById(ziel.s.id) : null;
+  let erste;
+  if(kampfWesen){
+    kampfBeginnen(ab, kampfWesen);
+    const ex = waehleAngriff(ab);
+    erste = {typ:'bereit', ex, e:eintrag(ex), dauer:10, block:'Abenteuer', nr:1};
+  } else {
+    const ex = wanderUebung();
+    erste = {typ:'bereit', vor:'wandern', ex, dauer:10, block:'Abenteuer'};
+  }
+  PLAN = {art:'abenteuer', bloecke:[], kats:[], zeit:null, pause:S.pause};
+  starteTimer([erste], 0, PLAN, ab);
 }
 
-// Laune live: jede volle Sekunde einer Angriffsphase steigt sie um staerke × bonus (bei Wdh. höchstens bis zur geschätzten Dauer)
+// Laune live: jede volle Sekunde einer Angriffsphase steigt sie um launeProSek (bei Wdh. höchstens bis zur geschätzten Dauer)
 function launeZaehlen(p, sekunden){
   const ab = T.ab, inc = launeProSek(p.ex, ab.wesen);
   let n = 0;
   while(sekunden-- > 0 && p.gezaehlt < p.dauer){ p.gezaehlt++; ab.laune += inc; n++; }
-  if(n){ ab.kats = new Set([...ab.kats, ...p.ex.kategorien]); abenteuerAnzeige(inc); }
+  if(n){
+    p.ex.kategorien.forEach(k => ab.kats.add(k));
+    ab.trefferIn -= n;
+    if(ab.trefferIn <= 0 && ab.laune < ab.ziel){ ab.trefferIn = 2 + Math.round(Math.random()); treffer(p.ex); }
+    abenteuerAnzeige(inc);
+  }
   return ab.laune >= ab.ziel;
 }
 function abenteuerTick(jetzt){
   const p = T.ph[T.i], ab = T.ab;
   const dt = Math.min(500, jetzt - (ab.tickZeit || jetzt)); ab.tickZeit = jetzt;
+  if(p.typ === 'wandern'){ figurBewegen(1 - Math.max(0, T.ende - jetzt) / 1000 / p.dauer); return; }
   if(!p.angriff) return;
   p.aktiv += dt;
   if(launeZaehlen(p, Math.floor(p.aktiv / 1000) - p.gezaehlt)) abenteuerSieg();
 }
-// Wird beim Verlassen einer Phase aufgerufen. Hängt bei Bedarf die nächsten Phasen an. Gibt false zurück, wenn der Kampf vorbei ist.
+// Wird beim Verlassen einer Phase aufgerufen. Hängt bei Bedarf die nächsten Phasen an. Gibt false zurück, wenn der Timer endet (Sieg).
 function abenteuerPhaseEnde(p, uebersprungen){
   const ab = T.ab;
   if(p.angriff){
     if(!uebersprungen && launeZaehlen(p, p.dauer)){ abenteuerSieg(); return false; }   // Rest der Dauer gutschreiben
-    if(p.segEnde) ab.angriffe++;
+    if(p.segEnde && !p.gezaehltAlsAngriff){ p.gezaehltAlsAngriff = true; SITZUNG.angriffe++; }
   }
-  if(p.typ === 'abwehr') ab.energie = Math.max(0, ab.energie - (uebersprungen ? 25 : 10));
-  if(p.typ === 'puste') ab.energie = 50;
+  if(p.typ === 'abwehr') energieSetzen(AB.energie - (uebersprungen ? 25 : 10));
+  if(p.typ === 'puste') energieSetzen(maxEnergie() / 2);
+  if(p.typ === 'wandern'){ AB.position = Math.max(AB.position, p.nach); abSpeichern(); }
   if(T.i < T.ph.length - 1) return true;   // weitere Phasen sind schon da (z. B. nach „Zurück“)
-  if(p.typ === 'bereit' || p.typ === 'pause') T.ph.push(...angriffPhasen(p.ex));
+  if(p.typ === 'bereit' && p.vor === 'wandern') T.ph.push(wanderPhase(p.ex));
+  else if(p.typ === 'bereit' || p.typ === 'pause') T.ph.push(...angriffPhasen(p.ex));
+  else if(p.typ === 'wandern'){
+    const s = station(AB.position);
+    if(s.typ === 'wesen'){
+      kampfBeginnen(ab, wesenById(s.id));
+      const ex = waehleAngriff();
+      T.ph.push({typ:'bereit', ex, e:eintrag(ex), dauer:10, block:'Abenteuer', nr:1});
+    } else {   // Rastplatz: Energie voll, +30 EP, Dehnpause, danach automatisch weiter
+      energieSetzen(maxEnergie()); SITZUNG.ep += AB_EP_RAST;
+      if(epDazu(AB_EP_RAST)) toast(`Level ${abLevel()}! 🎉`);
+      T.ph.push({typ:'rast', ex:rastUebung(), dauer:AB_RAST_S, block:'Abenteuer'});
+    }
+  }
+  else if(p.typ === 'rast') T.ph.push(wanderPhase(wanderUebung()));
   else if(p.angriff){ const x = abwehrUebung(); T.ph.push({typ:'grummel', ex:x, dauer:AB_GRUMMEL_S, block:'Abenteuer'}, {typ:'abwehr', ex:x, dauer:AB_ABWEHR_S, block:'Abenteuer'}); }
-  else if(p.typ === 'abwehr' && ab.energie <= 0){ ab.puste++; T.ph.push({typ:'puste', ex:pusteUebung(), dauer:AB_PUSTE_S, block:'Abenteuer'}); }
+  else if(p.typ === 'abwehr' && AB.energie <= 0){ SITZUNG.puste++; T.ph.push({typ:'puste', ex:pusteUebung(), dauer:AB_PUSTE_S, block:'Abenteuer'}); }
   else T.ph.push(pausePhase(waehleAngriff()));
   return true;
 }
-function abenteuerSieg(){
-  const ab = T.ab, w = ab.wesen;
-  const neu = !AB.freunde[w.id];
-  AB.freunde[w.id] = {erstesMal: neu ? Date.now() : AB.freunde[w.id].erstesMal, anzahl: (neu ? 0 : AB.freunde[w.id].anzahl) + 1};
-  abSpeichern(); AB_WAHL = null;
-  ab.laune = ab.ziel; ab.sieg = true; ab.neuerFreund = neu; ab.angriffe = ab.angriffNr;   // der letzte Angriff zählt mit
-  trainingFertig(false);
+// Timer anhalten und die Zeit der Sitzung gutschreiben
+function abTimerStoppen(){
+  clearInterval(T.interval); stoppeKarussell(); wachLoslassen();
+  const j = Date.now();
+  SITZUNG.sek += Math.round((j - T.start - T.pausenSumme - (T.pausiert ? j - T.pauseStart : 0)) / 1000);
+  SITZUNG.kats = [...T.ab.kats];
+  T = null;
 }
-// Kopfzeile im Trainings-Screen: Wesen, Laune- und Energie-Balken, Text
+// Minuten-EP gutschreiben und den Verlauf-Eintrag der Sitzung anlegen bzw. aktualisieren (ab 1 Minute)
+function sitzungBuchen(abgebrochen){
+  const s = SITZUNG; if(!s) return;
+  const epMin = Math.round(s.sek / 60 * AB_EP_MINUTE);
+  if(epMin > s.epMin){ s.ep += epMin - s.epMin; epDazu(epMin - s.epMin); s.epMin = epMin; }
+  if(s.sek < 60) return;
+  const namen = s.wesen.map(id => wesenById(id).kurz);
+  const e = {id:s.id, datum:new Date(s.start).toISOString(), art:'abenteuer', titel:`🌳 Abenteuer: ${namen.length ? namen.join(', ') : GEBIET.name}`,
+             dauer:s.sek, geplant:null, kats:s.kats, uebungen:s.angriffe, vollstaendig:!abgebrochen, wesen:s.wesen, ep:s.ep, puste:s.puste,
+             details:`+${s.ep} EP${s.wesen.length ? ` · ${s.wesen.length} ${s.wesen.length === 1 ? 'Wesen' : 'Wesen'} aufgeheitert` : ''}`};
+  const i = VERLAUF.findIndex(v => v.id === s.id);
+  if(i >= 0) VERLAUF[i] = e; else VERLAUF.unshift(e);
+  vSpeichern();
+}
+function abenteuerSieg(){
+  const ab = T.ab, w = ab.wesen, neu = !AB.freunde[w.id];
+  const p = T.ph[T.i];
+  if(p.angriff && !p.gezaehltAlsAngriff){ p.gezaehltAlsAngriff = true; SITZUNG.angriffe++; }   // der letzte Angriff zählt mit
+  AB.freunde[w.id] = {erstesMal: neu ? Date.now() : AB.freunde[w.id].erstesMal, anzahl: (neu ? 0 : AB.freunde[w.id].anzahl) + 1};
+  const ep = neu ? w.ziel : Math.round(w.ziel / 2), bonus = neu && w.id === 'moosriese' ? AB_EP_GEBIET : 0;
+  SITZUNG.wesen.push(w.id); SITZUNG.ep += ep + bonus;
+  epDazu(ep + bonus);
+  abTimerStoppen(); sitzungBuchen(false);
+  const arg = {abenteuer:'sieg', wesen:w.id, neu, ep, bonus};
+  fanfare();
+  history.replaceState({s:'fertig', arg}, '');
+  zeige('fertig', arg);
+}
+function abenteuerAbbruch(){
+  abTimerStoppen(); sitzungBuchen(true);
+  const sek = SITZUNG.sek; SITZUNG = null;
+  history.replaceState({s:'home'}, ''); zeige('home');
+  toast(sek >= 60 ? 'Abenteuer gespeichert' : 'Abenteuer beendet');
+}
+function sitzungBeenden(){
+  if(!SITZUNG){ history.replaceState({s:'home'}, ''); zeige('home'); return; }
+  sitzungBuchen(false);
+  const s = SITZUNG; SITZUNG = null;
+  const arg = {abenteuer:'ende', sek:s.sek, angriffe:s.angriffe, wesen:s.wesen, ep:s.ep, puste:s.puste};
+  history.replaceState({s:'fertig', arg}, '');
+  zeige('fertig', arg);
+}
+
+/* Kopfzeile im Trainings-Screen: Kampf (Wesen, Laune, Energie) oder Karte (Wandern, Rast) */
+const WENIG_BEWEGUNG = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+function abKopfKampf(){
+  return `<div class="ab-wesen"><div class="ab-wesen-svg" id="ab-wesen"></div><div class="ab-effekte" id="ab-effekte"></div><div class="ab-pop" id="ab-pop"></div></div>
+    <div class="ab-balken">
+      <div class="ab-zeile"><span>😊 Laune</span><span class="ab-plus" id="ab-plus"></span><b id="ab-laune-zahl"></b></div><div class="ab-bar laune"><i id="ab-laune"></i></div>
+      <div class="ab-zeile"><span>⚡ Energie</span><b id="ab-energie-zahl"></b></div><div class="ab-bar energie" id="ab-energie-bar"><i id="ab-energie"></i></div>
+    </div>`;
+}
+// Wegstück für den Mini-Ausschnitt: beim Wandern das laufende Stück, an der Rast das Stück davor, vor dem Losgehen das nächste
+const abKopfStueck = p => p.typ === 'wandern' ? [p.von, p.nach] : p.typ === 'rast' ? [AB.position - 1, AB.position] : [AB.position, AB.position + 1];
+function abKopfKarte(p){
+  const [von, nach] = abKopfStueck(p);
+  return `<div class="ab-minikarte">${karteSvg({mini:true, von, nach})}</div>
+    <div class="ab-balken ab-mini-energie"><div class="ab-zeile"><span>⚡ Energie</span><b id="ab-energie-zahl"></b></div><div class="ab-bar energie" id="ab-energie-bar"><i id="ab-energie"></i></div></div>`;
+}
 function abenteuerAnzeige(inc){
   if(!T || !T.ab) return;
-  const ab = T.ab, p = T.ph[T.i], w = ab.wesen;
-  const st = stimmungAus(ab.laune, ab.ziel);
-  if(st !== ab.stimmung){ ab.stimmung = st; $('#ab-wesen').innerHTML = wesenSvg(w.id, st); }
+  const ab = T.ab, max = maxEnergie();
+  const e = $('#ab-energie'); if(e) e.style.width = (100 * Math.max(0, AB.energie) / max).toFixed(1) + '%';
+  const ez = $('#ab-energie-zahl'); if(ez) ez.textContent = `${Math.max(0, AB.energie)} / ${max}`;
+  if(!ab.wesen || !$('#ab-laune')) return;
+  const w = ab.wesen, st = stimmungAus(ab.laune, ab.ziel);
+  if(st !== ab.stimmung){
+    const vorher = ab.stimmung; ab.stimmung = st;
+    if(!ab.skeptisch) $('#ab-wesen').innerHTML = wesenSvg(w.id, st);
+    if(vorher){ wesenAnim('plopp'); partikel(['✦', '✧', '✦', '✧', '✦'], ['#F6C65B', '#fff', '#F3C6CF'], 5); }   // Stimmungswechsel
+  }
   $('#ab-laune').style.width = Math.min(100, 100 * ab.laune / ab.ziel).toFixed(1) + '%';
-  $('#ab-laune-zahl').textContent = `${Math.min(ab.ziel, Math.round(ab.laune))} / ${ab.ziel}`;
-  $('#ab-energie').style.width = Math.max(0, ab.energie) + '%';
-  $('#ab-energie-zahl').textContent = Math.max(0, ab.energie);
+  $('#ab-laune-zahl').textContent = `${Math.min(ab.ziel, Math.floor(ab.laune))} / ${ab.ziel}`;
   if(inc){
-    const b = abBonus(p.ex, w), plus = $('#ab-plus');
-    plus.textContent = `+${inc}${b === 2 ? ' · Das mag es! ×2' : b === 0.5 ? ' · Unbeeindruckt ×½' : ''}`;
+    const p = T.ph[T.i], b = abBonus(p.ex, w), plus = $('#ab-plus');
+    plus.textContent = `+${zahlText(inc)}${b === 2 ? ' · Das mag es! ×2' : b === 0.5 ? ' · ×½' : ''}`;
     plus.classList.remove('hoch'); void plus.offsetWidth; plus.classList.add('hoch');
   }
 }
+/* Animationen (nur CSS/SVG; bei prefers-reduced-motion stark reduziert) */
+function wesenAnim(klasse){
+  const el = $('#ab-wesen'); if(!el || WENIG_BEWEGUNG) return;
+  el.classList.remove('kichert', 'lacht', 'plopp', 'pustet'); void el.offsetWidth; el.classList.add(klasse);
+}
+function partikel(zeichen, farben, anzahl, gross){
+  const box = $('#ab-effekte'); if(!box || WENIG_BEWEGUNG) return;
+  for(let i = 0; i < anzahl; i++){
+    const s = document.createElement('span');
+    s.className = 'partikel' + (gross ? ' gross' : '');
+    s.textContent = zeichen[i % zeichen.length];
+    s.style.color = farben[i % farben.length];
+    s.style.left = (20 + Math.random() * 60) + '%';
+    s.style.setProperty('--dx', (Math.random() * 40 - 20).toFixed(0) + 'px');
+    s.style.animationDelay = (i * 0.07).toFixed(2) + 's';
+    box.appendChild(s);
+    setTimeout(() => s.remove(), 1600);
+  }
+}
+function popText(text){
+  const el = $('#ab-pop'); if(!el) return;
+  el.textContent = text; el.classList.remove('an'); void el.offsetWidth; el.classList.add('an');
+}
+// Treffer alle 2–3 s: Freude statt Schaden
+function treffer(ex){
+  const ab = T.ab, b = abBonus(ex, ab.wesen), farbe = kat(ex.kategorien[0]).farbe;
+  if(b === 2){
+    wesenAnim('lacht'); popText('Das mag es!');
+    partikel(['✦', '♥', '✧', '✦', '♥', '✧', '✦', '♥'], ['#F6C65B', farbe, '#F39A9A'], 8, true);
+  } else if(b === 0.5){
+    ab.skeptisch = true; $('#ab-wesen').innerHTML = wesenSvg(ab.wesen.id, 'skeptisch');
+    partikel(['☁'], ['#B8B0AA'], 1);
+    clearTimeout(ab.skeptischTimer);
+    ab.skeptischTimer = setTimeout(() => { if(T && T.ab === ab){ ab.skeptisch = false; const el = $('#ab-wesen'); if(el && ab.stimmung) el.innerHTML = wesenSvg(ab.wesen.id, ab.stimmung); } }, 1300);
+  } else {
+    wesenAnim('kichert');
+    partikel(['♥', '✦', '♥', '✧'], [farbe, '#F39A9A'], 2 + Math.floor(Math.random() * 3));
+  }
+}
+function grummelAnimation(){
+  wesenAnim('pustet');
+  if(WENIG_BEWEGUNG) return;
+  const box = $('#ab-effekte'); if(!box) return;
+  const s = document.createElement('span'); s.className = 'grummelwolke'; s.textContent = '☁';
+  box.appendChild(s); setTimeout(() => s.remove(), 1500);
+  setTimeout(() => { const bar = $('#ab-energie-bar'); if(bar){ bar.classList.remove('wackel'); void bar.offsetWidth; bar.classList.add('wackel'); } }, 900);
+}
 function abenteuerText(p){
   const w = T.ab.wesen;
+  if(p.typ === 'bereit' && p.vor === 'wandern'){ const z = naechstesZiel(); return `Auf geht’s! Nächstes Ziel: ${z ? stationName(z.s) : GEBIET.name}`; }
+  if(p.typ === 'wandern') return `Schritt für Schritt durch den ${GEBIET.name} …`;
+  if(p.typ === 'rast') return `Zeit für eine Rast! Energie wieder voll, +${AB_EP_RAST} EP.`;
   if(p.typ === 'bereit') return w.intro;
   if(p.typ === 'grummel') return `${w.mitArtikel} schmollt zurück! Mach dich bereit …`;
   if(p.typ === 'abwehr') return 'Halte durch! Ganz gehalten kostet es nur wenig Energie.';
@@ -1566,7 +1964,16 @@ function abenteuerText(p){
 }
 function abenteuerRender(p){
   const ab = T.ab;
-  $('#tr-info').innerHTML = `🌳 ${esc(ab.wesen.name)}<small>${p.typ === 'bereit' ? 'Gleich geht’s los' : `Angriff ${Math.max(1, p.nr || ab.angriffNr)}`}</small>`;
+  const karte = p.typ === 'wandern' || p.typ === 'rast' || (p.typ === 'bereit' && p.vor === 'wandern');
+  const modus = karte ? 'karte:' + abKopfStueck(p)[0] : 'kampf';
+  if(ab.kopf !== modus){
+    ab.kopf = modus; ab.stimmung = null;
+    $('#ab-kopf').innerHTML = karte ? abKopfKarte(p) : abKopfKampf();
+    $('#ab-kopf').classList.toggle('karte', karte);
+  }
+  const ziel = karte ? (p.typ === 'rast' ? 'Rastplatz' : p.typ === 'wandern' ? `Unterwegs zu: ${stationName(station(p.nach))}` : 'Gleich geht’s los') : null;
+  $('#tr-info').innerHTML = karte ? `${GEBIET.emoji} ${GEBIET.name}<small>${esc(ziel)}</small>`
+    : `🌳 ${esc(ab.wesen.name)}<small>${p.typ === 'bereit' ? 'Gleich geht’s los' : `Angriff ${Math.max(1, p.nr || ab.angriffNr)}`}</small>`;
   if(p.angriff) $('#tr-label').textContent = p.wdh ? '💫 Angriff · in deinem Tempo' : '💫 Angriff';
   $('#ab-text').textContent = abenteuerText(p);
   if(p.typ === 'pause' && ab.slots.length > 1){
@@ -1574,6 +1981,9 @@ function abenteuerRender(p){
     $('#ab-anderer').onclick = anderenAngriffWaehlen;
   }
   abenteuerAnzeige();
+  if(p.typ === 'grummel') grummelAnimation();
+  if(p.typ === 'wandern') figurBewegen(0);
+  if(p.typ === 'rast') figurBewegen(1);
 }
 function anderenAngriffWaehlen(){
   if(!T || !T.ab) return;
@@ -1594,7 +2004,71 @@ function anderenAngriffWaehlen(){
     });
 }
 
-/* Freundebuch */
+/* Level-up-Overlay */
+function levelUpZeigen(){
+  if(!AB_LEVELUPS.length || $('#modal').classList.contains('offen')) return;
+  const stufen = AB_LEVELUPS.splice(0);
+  const neu = stufen.flatMap(levelNeues);
+  modal(`<div class="levelup"><div class="lu-stern">🎉</div><h2>Level ${stufen[stufen.length - 1]}!</h2>
+    <p>Du bist stärker geworden. Neu für dich:</p><ul>${[...new Set(neu)].map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="reihe"><button class="btn" data-a="ok">Super!</button></div>`,
+    (e, zu, m) => { if(e.target.closest('[data-a]') || e.target === m) zu(); });
+}
+// EP-Zahl hochzählen lassen
+function zaehleHoch(el, ziel){
+  if(!el) return;
+  if(WENIG_BEWEGUNG){ el.textContent = ziel; return; }
+  const t0 = performance.now();
+  const schritt = t => { const a = Math.min(1, (t - t0) / 1100); el.textContent = Math.round(ziel * (1 - Math.pow(1 - a, 3))); if(a < 1) requestAnimationFrame(schritt); };
+  requestAnimationFrame(schritt);
+}
+const bluetenKonfetti = () => `<div class="konfetti">${Array.from({length:34}, (_, i) =>
+  `<i class="bluete" style="left:${Math.random()*100}%;background:${['#F3C6CF','#FBE3E8','#F7CDB6','#fff','#F6E3A9'][i%5]};animation-duration:${3+Math.random()*3}s;animation-delay:${Math.random()*1.2}s;--dreh:${Math.round(Math.random()*360)}deg"></i>`).join('')}</div>`;
+function levelZeile(){
+  const li = levelInfo(AB.ep);
+  return `<div class="card ab-status" style="text-align:left">
+    <div class="ab-zeile"><b class="ab-lvl">Level ${li.level}</b><span>${li.rest} / ${li.bedarf} EP</span></div>
+    <div class="ab-bar ep"><i style="width:${(100 * li.rest / li.bedarf).toFixed(1)}%"></i></div></div>`;
+}
+// Sieg-Screen und Sitzungsende (im Fertig-Screen)
+function renderAbenteuerFertig(e){
+  const el = $('#s-fertig');
+  if(e.abenteuer === 'sieg'){
+    const w = wesenById(e.wesen), weiter = !!naechstesZiel();
+    el.innerHTML = `${bluetenKonfetti()}
+      <div class="sieg-figur">${wesenSvg(w.id, 'strahlend')}</div>
+      <h1 style="font-size:1.5rem">${esc(w.mitArtikel)} ${e.neu ? `ist jetzt ${w.freund}!` : 'freut sich, dich wiederzusehen!'}</h1>
+      <p class="muted" style="font-weight:700;margin:0 0 14px">„${esc(w.freude)}“</p>
+      <div class="ep-gewinn">+<span id="ep-zahl">0</span> EP</div>
+      <p class="muted" style="font-weight:700;font-size:.82rem;margin:2px 0 12px">${e.neu ? 'Neuer Freund: doppelte EP' : 'Wiedersehen'}${e.bonus ? ` · inkl. ${e.bonus} EP Gebiets-Bonus` : ''}</p>
+      ${levelZeile()}
+      ${weiter ? `<button class="btn" id="f-weiter">🥾 Weiter wandern</button>`
+               : `<p class="info-text">Du hast den ${GEBIET.name} durchwandert! Gebiet 2 kommt bald (ab Level ${GEBIET.weiter.level}).</p>`}
+      <button class="btn zweit" id="f-genug" style="margin-top:10px">🌙 Für heute genug</button>`;
+    zaehleHoch($('#ep-zahl'), e.ep + (e.bonus || 0));
+    const wb = el.querySelector('#f-weiter'); if(wb) wb.onclick = () => abenteuerStarten({fortsetzen:true});
+    el.querySelector('#f-genug').onclick = sitzungBeenden;
+  } else {
+    const namen = (e.wesen || []).map(id => wesenById(id).kurz);
+    el.innerHTML = `${bluetenKonfetti()}
+      <div class="gross-em">🏕️</div>
+      <h1>Schöne Wanderung, ${esc(PROFIL)}!</h1>
+      <p class="muted" style="font-weight:600;margin:0 0 16px">${namen.length ? `Aufgeheitert: ${esc(namen.join(', '))}` : 'Ausruhen gehört auch zum Abenteuer.'}</p>
+      <div class="ep-gewinn">+<span id="ep-zahl">0</span> EP</div>
+      <div class="plan-sum" style="margin-top:14px">
+        <div><b>${Math.max(1, Math.round(e.sek / 60))}</b><span>Minuten</span></div>
+        <div><b>${e.angriffe}</b><span>Angriffe</span></div>
+        <div><b>${(e.wesen || []).length}</b><span>Wesen</span></div>
+      </div>
+      ${levelZeile()}
+      <button class="btn" id="f-ok">Fertig</button>`;
+    zaehleHoch($('#ep-zahl'), e.ep);
+    el.querySelector('#f-ok').onclick = () => { history.replaceState({s:'home'}, ''); zeige('home'); };
+  }
+  if(AB_LEVELUPS.length) setTimeout(levelUpZeigen, 1400);
+}
+
+/* Freundebuch: befreundete Wesen können erneut besucht werden (Kampf ohne Wanderung, Position bleibt) */
 function renderFreundebuch(){
   const el = $('#s-freundebuch');
   const n = Object.keys(AB.freunde).length;
@@ -1603,10 +2077,12 @@ function renderFreundebuch(){
     <div class="fb-grid">${WESEN.map(w => {
       const f = AB.freunde[w.id];
       return f ? `<div class="fb"><div class="ab-figur">${wesenSvg(w.id, 'froehlich')}</div><b>${esc(w.name)}</b>
-          <span>Freund seit ${new Date(f.erstesMal).toLocaleDateString('de-DE')}</span><span>💛 ${f.anzahl}× aufgeheitert</span></div>`
+          <span>Freund seit ${new Date(f.erstesMal).toLocaleDateString('de-DE')}</span><span>💛 ${f.anzahl}× aufgeheitert</span>
+          <button class="btn klein zweit" data-besuch="${w.id}" style="margin:8px auto 0">Besuchen</button></div>`
         : `<div class="fb fremd"><div class="ab-figur silhouette">${wesenSvg(w.id, 'neutral')}<i>?</i></div><b>???</b><span>Noch nicht getroffen</span></div>`;
     }).join('')}</div>`;
   el.querySelector('#fb-zur').onclick = zurueck;
+  el.querySelectorAll('[data-besuch]').forEach(b => b.onclick = () => abenteuerStarten({wesen:b.dataset.besuch}));
 }
 
 /* ---------- Freies Training ---------- */
@@ -1714,7 +2190,7 @@ function freiPauseStopp(still){
 let AUSW = null, AUSW_FILTER = 'Alle', AUSW_GERAET = 'Alle';
 function renderAuswahl(arg){
   if(arg && (!AUSW || AUSW.token !== arg.token)){
-    const slots = arg.zweck === 'slots';   // Abenteuer-Angriffe: Vorauswahl ist bearbeitbar, max. AB_SLOTS
+    const slots = arg.zweck === 'slots';   // Abenteuer-Angriffe: Vorauswahl ist bearbeitbar, max. slotAnzahl()
     AUSW = {zweck:arg.zweck, token:arg.token, gewaehlt: slots ? [...(arg.vorauswahl || [])] : [], vorher:new Set(slots ? [] : arg.vorauswahl || []), suche:''};
   }
   if(!AUSW) return;
@@ -1723,7 +2199,7 @@ function renderAuswahl(arg){
   const q = AUSW.suche.toLowerCase();
   const liste = poolAktiv().filter(u => (AUSW_FILTER === 'Alle' || hatKat(u, AUSW_FILTER)) && geraetFilter(u, AUSW_GERAET) && (!q || u.name.toLowerCase().includes(q)));
   el.innerHTML = `
-    <div class="kopf"><button class="icon-btn" id="a-zur">${I.zurueck}</button><div style="flex:1"><h1>Übungen wählen</h1><div class="sub">${AUSW.gewaehlt.length}${AUSW.zweck === 'slots' ? ` von ${AB_SLOTS} Angriffen` : ' ausgewählt'}${plan ? ' · in Tipp-Reihenfolge' : ''}</div></div></div>
+    <div class="kopf"><button class="icon-btn" id="a-zur">${I.zurueck}</button><div style="flex:1"><h1>Übungen wählen</h1><div class="sub">${AUSW.gewaehlt.length}${AUSW.zweck === 'slots' ? ` von ${slotAnzahl()} Angriffen` : ' ausgewählt'}${plan ? ' · in Tipp-Reihenfolge' : ''}</div></div></div>
     <input class="suche" id="a-suche" placeholder="Suchen …" value="${esc(AUSW.suche)}" autocomplete="off">
     <div class="filter">${['Alle', ...KATEGORIEN.map(k => k.id)].map(f => `<button class="chip ${AUSW_FILTER===f?'an':''}" data-f="${f}">${f==='Alle' ? 'Alle' : kat(f).emoji+' '+f}</button>`).join('')}</div>
     <div class="filter">${geraetChips(AUSW_GERAET, 'data-g')}</div>
@@ -1739,7 +2215,7 @@ function renderAuswahl(arg){
   el.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { AUSW_GERAET = b.dataset.g; renderAuswahl(); });
   el.querySelectorAll('[data-id]').forEach(b => b.onclick = () => {
     const id = b.dataset.id, i = AUSW.gewaehlt.indexOf(id);
-    if(i < 0 && AUSW.zweck === 'slots' && AUSW.gewaehlt.length >= AB_SLOTS){ toast(`Höchstens ${AB_SLOTS} Angriffe – erst einen abwählen`); return; }
+    if(i < 0 && AUSW.zweck === 'slots' && AUSW.gewaehlt.length >= slotAnzahl()){ toast(`Höchstens ${slotAnzahl()} Angriffe – erst einen abwählen`); return; }
     i >= 0 ? AUSW.gewaehlt.splice(i, 1) : AUSW.gewaehlt.push(id);
     const y = window.scrollY; renderAuswahl(); window.scrollTo(0, y);
   });
@@ -1834,25 +2310,18 @@ function renderPlanEdit(arg){
 function renderFertig(e){
   const el = $('#s-fertig');
   if(!e){ el.innerHTML = ''; return; }
+  if(e.abenteuer){ renderAbenteuerFertig(e); return; }   // Sieg bzw. Sitzungsende im Abenteuer
   const farben = ['#F7CDB6','#E3896A','#C5D8BF','#F6E3A9','#DCD0EC','#F3C6CF'];
-  const w = e.art === 'abenteuer' && e.sieg ? wesenById(e.wesen) : null;   // Sieg im Abenteuer
   el.innerHTML = `
     <div class="konfetti">${Array.from({length:40}, (_, i) => `<i style="left:${Math.random()*100}%;background:${farben[i%6]};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()*0.8}s"></i>`).join('')}</div>
-    ${w ? `<div class="sieg-figur">${wesenSvg(w.id, 'strahlend')}</div>
-    <h1 style="font-size:1.5rem">${esc(w.mitArtikel)} ${e.neuerFreund ? `ist jetzt ${w.freund}!` : 'freut sich, dich wiederzusehen!'}</h1>
-    <p class="muted" style="font-weight:700;margin:0 0 22px">„${esc(w.freude)}“</p>
-    <div class="plan-sum">
-      <div><b>${Math.max(1, Math.round(e.dauer/60))}</b><span>Minuten</span></div>
-      <div><b>${e.uebungen}</b><span>Angriffe</span></div>
-      <div><b>${e.puste || 0}</b><span>Puste-Pausen</span></div>
-    </div>` : `<div class="gross-em">🎉</div>
+    <div class="gross-em">🎉</div>
     <h1>Geschafft, ${esc(PROFIL)}!</h1>
     <p class="muted" style="font-weight:600;margin:0 0 26px">Stark gemacht. Gönn dir einen Schluck Wasser.</p>
     <div class="plan-sum">
       <div><b>${Math.max(1, Math.round(e.dauer/60))}</b><span>Minuten</span></div>
       <div><b>${e.uebungen}</b><span>Übungen</span></div>
       <div><b>${dieseWoche().anzahl}</b><span>diese Woche</span></div>
-    </div>`}
+    </div>
     <p class="muted" style="font-weight:700;margin:0 0 8px">${esc(e.titel || e.kats.join(' · '))}</p>
     ${e.details ? `<p class="muted" style="font-weight:600;margin:0 0 24px;font-size:.88rem">${esc(e.details)}</p>` : '<div style="height:16px"></div>'}
     <button class="btn" id="f-ok">Fertig</button>`;
