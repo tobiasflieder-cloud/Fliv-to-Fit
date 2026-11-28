@@ -1,6 +1,6 @@
 {
   "app": "FlivFit",
-  "stand": "2026-11-25T08:43:15.517Z",
+  "stand": "2026-11-28T13:30:02.127Z",
   "uebungen": [
     {
       "id": "h-ausfallschritt-rotation",
@@ -93,7 +93,9 @@
       "kategorien": [
         "Arme"
       ],
-      "geraete": [],
+      "geraete": [
+        "Hantel"
+      ],
       "profile": [
         "Fliv",
         "Flivi"
@@ -111,7 +113,7 @@
       "beschreibung": "",
       "einseitig": false,
       "bilder": [],
-      "geaendert": 1795595456923
+      "geaendert": 1795871625472
     },
     {
       "id": "bizeps-band",
@@ -730,6 +732,64 @@
       "geaendert": 1795556399071
     },
     {
+      "id": "umx0ffza7a5tv",
+      "name": "Knieend Push Hoch",
+      "kategorien": [
+        "Arme",
+        "Beine"
+      ],
+      "geraete": [
+        "Hantel"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "werte": {
+        "Fliv": {
+          "modus": "zeit",
+          "wert": null
+        },
+        "Flivi": {
+          "modus": "zeit",
+          "wert": null
+        }
+      },
+      "beschreibung": "",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795871367007
+    },
+    {
+      "id": "umwz0o9do3atf",
+      "name": "Knieender Ausfallschritt Bell Hoch",
+      "kategorien": [
+        "Arme",
+        "Ganzkörper"
+      ],
+      "geraete": [
+        "Kettlebell"
+      ],
+      "profile": [
+        "Fliv",
+        "Flivi"
+      ],
+      "werte": {
+        "Fliv": {
+          "modus": "zeit",
+          "wert": null
+        },
+        "Flivi": {
+          "modus": "zeit",
+          "wert": null
+        }
+      },
+      "beschreibung": "",
+      "einseitig": false,
+      "bilder": [],
+      "geaendert": 1795786092924
+    },
+    {
       "id": "l-sit",
       "name": "L-Sit",
       "kategorien": [
@@ -886,7 +946,7 @@
       "beschreibung": "",
       "einseitig": false,
       "bilder": [],
-      "geaendert": 1795587588325
+      "geaendert": 1795871599731
     },
     {
       "id": "umwvqfongkb9v",
@@ -1431,8 +1491,10 @@
       },
       "beschreibung": "Aufrecht stehen, Hanteln seitlich am Körper. Arme mit leicht gebeugten Ellbogen seitlich bis auf Schulterhöhe heben und langsam wieder senken. Schultern nicht hochziehen, kein Schwung.",
       "einseitig": false,
-      "bilder": [],
-      "geaendert": 1795547714821
+      "bilder": [
+        "data/bilder/schulter-seitheben-1.mp4"
+      ],
+      "geaendert": 1795624909500
     },
     {
       "id": "shoulder-tap",
@@ -1786,22 +1848,5 @@
       "geaendert": 1795545946095
     }
   ],
-  "plaene": [
-    {
-      "id": "pmwvv5ebnyu06",
-      "name": "Test",
-      "profil": "Fliv",
-      "runden": 3,
-      "pause": 15,
-      "items": [
-        {
-          "id": "umwv2tg7rwzo9"
-        },
-        {
-          "id": "kb-curl-front-push"
-        }
-      ],
-      "geaendert": 1795595416259
-    }
-  ]
+  "plaene": []
 }
